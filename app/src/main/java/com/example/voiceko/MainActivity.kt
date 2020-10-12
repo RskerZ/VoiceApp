@@ -34,8 +34,10 @@ class MainActivity : AppCompatActivity() {
         totalText = findViewById<TextView>(R.id.totalText)
         recordList = findViewById<ListView>(R.id.record)
         monthText = findViewById<TextView>(R.id.monthView)
+        val AAAbtn = findViewById<Button>(R.id.AAABtn)
         rePortBtn.setOnClickListener(testIncome)
         enterDataBtn.setOnClickListener(enter)
+        AAAbtn.setOnClickListener(test)
         val c: Calendar = Calendar.getInstance()
         var mYear = c.get(Calendar.YEAR)
         var mMonth = c.get(Calendar.MONTH)
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-
+    //測試的記帳紀錄
     private var testIncome = View.OnClickListener {
         var adaper = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,testlist)
         recordList.adapter = adaper
@@ -66,6 +68,13 @@ class MainActivity : AppCompatActivity() {
         var intent = Intent(this, EnterData::class.java)
         startActivity(intent)
     }
+    //測試fragment
+    private  var test = View.OnClickListener {
+        var intent = Intent(this, Test::class.java)
+        startActivity(intent)
+    }
+
+
 
     /*var testIncome = View.OnClickListener {
         Toast.makeText(this,"fuck",Toast.LENGTH_LONG).show()
