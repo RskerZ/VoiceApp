@@ -40,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:inputType="number"
-                android:numeric="signed|integer"
                 android:text="0"
                 android:textSize="12pt" />
         </LinearLayout>
@@ -122,10 +121,10 @@
         app:layout_constraintVertical_bias="0.869" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/enterDataBtn"
         android:layout_width="88dp"
         android:layout_height="88dp"
-        android:text="Button"
+        android:text="記帳"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -199,5 +198,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/menuBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toTopOf="@+id/enterDataBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+        app:menu="@menu/lilmenu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
