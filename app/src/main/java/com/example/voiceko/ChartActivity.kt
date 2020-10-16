@@ -20,7 +20,7 @@ class ChartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chart)
         toolbar = findViewById(R.id.chart_toolbar)
         // 設定右上角的 menu
-        toolbar.inflateMenu(R.menu.lilmenu);
+        toolbar.inflateMenu(R.menu.selectmonth);
         //工具列，設置返回鍵啟用
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
