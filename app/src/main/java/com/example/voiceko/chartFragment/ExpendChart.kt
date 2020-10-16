@@ -22,11 +22,6 @@ class ExpendChart: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val c: Calendar = Calendar.getInstance()
-        var mYear = c.get(Calendar.YEAR)
-        var mMonth = c.get(Calendar.MONTH)
-
-
     }
     private fun setDateFormat(year: Int, month: Int, day: Int): String {
         return "$year/${month + 1}/$day"

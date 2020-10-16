@@ -7,7 +7,6 @@
         app:showAsAction="ifRoom"/>
     <item android:title="新增"
         android:id="@+id/addMenu"
-        android:icon="@drawable/arrow-right.png"
         app:showAsAction="ifRoom"/>
 
 </menu>

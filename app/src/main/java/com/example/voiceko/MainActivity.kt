@@ -21,6 +21,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var totalText: TextView
     private lateinit var monthText: TextView
     private lateinit var recordList: ListView
+    val c: Calendar = Calendar.getInstance()
+    var mYear = c.get(Calendar.YEAR)
+    var mMonth = c.get(Calendar.MONTH)
     var testlist = arrayListOf<String>("A","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +40,7 @@ class MainActivity : AppCompatActivity() {
         rePortBtn.setOnClickListener(testIncome)
         enterDataBtn.setOnClickListener(enter)
         Chartbtn.setOnClickListener(goChart)
-        val c: Calendar = Calendar.getInstance()
-        var mYear = c.get(Calendar.YEAR)
-        var mMonth = c.get(Calendar.MONTH)
+
         monthText.text = "${mYear}年${mMonth + 1}月"
 
         val bottomNavigationView =

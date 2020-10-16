@@ -18,54 +18,7 @@ class LilCaculater: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.lilcaculater_fragment, container, false)
         return v
-        Log.e("lil","onCreateView")
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.e("lil","onCreate")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.e("lil","onStart")
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        Log.e("lil","onActivityCreated")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.e("lil","onStop")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.e("lil","onPause")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.e("lil","onResume")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("lil","onDestroy")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.e("lil","onDestroyView")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.e("lil","onDetach")
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
