@@ -1,11 +1,9 @@
 package com.example.voiceko
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import java.util.*
@@ -21,6 +19,8 @@ class ChartActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.chart_toolbar)
         // 設定右上角的 menu
         toolbar.inflateMenu(R.menu.selectmonth);
+
+
         //工具列，設置返回鍵啟用
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -35,6 +35,12 @@ class ChartActivity : AppCompatActivity() {
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.selectmonth, menu)
+        return true
     }
 
     private fun initViewPager(){

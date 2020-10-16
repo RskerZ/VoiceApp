@@ -19,7 +19,7 @@ class EnterData : AppCompatActivity() {
     var mMonth = c.get(Calendar.MONTH)
     var mDay = c.get(Calendar.DAY_OF_MONTH)
     val lilcaculater: Fragment = LilCaculater()
-    val accItem: Fragment = AccountItemFragment()
+    val accItem: Fragment = AccountItemType()
     private lateinit var editTextDate: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var editTextNumber: TextView
