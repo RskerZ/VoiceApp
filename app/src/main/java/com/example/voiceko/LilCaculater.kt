@@ -2,12 +2,13 @@ package com.example.voiceko
 
 //import kotlinx.android.synthetic.main.activity_enter_data.*
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.lilcaculater.*
+import kotlinx.android.synthetic.main.lilcaculater_fragment.*
 import net.objecthunter.exp4j.ExpressionBuilder
 
 
@@ -15,12 +16,60 @@ class LilCaculater: Fragment() {
     /*Function to calculate the expressions using expression builder library*/
     private lateinit var editTextNumber:TextView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v: View = inflater.inflate(R.layout.lilcaculater, container, false)
+        val v: View = inflater.inflate(R.layout.lilcaculater_fragment, container, false)
         return v
+        Log.e("lil","onCreateView")
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.e("lil","onCreate")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("lil","onStart")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.e("lil","onActivityCreated")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("lil","onStop")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("lil","onPause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("lil","onResume")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("lil","onDestroy")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("lil","onDestroyView")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.e("lil","onDetach")
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("lil","onViewCreated")
         editTextNumber = activity!!.findViewById<TextView>(R.id.editTextNumber)
         tvOne.setOnClickListener {
             evaluateExpression("1", clear = true)
@@ -80,9 +129,10 @@ class LilCaculater: Fragment() {
             val longResult = result.toLong()
             if (result == longResult.toDouble()) {
                 editTextNumber.text = longResult.toString()
-
+                activity!!.onBackPressed()
             } else {
                 editTextNumber.text = result.toString()
+                activity!!.onBackPressed()
             }
 
         }
@@ -92,7 +142,6 @@ class LilCaculater: Fragment() {
             if(text.isNotEmpty()) {
                 editTextNumber.text = text.drop(1)
             }
-
             editTextNumber.text = ""
         }
     }
@@ -107,4 +156,5 @@ class LilCaculater: Fragment() {
             editTextNumber.text = ""
         }
     }
+
 }
