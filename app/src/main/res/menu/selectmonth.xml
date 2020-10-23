@@ -4,6 +4,7 @@
 
     <item android:title="左"
         android:id="@+id/leftBtn"
+        android:icon="@drawable/ic_action_left_arrow"
         app:showAsAction="ifRoom"/>
     <item android:title="右"
         android:id="@+id/rightBtn"
