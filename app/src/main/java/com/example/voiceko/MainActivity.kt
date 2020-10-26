@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.voiceko.Controller.EnterDataController
+import com.example.voiceko.DataBase.ConsumptionRecordContract
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 import kotlin.collections.ArrayList
@@ -22,11 +23,13 @@ class MainActivity : AppCompatActivity() {
 
     var mYear = c.get(Calendar.YEAR)
     var mMonth = c.get(Calendar.MONTH)
-    var testlist = arrayListOf<String>("A","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C")
+    private lateinit var testlist :ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var dbmgr = ConsumptionRecordContract.DBMgr(this)
+        testlist = dbmgr.readRecord()
         incomeText = findViewById(R.id.incomeText)
         payText = findViewById(R.id.payText)
         totalText = findViewById(R.id.totalText)

@@ -15,11 +15,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.voiceko.Controller.EnterDataController
-import com.example.voiceko.DataBase.ConsumptionRecordContract
-import com.example.voiceko.DataBase.DBMgr
-import com.example.voiceko.EnterState.EnterExpense
-import com.example.voiceko.EnterState.EnterIncome
-import com.example.voiceko.EnterState.EnterState
 import java.util.*
 
 
