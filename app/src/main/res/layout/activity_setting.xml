@@ -23,4 +23,10 @@
         android:layout_weight="0.92"
         android:text="我是設定頁面啦"
         android:textSize="15pt"/>
+
+    <Button
+        android:id="@+id/setting_fixedbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 </LinearLayout>

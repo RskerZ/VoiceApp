@@ -23,9 +23,8 @@ class EnterData : AppCompatActivity() {
     var mYear = c.get(Calendar.YEAR)
     var mMonth = c.get(Calendar.MONTH)
     var mDay = c.get(Calendar.DAY_OF_MONTH)
-    val lilcaculater: Fragment = LilCaculater()
-    val accItem: Fragment = AccountItemType()
-
+    val lilcaculater: Fragment = LilCaculater("Enter")
+    val accItem: Fragment = AccountItemType("Enter")
     private lateinit var editTextDate: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var editTextNumber: TextView
@@ -57,7 +56,7 @@ class EnterData : AppCompatActivity() {
         cancelBtn = findViewById(R.id.cancelBtn)
         remarkEditBox = findViewById(R.id.editRemark)
         editTextDate = findViewById<TextView>(R.id.editTextDate)
-        toolbar = findViewById(R.id.title)
+        toolbar = findViewById(R.id.enter_toolbar)
         editTextNumber = findViewById(R.id.editTextNumber)
         editTextType = findViewById(R.id.editType)
         editTextSubType = findViewById(R.id.editSubType)

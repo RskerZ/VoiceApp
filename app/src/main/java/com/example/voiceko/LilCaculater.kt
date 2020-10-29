@@ -12,9 +12,10 @@ import kotlinx.android.synthetic.main.lilcaculater_fragment.*
 import net.objecthunter.exp4j.ExpressionBuilder
 
 
-class LilCaculater: Fragment() {
+class LilCaculater(var actname: String): Fragment() {
+
     /*Function to calculate the expressions using expression builder library*/
-    private lateinit var editTextNumber:TextView
+    private var editTextNumber:TextView? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.lilcaculater_fragment, container, false)
         return v
@@ -23,7 +24,18 @@ class LilCaculater: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.e("lil","onViewCreated")
-        editTextNumber = activity!!.findViewById<TextView>(R.id.editTextNumber)
+
+       when(actname) {
+           "Enter"-> {
+               editTextNumber = activity!!.findViewById(R.id.editTextNumber)
+           }
+           "Fixedcost"-> {
+               editTextNumber = activity!!.findViewById(R.id.fixedcost_editTextNumber)
+           }
+           else -> {
+               Log.e("lil", activity.toString())
+           }
+       }
         tvOne.setOnClickListener {
             evaluateExpression("1", clear = true)
         }
@@ -71,42 +83,42 @@ class LilCaculater: Fragment() {
             evaluateExpression("00", clear = true)
         }
         tvClear.setOnClickListener {
-            editTextNumber.text = ""
+            editTextNumber?.text = ""
         }
 
         tvEquals.setOnClickListener {
-            val text = editTextNumber.text.toString()
+            val text = editTextNumber?.text.toString()
             val expression = ExpressionBuilder(text).build()
 
             val result = expression.evaluate()
             val longResult = result.toLong()
             if (result == longResult.toDouble()) {
-                editTextNumber.text = longResult.toString()
+                editTextNumber?.text = longResult.toString()
                 activity!!.onBackPressed()
             } else {
-                editTextNumber.text = result.toString()
+                editTextNumber?.text = result.toString()
                 activity!!.onBackPressed()
             }
 
         }
 
         tvBack.setOnClickListener {
-            val text = editTextNumber.text.toString()
+            val text = editTextNumber?.text.toString()
             if(text.isNotEmpty()) {
-                editTextNumber.text = text.drop(1)
+                editTextNumber?.text = text.drop(1)
             }
-            editTextNumber.text = ""
+            editTextNumber?.text = ""
         }
     }
 
 
     fun evaluateExpression(string: String, clear: Boolean) {
         if(clear) {
-            editTextNumber.append(string)
+            editTextNumber?.append(string)
         } else {
-            editTextNumber.append(editTextNumber.text)
-            editTextNumber.append(string)
-            editTextNumber.text = ""
+            editTextNumber?.append(editTextNumber?.text)
+            editTextNumber?.append(string)
+            editTextNumber?.text = ""
         }
     }
 
