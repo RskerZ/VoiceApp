@@ -5,26 +5,31 @@ import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.voiceko.Controller.EnterDataController
+import com.example.voiceko.DataBase.ConsumptionRecordContract
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
-    var CTR = Controller()
+    var CTR = EnterDataController()
     private lateinit var incomeText: TextView
     private lateinit var payText: TextView
     private lateinit var totalText: TextView
     private lateinit var recordList: ListView
     private lateinit var toolbar: Toolbar
     val c: Calendar = Calendar.getInstance()
+
     var mYear = c.get(Calendar.YEAR)
     var mMonth = c.get(Calendar.MONTH)
-    var testlist = arrayListOf<String>("A","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C","B","C")
+    private lateinit var testlist :ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var dbmgr = ConsumptionRecordContract.DBMgr(this)
+        testlist = dbmgr.readRecord()
         incomeText = findViewById(R.id.incomeText)
         payText = findViewById(R.id.payText)
         totalText = findViewById(R.id.totalText)
@@ -67,11 +72,17 @@ class MainActivity : AppCompatActivity() {
         var intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
     }
+    fun makeToast(msg:String){
+        Toast.makeText(this,msg.toString(),Toast.LENGTH_SHORT).show()
+    }
     //載入記帳紀錄資料
     private fun setRecord(recordData: ArrayList<String>){
         var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
         recordList.adapter = adapter
     }
+
+
+
 
 
 
