@@ -26,7 +26,6 @@ class EnterData : AppCompatActivity() {
     val lilcaculater: Fragment = LilCaculater("Enter")
     val accItem: Fragment = AccountItemType("Enter")
 
-
     private lateinit var editTextDate: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var editTextNumber: TextView
