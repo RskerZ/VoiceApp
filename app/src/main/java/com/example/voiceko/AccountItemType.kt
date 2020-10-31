@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.fragment_accounttype.*
 
 class AccountItemType(var actname: String): Fragment(){
     private var editTextType:TextView? = null
+    private var addTypeBtn:FloatingActionButton? = null
     var type1: TextView? = null
     var type2: TextView? = null
     var type3: TextView? = null
@@ -28,7 +31,11 @@ class AccountItemType(var actname: String): Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        editTextType = activity!!.findViewById(R.id.editType)
+        addTypeBtn = activity!!.findViewById(R.id.addTypeBtn)
+        when(actname) {
+            "Enter" -> editTextType = activity!!.findViewById(R.id.editType)
+            "Fixedcost" -> editTextType = activity!!.findViewById(R.id.fixedcost_editType)
+        }
         type1 = activity!!.findViewById(R.id.type1)
         type2 = activity!!.findViewById(R.id.type2)
         type3 = activity!!.findViewById(R.id.type3)
@@ -48,6 +55,10 @@ class AccountItemType(var actname: String): Fragment(){
         type7?.setOnClickListener(showtype)
         type8?.setOnClickListener(showtype)
         type9?.setOnClickListener(showtype)
+        //新增分類按鈕
+        addTypeBtn?.setOnClickListener{
+            Log.e("acc","77777777777777777777777777777")
+        }
     }
     private var showtype = View.OnClickListener{
         when(it){
@@ -62,6 +73,6 @@ class AccountItemType(var actname: String): Fragment(){
             type9->editTextType?.text = type9?.text
 
         }
-
+        activity!!.onBackPressed()
     }
 }

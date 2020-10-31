@@ -154,7 +154,6 @@ class EnterData : AppCompatActivity() {
     }
     private var editType = View.OnClickListener {
         showFragment("acc")
-        editTextType.text = "伙食費"
     }
 
 
