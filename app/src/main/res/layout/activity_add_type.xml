@@ -7,11 +7,63 @@
     tools:context=".ui.AddTypeActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView9"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/addtype_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="TextView"
-        android:textSize="20pt"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="新增類別"
+        app:titleTextColor="#808080">
+
+        <Switch
+            android:id="@+id/addtype_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="支出"
+            android:textColor="#808080"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:layout_weight="0.7">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.3"
+                android:text="類別名稱"
+                android:textSize="10pt" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/addtype_savebtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="儲存" />
+
 </LinearLayout>

@@ -11,6 +11,7 @@ import com.example.voiceko.R
 class SettingActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var gofixedbtn: Button
+    private lateinit var goaddtypebtn: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
@@ -22,9 +23,13 @@ class SettingActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         gofixedbtn = findViewById(R.id.setting_fixedbtn)
-
+        goaddtypebtn = findViewById(R.id.setting_addtypebtn)
         gofixedbtn.setOnClickListener {
             var intent = Intent(this, FixCostActivity::class.java)
+            startActivity(intent)
+        }
+        goaddtypebtn.setOnClickListener {
+            var intent = Intent(this, AddTypeActivity::class.java)
             startActivity(intent)
         }
     }
