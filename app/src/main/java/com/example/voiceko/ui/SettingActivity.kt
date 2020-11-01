@@ -1,4 +1,4 @@
-package com.example.voiceko
+package com.example.voiceko.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.widget.Toolbar
+import com.example.voiceko.R
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar

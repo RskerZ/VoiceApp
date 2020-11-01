@@ -1,10 +1,12 @@
-package com.example.voiceko
+package com.example.voiceko.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
+import com.example.voiceko.ChartPagerAdapter
+import com.example.voiceko.R
 import com.google.android.material.tabs.TabLayout
 import java.util.*
 
@@ -44,7 +46,8 @@ class ChartActivity : AppCompatActivity() {
     }
 
     private fun initViewPager(){
-        var adapter = ChartPagerAdapter(supportFragmentManager)
+        var adapter =
+            ChartPagerAdapter(supportFragmentManager)
         var viewpager:ViewPager = findViewById(R.id.viewPager)
         viewpager.adapter = adapter
 

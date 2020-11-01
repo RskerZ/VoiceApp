@@ -1,4 +1,4 @@
-package com.example.voiceko
+package com.example.voiceko.ui
 
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.voiceko.R
 import java.util.*
 
 class FixCostActivity : AppCompatActivity() {
@@ -18,6 +19,7 @@ class FixCostActivity : AppCompatActivity() {
     var mDay = c.get(Calendar.DAY_OF_MONTH)
     val lilcaculater: Fragment = LilCaculater("Fixedcost")
     val accItem: Fragment = AccountItemType("Fixedcost")
+    val accSubItem: Fragment = SubItemType("Fixedcost")
     private lateinit var toolbar: Toolbar
     private lateinit var editTextDate: TextView
     private lateinit var editTextNumber: TextView
@@ -49,6 +51,9 @@ class FixCostActivity : AppCompatActivity() {
         }
         editTextType.setOnClickListener {
             showFragment("acc")
+        }
+        editTextSubType.setOnClickListener {
+            showFragment("subacc")
         }
 
 
@@ -108,6 +113,13 @@ class FixCostActivity : AppCompatActivity() {
                     ft.add(R.id.fragment_container,accItem)
                 }
             }
+            "subacc" ->{
+                if(accSubItem.isAdded){
+                    ft.show(accSubItem)
+                }else{
+                    ft.add(R.id.fragment_container,accSubItem)
+                }
+            }
         }
         ft.addToBackStack(null)
         ft.commit()
@@ -119,6 +131,9 @@ class FixCostActivity : AppCompatActivity() {
         }
         if(accItem.isAdded){
             ft.hide(accItem)
+        }
+        if(accSubItem.isAdded){
+            ft.hide(accSubItem)
         }
     }
 }
