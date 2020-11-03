@@ -12,6 +12,7 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var gofixedbtn: Button
     private lateinit var goaddtypebtn: Button
+    private lateinit var goedittypebtn: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
@@ -24,14 +25,10 @@ class SettingActivity : AppCompatActivity() {
 
         gofixedbtn = findViewById(R.id.setting_fixedbtn)
         goaddtypebtn = findViewById(R.id.setting_addtypebtn)
-        gofixedbtn.setOnClickListener {
-            var intent = Intent(this, FixCostActivity::class.java)
-            startActivity(intent)
-        }
-        goaddtypebtn.setOnClickListener {
-            var intent = Intent(this, AddTypeActivity::class.java)
-            startActivity(intent)
-        }
+        goedittypebtn = findViewById(R.id.setting_edittypebtn)
+        gofixedbtn.setOnClickListener {goFixedCost()}
+        goaddtypebtn.setOnClickListener {goAddType()}
+        goedittypebtn.setOnClickListener {goEditType()}
     }
     //返回鍵
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -39,6 +36,19 @@ class SettingActivity : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+    //前往各頁面
+    private fun goAddType(){
+        val intent = Intent(this, AddTypeActivity::class.java)
+        startActivity(intent)
+    }
+    private fun goFixedCost(){
+        val intent = Intent(this, FixCostActivity::class.java)
+        startActivity(intent)
+    }
+    private fun goEditType(){
+        val intent = Intent(this, EditTypeActivity::class.java)
+        startActivity(intent)
     }
 
 }

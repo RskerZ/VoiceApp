@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditTypeActivity"></activity>
+        <activity android:name=".ui.EditTypeActivity"></activity>
         <activity android:name=".ui.AddTypeActivity" />
         <activity android:name=".ui.FixCostActivity" />
         <activity android:name=".ui.SettingActivity" />
