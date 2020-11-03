@@ -4,6 +4,8 @@ import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.voiceko.R
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FixCostActivity : AppCompatActivity() {
     val c: Calendar = Calendar.getInstance()
@@ -26,16 +29,25 @@ class FixCostActivity : AppCompatActivity() {
     private lateinit var editTextType: TextView
     private lateinit var editTextSubType: TextView
     private lateinit var switchType: Switch
+    private lateinit var cycleTimeSpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fix_cost)
+
         editTextDate = findViewById<TextView>(R.id.fixedcost_editTextDate)
         toolbar = findViewById(R.id.fixedcost_toolbar)
         editTextNumber = findViewById(R.id.fixedcost_editTextNumber)
         editTextType = findViewById(R.id.fixedcost_editType)
         editTextSubType = findViewById(R.id.fixedcost_editSubType)
         switchType = findViewById(R.id.fixedcost_switch)
+        cycleTimeSpinner = findViewById(R.id.cycleTimeSpinner)
+
+        //設定重複週期下拉選單
+        val cycletimeList = arrayListOf<String>("每天","每週","每月","每年")
+        var cycleTimeAdapter = ArrayAdapter<String>(this, R.layout.cycletime_spinner, cycletimeList)
+        cycleTimeSpinner.adapter = cycleTimeAdapter
+
 
         editTextNumber.setOnClickListener {
             editTextNumber.text = ""

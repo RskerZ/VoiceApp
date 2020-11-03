@@ -1,2 +1,3 @@
 rootProject.name='VoiceKo'
 include ':app'
+include ':library'
