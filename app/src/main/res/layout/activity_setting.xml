@@ -39,5 +39,5 @@
         android:id="@+id/setting_edittypebtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="類別排序" />
+        android:text="編輯類別" />
 </LinearLayout>

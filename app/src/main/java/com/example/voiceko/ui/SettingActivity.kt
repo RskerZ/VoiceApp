@@ -1,12 +1,16 @@
 package com.example.voiceko.ui
 
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.voiceko.R
+
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
@@ -27,7 +31,7 @@ class SettingActivity : AppCompatActivity() {
         goaddtypebtn = findViewById(R.id.setting_addtypebtn)
         goedittypebtn = findViewById(R.id.setting_edittypebtn)
         gofixedbtn.setOnClickListener {goFixedCost()}
-        goaddtypebtn.setOnClickListener {goAddType()}
+        goaddtypebtn.setOnClickListener {addTypeDialog().show()}
         goedittypebtn.setOnClickListener {goEditType()}
     }
     //返回鍵
@@ -49,6 +53,17 @@ class SettingActivity : AppCompatActivity() {
     private fun goEditType(){
         val intent = Intent(this, EditTypeActivity::class.java)
         startActivity(intent)
+    }
+    //對話方塊
+    private fun addTypeDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("新增類別")
+        builder.setView(R.layout.addtype_dialog)
+        builder.setPositiveButton("新增") { dialog, id ->
+            Toast.makeText(this, "我按了新增", Toast.LENGTH_SHORT).show()
+        }
+        val dialog = builder.create()
+        return dialog
     }
 
 }
