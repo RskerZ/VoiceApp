@@ -1,20 +1,16 @@
-package com.example.voiceko
+package com.example.voiceko.ui
 
 import android.app.DatePickerDialog
-import android.content.ContentValues
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.voiceko.Controller.EnterDataController
+import com.example.voiceko.R
 import java.util.*
 
 
@@ -25,6 +21,7 @@ class EnterData : AppCompatActivity() {
     var mDay = c.get(Calendar.DAY_OF_MONTH)
     val lilcaculater: Fragment = LilCaculater("Enter")
     val accItem: Fragment = AccountItemType("Enter")
+    val accSubItem: Fragment = SubItemType("Enter")
     private lateinit var editTextDate: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var editTextNumber: TextView
@@ -64,6 +61,7 @@ class EnterData : AppCompatActivity() {
         editTextNumber.setOnClickListener(editNumber)
         editTextDate.setOnClickListener(editDate)
         editTextType.setOnClickListener(editType)
+        editTextSubType.setOnClickListener(editSubType)
         cancelBtn.setOnClickListener(onDetory)
 
         incomeExpenseSwitch()
@@ -155,6 +153,9 @@ class EnterData : AppCompatActivity() {
     private var editType = View.OnClickListener {
         showFragment("acc")
     }
+    private var editSubType = View.OnClickListener {
+        showFragment("subacc")
+    }
 
 
 
@@ -178,6 +179,13 @@ class EnterData : AppCompatActivity() {
                     ft.add(R.id.fragment_container,accItem)
                 }
             }
+            "subacc" ->{
+                if(accSubItem.isAdded){
+                    ft.show(accSubItem)
+                }else{
+                    ft.add(R.id.fragment_container,accSubItem)
+                }
+            }
         }
         ft.addToBackStack(null)
         ft.commit()
@@ -189,6 +197,9 @@ class EnterData : AppCompatActivity() {
         }
         if(accItem.isAdded){
             ft.hide(accItem)
+        }
+        if(accSubItem.isAdded){
+            ft.hide(accSubItem)
         }
     }
 
