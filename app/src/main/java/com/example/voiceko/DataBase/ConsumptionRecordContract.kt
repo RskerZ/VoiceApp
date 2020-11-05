@@ -93,7 +93,7 @@ object ConsumptionRecordContract {
 
         }
 
-        public fun readRecord():ArrayList<String>{
+        public fun readRecord():ArrayList<MutableMap<String,String>>{
             var db = consumptionRecordDbHelper.readableDatabase
             var projection = arrayOf(BaseColumns._ID,
                 ConsumptionRecordEntry.COLUMN_DATE,
@@ -113,17 +113,29 @@ object ConsumptionRecordContract {
                 null,
                 null
             )
-            val itemIds = arrayListOf<String>()
+            val records = arrayListOf<MutableMap<String,String>>()
             with(cursor) {
                 while (moveToNext()) {
-                    val itemId = getString(getColumnIndexOrThrow(BaseColumns._ID))
-                    val itemCate = getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_CATEGORY))
-                    val itemAmount = getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_AMOUNT))
-                    val result = "${itemId} | ${itemCate} | ${itemAmount}"
-                    itemIds.add(result)
+                    val recordId = getString(getColumnIndexOrThrow(BaseColumns._ID))
+                    val recordDate = getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_DATE))
+                    val recordAmount = getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_AMOUNT))
+                    val recordCate = getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_CATEGORY))
+                    val recordSubCate = getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_SUB_CATEGORY))
+                    val recordRemark = getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_REMARKS))
+                    val recordType =  getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_TYPE))
+                    var temp= mutableMapOf<String,String>()
+                    temp["ID"]=recordId
+                    temp["Date"] = recordDate
+                    temp["Amount"] = recordAmount
+                    temp["Category"] = recordCate
+                    temp["SubCategory"] = recordSubCate
+                    temp["Remark"] = recordRemark
+                    temp["Type"]=recordType
+
+                    records.add(temp)
                 }
             }
-           return itemIds
+           return records
         }
     }
 
