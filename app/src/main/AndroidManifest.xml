@@ -9,10 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingActivity"></activity>
-        <activity android:name=".ChartActivity" />
-        <activity android:name=".EnterData" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.EditTypeActivity"></activity>
+        <activity android:name=".ui.AddTypeActivity" />
+        <activity android:name=".ui.FixCostActivity" />
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.ChartActivity" />
+        <activity android:name=".ui.EnterData" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

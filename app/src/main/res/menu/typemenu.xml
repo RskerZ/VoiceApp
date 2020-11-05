@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="支出"
+        android:id="@+id/costtype"
+        app:showAsAction="collapseActionView"/>
+
+    <item android:title="收入"
+        android:id="@+id/incometype"
+        app:showAsAction="collapseActionView" />
+</menu>
