@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.SimpleAdapter
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.voiceko.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -49,9 +51,18 @@ class AccountItemType(var actname: String): Fragment(){
 
         //新增按鈕
         addTypeBtn.setOnClickListener{
-            Log.e("AAA","新增起來")
-            var intent = Intent(activity, AddTypeActivity::class.java)
-            startActivity(intent)
+            addTypeDialog().show()
         }
+    }
+    //新增對話方塊
+    private fun addTypeDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(context!!)
+        builder.setTitle("新增類別")
+        builder.setView(R.layout.addtype_dialog)
+        builder.setPositiveButton("新增") { dialog, id ->
+            //Toast.makeText(this, "我按了新增", Toast.LENGTH_SHORT).show()
+        }
+        val dialog = builder.create()
+        return dialog
     }
 }

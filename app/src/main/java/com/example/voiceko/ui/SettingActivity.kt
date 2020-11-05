@@ -54,7 +54,7 @@ class SettingActivity : AppCompatActivity() {
         val intent = Intent(this, EditTypeActivity::class.java)
         startActivity(intent)
     }
-    //對話方塊
+    //新增對話方塊
     private fun addTypeDialog(): AlertDialog {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("新增類別")
