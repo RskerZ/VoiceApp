@@ -61,4 +61,9 @@
 
     <!-- 以上是計算機用的styles -->
 
+    <!-- 以下是我的最愛用的styles -->
+    <style name="favorite_style">
+        <item name="android:button">@drawable/favorite_style</item>
+    </style>
+
 </resources>

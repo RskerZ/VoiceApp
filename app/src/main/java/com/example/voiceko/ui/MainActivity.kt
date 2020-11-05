@@ -1,4 +1,4 @@
-package com.example.voiceko
+package com.example.voiceko.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.DataBase.ConsumptionRecordContract
+import com.example.voiceko.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 import kotlin.collections.ArrayList
