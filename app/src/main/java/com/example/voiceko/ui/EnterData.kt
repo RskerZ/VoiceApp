@@ -49,7 +49,7 @@ class EnterData : AppCompatActivity() {
 
     }
     fun init(){
-        controller = EnterDataController(this)
+        controller = EnterDataController.instance
         cancelBtn = findViewById(R.id.cancelBtn)
         remarkEditBox = findViewById(R.id.editRemark)
         editTextDate = findViewById<TextView>(R.id.editTextDate)
@@ -63,7 +63,7 @@ class EnterData : AppCompatActivity() {
         editTextType.setOnClickListener(editType)
         editTextSubType.setOnClickListener(editSubType)
         cancelBtn.setOnClickListener(onDetory)
-
+        controller.init(this)
         incomeExpenseSwitch()
         setCalendartoToday()
 
@@ -167,13 +167,14 @@ class EnterData : AppCompatActivity() {
             "lil" -> {
                 if(lilcaculater.isAdded){
                     ft.show(lilcaculater)
-
                 }else {
                     ft.add(R.id.fragment_container,lilcaculater)
                 }
             }
             "acc" ->{
                 if(accItem.isAdded){
+                    ft.detach(accItem)
+                    ft.attach(accItem)
                     ft.show(accItem)
                 }else{
                     ft.add(R.id.fragment_container,accItem)

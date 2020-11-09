@@ -2,7 +2,6 @@ package com.example.voiceko.ui
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
@@ -12,17 +11,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.voiceko.Controller.EnterDataController
-import com.example.voiceko.DataBase.ConsumptionRecordContract
 import com.example.voiceko.R
 import com.example.voiceko.Controller.RecordController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
-    var CTR = EnterDataController()
+    var CTR = EnterDataController.instance
     private lateinit var incomeText: TextView
     private lateinit var payText: TextView
     private lateinit var totalText: TextView

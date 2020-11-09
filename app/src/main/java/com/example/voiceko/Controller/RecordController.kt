@@ -1,16 +1,14 @@
 package com.example.voiceko.Controller
 
 import android.app.Activity
-import com.example.voiceko.DataBase.ConsumptionRecordContract
-import com.example.voiceko.EnterState.EnterExpense
-
+import com.example.voiceko.DataBase.VoicekoDBContract
 class RecordController() {
-    private lateinit var dbmgr:ConsumptionRecordContract.DBMgr
+    private lateinit var dbmgr:VoicekoDBContract.DBMgr
     private lateinit var recordList:ArrayList<MutableMap<String,String>>
     private lateinit var activity: Activity
     constructor(activity: Activity) : this() {
         this.activity = activity
-        dbmgr= ConsumptionRecordContract.DBMgr(this.activity)
+        dbmgr= VoicekoDBContract.DBMgr(this.activity)
         recordList = dbmgr.readRecord()
     }
     public fun reloadRecord(){
