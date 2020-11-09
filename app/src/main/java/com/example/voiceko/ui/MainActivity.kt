@@ -4,15 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.R
 import com.example.voiceko.Controller.RecordController
+import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 import kotlin.collections.ArrayList
@@ -23,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var incomeText: TextView
     private lateinit var payText: TextView
     private lateinit var totalText: TextView
-    private lateinit var recordList: ListView
+    private lateinit var recordList: ExpandableListView
     private lateinit var toolbar: Toolbar
     private lateinit var controller:RecordController
 
@@ -49,8 +47,13 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomBarListener)
 
         //載入記帳紀錄
-        load_info()
+        loadInfo()
 
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        loadInfo()
     }
 
 
@@ -58,12 +61,12 @@ class MainActivity : AppCompatActivity() {
         when(it.itemId){
             R.id.rightBtn -> {
                 nextMonth()
-                load_info()
+                loadInfo()
                 true
             }
             R.id.leftBtn -> {
                 lastMonth()
-                load_info()
+                loadInfo()
                 true
             }
             else ->{
@@ -93,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 this.mMonth = mMonth
                 this.mYear = mYear
                 mDay = D
-                load_info()
+                loadInfo()
             }
         },mYear , mMonth, mDay).show()
     }
@@ -118,25 +121,24 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun init(){
+    private fun init(){
         controller = RecordController(this)
         incomeText = findViewById(R.id.incomeText)
         payText = findViewById(R.id.payText)
         totalText = findViewById(R.id.totalText)
         recordList = findViewById(R.id.record)
         toolbar = findViewById(R.id.main_toolbar)
-
-
     }
 
-    fun load_info(){
-        var listToShow = arrayListOf<String>()
-        recordlist = controller.loadRecordList(mYear,mMonth)
-        for (record in recordlist){
-            listToShow.add(record[1])
-        }
+    fun loadInfo(){
+        var adapter = controller.loadRecordList(mYear,mMonth)
         toolbar.title = "${mYear}年${mMonth + 1}月"
-        setRecord(listToShow)
+        setRecord(adapter)
+        val income = controller.getIncome()
+        val expand = controller.getExpand()
+        incomeText.text = income.toString()
+        payText.text = expand.toString()
+        totalText.text = (income-expand).toString()
     }
 
     //切換Activity
@@ -156,9 +158,9 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this,msg.toString(),Toast.LENGTH_SHORT).show()
     }
     //載入記帳紀錄資料
-    private fun setRecord(recordData: ArrayList<String>){
-        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
-        recordList.adapter = adapter
+    private fun setRecord(adapter: ExpandableListViewAdapter){
+//        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
+        recordList.setAdapter(adapter)
     }
 
 
