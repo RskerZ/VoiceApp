@@ -5,7 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
-import com.example.voiceko.ChartPagerAdapter
+import com.example.voiceko.CustAdapter.ChartPagerAdapter
 import com.example.voiceko.R
 import com.google.android.material.tabs.TabLayout
 import java.util.*

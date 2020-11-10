@@ -1,7 +1,6 @@
 package com.example.voiceko.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -10,45 +9,54 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.voiceko.EditTypeListAdapter
+import com.example.voiceko.Controller.EnterDataController
+import com.example.voiceko.CustAdapter.EditTypeListAdapter
 import com.example.voiceko.R
+import java.text.FieldPosition
 
 
 class EditTypeActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var typeList: ListView
     private lateinit var savebtn: Button
+    private lateinit var typeAdapter:EditTypeListAdapter
+    private lateinit var controller:EnterDataController
+    private var typeListData = arrayListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_type)
         typeList = findViewById(R.id.typeList)
-        savebtn = findViewById(R.id.editTypeSaveBtn)
-        //類別資料  Oncreate預設要是支出類別
-        var typeListData = arrayListOf<String>("A","B","C","D","E","F")
-        // 設定右上角的 menu
-        toolbar = findViewById(R.id.edittype_toolbar)
+//        savebtn = findViewById(R.id.editTypeSaveBtn)
+        toolbar = findViewById(R.id.edittype_toolbar) // 設定右上角的 menu
 
         //工具列，設置返回鍵啟用
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        //載入類別資料到ListView
-        setTypeList(typeListData)
+        controller = EnterDataController.instance
+        controller.init(this)
+        loadList()
 
         //ItemClick
         typeList.setOnItemClickListener{parent, view, position, id ->
             val element = typeList.adapter.getItem(position) // The item that was clicked
-            EditTypeDialog(element.toString()).show()
+            EditTypeDialog(element.toString(),position).show()
         }
 
+    }
+    fun loadList(){
+        typeListData = controller.loadCateList()
+        val cateWeights = controller.loadCateWeight()
+        typeAdapter = EditTypeListAdapter(this,typeListData,cateWeights)
+        typeList.adapter = typeAdapter
     }
     //返回鍵 AND 右上收入支出的切換
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.costtype -> Toast.makeText(this, "支出", Toast.LENGTH_SHORT).show()
-            R.id.incometype -> Toast.makeText(this, "收入", Toast.LENGTH_SHORT).show()
+            R.id.costtype -> controller.setStateToExpense()
+            R.id.incometype -> controller.setStateToIncome()
             else -> finish()
         }
+        loadList()
         return super.onOptionsItemSelected(item)
     }
     //創造menu
@@ -57,15 +65,8 @@ class EditTypeActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-
-    //載入類別紀錄資料
-    private fun setTypeList(ListData: ArrayList<String>){
-        var adapter = EditTypeListAdapter(this,ListData)
-        typeList.adapter = adapter
-
-    }
     //對話方塊
-    private fun EditTypeDialog(typeName: String): AlertDialog {
+    private fun EditTypeDialog(typeName: String,position:Int): AlertDialog {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("編輯類別")
         //設定對話方塊內部元件 類似在OnCreate()裡面
@@ -77,11 +78,22 @@ class EditTypeActivity : AppCompatActivity() {
         editTypeName.setText(typeName)
 
 
+
         builder.setPositiveButton("編輯") { _, _ ->
-            Toast.makeText(this, "我按了確認", Toast.LENGTH_SHORT).show()
+            val newName = editTypeName.text.toString()
+            val result = controller.changeCategoryName(newName,position)
+            var msg = ""
+            if (result){
+                msg = "成功修改類別名稱"
+                loadList()
+            }else{
+                msg = "修改失敗"
+            }
+            Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
+
         }
         builder.setNegativeButton("刪除") { _, _ ->
-            Toast.makeText(this, "我按了刪除", Toast.LENGTH_SHORT).show()
+
         }
         val dialog = builder.create()
 

@@ -1,4 +1,4 @@
-package com.example.voiceko
+package com.example.voiceko.CustAdapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
