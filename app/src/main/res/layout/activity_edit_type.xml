@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.SettingActivity">
+    tools:context=".ui.EditTypeActivity">
+
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/setting_toolbar"
+        android:id="@+id/edittype_toolbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.08"
@@ -15,29 +16,37 @@
         android:background="#FFFFFF"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="設定" />
-    <TextView
-        android:id="@+id/textView10"
+        app:title="類別" />
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.92"
-        android:text="我是設定頁面啦"
-        android:textSize="15pt"/>
+        android:layout_margin="5dp"
+        android:padding="5dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <ListView
+                    android:id="@+id/typeList"
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp" />
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/setting_addtypebtn"
+        android:id="@+id/editTypeSaveBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="預算編制" />
+        android:text="儲存" />
 
-    <Button
-        android:id="@+id/setting_fixedbtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="固定收支" />
-    <Button
-        android:id="@+id/setting_edittypebtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="編輯類別" />
+
 </LinearLayout>
