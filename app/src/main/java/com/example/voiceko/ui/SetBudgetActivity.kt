@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import com.example.voiceko.CircleProgressBar
 import com.example.voiceko.R
 import java.util.*
 

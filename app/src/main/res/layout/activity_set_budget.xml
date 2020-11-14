@@ -80,7 +80,7 @@
             android:text="400" />
     </LinearLayout>
 
-    <com.example.voiceko.ui.CircleProgressBar
+    <com.example.voiceko.CircleProgressBar
         android:id="@+id/circleProgressBar"
         android:layout_width="300dp"
         android:layout_height="300dp"
