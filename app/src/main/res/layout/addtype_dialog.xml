@@ -14,4 +14,5 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="請輸入欲新增之類別名稱"/>
+
 </LinearLayout>

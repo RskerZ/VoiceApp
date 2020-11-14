@@ -2,11 +2,11 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="左"
+    <item android:title="@string/左"
         android:id="@+id/leftBtn"
         android:icon="@drawable/ic_action_left_arrow"
         app:showAsAction="ifRoom"/>
-    <item android:title="右"
+    <item android:title="@string/右"
         android:id="@+id/rightBtn"
         android:icon="@drawable/ic_action_right_arrow"
         app:showAsAction="ifRoom"/>

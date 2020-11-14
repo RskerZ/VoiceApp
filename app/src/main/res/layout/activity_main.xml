@@ -100,7 +100,9 @@
                 android:text="0"
                 android:textSize="12pt" />
         </LinearLayout>
+
     </LinearLayout>
+
 
 
 
@@ -121,10 +123,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ListView
+                <ExpandableListView
                     android:id="@+id/record"
                     android:layout_width="match_parent"
-                    android:layout_height="530dp" />
+                    android:divider="#80FFFFFF"
+                    android:childDivider="#80555555"
+                    android:layout_height="530dp"
+                    android:dividerHeight="1dp"/>
             </RelativeLayout>
 
         </ScrollView>

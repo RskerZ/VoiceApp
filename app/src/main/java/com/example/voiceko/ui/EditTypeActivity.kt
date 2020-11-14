@@ -24,7 +24,7 @@ class EditTypeActivity : AppCompatActivity() {
         typeList = findViewById(R.id.typeList)
         savebtn = findViewById(R.id.editTypeSaveBtn)
         //類別資料  Oncreate預設要是支出類別
-        var typeListData = arrayListOf<String>("A","B","C","D","E")
+        var typeListData = arrayListOf<String>("A","B","C","D","E","F")
         // 設定右上角的 menu
         toolbar = findViewById(R.id.edittype_toolbar)
 
