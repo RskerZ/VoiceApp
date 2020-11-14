@@ -1,5 +1,6 @@
 package com.example.voiceko.chartFragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,8 @@ import android.widget.SimpleAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.voiceko.R
+import com.example.voiceko.ui.DetailActivity
+import com.example.voiceko.ui.SettingActivity
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -46,10 +49,11 @@ class IncomeChart: Fragment(){
         var recordData = ArrayList<Map<String, Any>>()
 
         setRecordList(recordData)
-
+        //點擊List
         incomeTypeList.setOnItemClickListener{parent, view, position, id ->
             val element = incomeTypeList.adapter.getItem(position) // The item that was clicked
-            Log.e("AAAA", element.toString())
+            var intent = Intent(activity, DetailActivity::class.java)
+            startActivity(intent)
         }
     }
     private fun createChart(mChart: PieChart){

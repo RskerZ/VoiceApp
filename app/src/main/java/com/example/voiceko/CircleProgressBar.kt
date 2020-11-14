@@ -1,4 +1,4 @@
-package com.example.voiceko.ui
+package com.example.voiceko
 
 import android.animation.ValueAnimator
 import android.content.Context
