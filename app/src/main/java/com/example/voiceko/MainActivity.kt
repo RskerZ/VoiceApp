@@ -2,14 +2,17 @@ package com.example.voiceko
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.*
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.DataBase.ConsumptionRecordContract
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView =
             findViewById(R.id.menuBtn) as BottomNavigationView
         bottomNavigationView.menu.setGroupCheckable(0, false, false)
-
         bottomNavigationView.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.addMenu -> goEnter()

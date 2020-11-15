@@ -12,16 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.08"
-        android:background="#FFFFFF"
+        android:background="#FBF3CB"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="2020年10月" />
+        app:title="2020年10月"
+        app:titleTextColor="#6478A6" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
+        android:background="#6478A6"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
@@ -39,8 +41,11 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:text="收入" />
+                android:text="收入"
+                android:textColor="#FFFFFF"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/incomeText"
@@ -49,6 +54,7 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:text="0"
+                android:textColor="#FFFFFF"
                 android:textSize="12pt" />
         </LinearLayout>
 
@@ -65,7 +71,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
 
-                android:text="支出" />
+                android:text="支出"
+                android:textColor="#FFFFFF"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/payText"
@@ -73,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
+                android:textColor="#FFFFFF"
                 android:textSize="12pt" />
 
 
@@ -90,7 +99,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="總額" />
+                android:text="總額"
+                android:textColor="#FFFFFF"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/totalText"
@@ -98,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
+                android:textColor="#FFFFFF"
                 android:textSize="12pt" />
         </LinearLayout>
     </LinearLayout>
@@ -135,8 +147,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
-        android:background="@android:color/white"
-        app:labelVisibilityMode="labeled"
+        android:background="#FFFFFF"
+        android:foreground="@drawable/home_menu"
+        app:itemTextColor="#FFFFFF"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/lilmenu" />
 
 </LinearLayout>
