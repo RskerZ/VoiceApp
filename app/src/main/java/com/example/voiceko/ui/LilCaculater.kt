@@ -1,4 +1,4 @@
-package com.example.voiceko
+package com.example.voiceko.ui
 
 //import kotlinx.android.synthetic.main.activity_enter_data.*
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.voiceko.R
 import kotlinx.android.synthetic.main.lilcaculater_fragment.*
 import net.objecthunter.exp4j.ExpressionBuilder
 
