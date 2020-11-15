@@ -37,12 +37,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="#FBF3CB"
         android:layout_margin="5dp"
         android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FBF3CB"
             android:layout_margin="10dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -52,15 +54,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:background="#FFFFFF"
                     android:foreground="@drawable/enter_date"
                     android:text="日期"
-                    android:textSize="8pt" />
+                    android:textSize="21dp" />
 
                 <TextView
                     android:id="@+id/editTextDate"
@@ -68,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:drawableBottom="@drawable/line"
-                    android:textSize="8pt" />
+                    android:textSize="21dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -84,7 +86,7 @@
                     android:layout_weight="0.3"
                     android:foreground="@drawable/enter_cost"
                     android:text="金額"
-                    android:textSize="8pt" />
+                    android:textSize="21dp" />
 
                 <TextView
                     android:id="@+id/editTextNumber"
@@ -93,7 +95,7 @@
                     android:layout_weight="0.7"
                     android:editable="false"
                     android:textCursorDrawable="@null"
-                    android:textSize="8pt"
+                    android:textSize="21dp"
                     android:visibility="visible"
                     app:drawableBottomCompat="@drawable/line" />
             </LinearLayout>
@@ -111,7 +113,7 @@
                     android:layout_weight="0.3"
                     android:foreground="@drawable/enter_cate"
                     android:text="分類"
-                    android:textSize="8pt" />
+                    android:textSize="21dp" />
 
                 <TextView
                     android:id="@+id/editType"
@@ -120,7 +122,7 @@
                     android:layout_weight="0.7"
                     android:textColor="#7b7b7b"
                     android:textCursorDrawable="@null"
-                    android:textSize="8pt"
+                    android:textSize="21dp"
                     app:drawableBottomCompat="@drawable/line" />
             </LinearLayout>
 
@@ -137,7 +139,7 @@
                     android:layout_weight="0.3"
                     android:foreground="@drawable/enter_subcate"
                     android:text="子分類"
-                    android:textSize="8pt" />
+                    android:textSize="21dp" />
 
                 <EditText
                     android:id="@+id/editSubType"
@@ -150,7 +152,7 @@
                     android:ems="10"
                     android:singleLine="true"
                     android:textColor="#7b7b7b"
-                    android:textSize="8pt" />
+                    android:textSize="21dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -166,7 +168,7 @@
                     android:layout_weight="0.3"
                     android:foreground="@drawable/enter_note"
                     android:text="備註"
-                    android:textSize="8pt" />
+                    android:textSize="21dp" />
 
                 <EditText
                     android:id="@+id/editRemark"
@@ -181,7 +183,7 @@
                     android:inputType="textMultiLine"
                     android:textColor="#7b7b7b"
                     android:textCursorDrawable="@null"
-                    android:textSize="8pt" />
+                    android:textSize="21dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -211,6 +213,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:baselineAligned="false"
                         android:foreground="@drawable/enter_save_bt"
                         android:text="儲存" />
 
@@ -222,6 +225,7 @@
                         android:foreground="@drawable/enter_cancel_bt"
                         android:text="取消" />
                 </LinearLayout>
+
             </RelativeLayout>
 
         </FrameLayout>

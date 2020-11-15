@@ -67,9 +67,9 @@ class EnterData : AppCompatActivity() {
         editTextSubType.setOnClickListener(editSubType)
         remarkEditBox.setOnClickListener(editRemark)
         cancelBtn.setOnClickListener(onDetory)
-
         incomeExpenseSwitch()
         setCalendartoToday()
+
 
         //工具列，設置返回鍵啟用
 
