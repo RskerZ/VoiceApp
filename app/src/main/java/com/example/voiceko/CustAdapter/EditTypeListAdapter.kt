@@ -31,11 +31,9 @@ class EditTypeListAdapter(context: Context, itemList: List<String>,weightList:Li
             if(typeFavorite.isChecked){
                 controller.changeCategoryWeight(count,position)
                 count--
-                Log.e("TEST","$count")
             }else{
                 controller.changeCategoryWeight(1,position)
                 count++
-                Log.e("TEST","已移除我的最愛")
             }
         }
         return view

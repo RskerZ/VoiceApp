@@ -77,6 +77,12 @@ class EnterDataController {
         return result
     }
 
+    public fun deleteCategory(index:Int):Boolean{
+        val id = cateID.get(index)
+        val result = db.deleteCate(id)
+        return result
+    }
+
     companion object {
         val instance = EnterDataController()
     }

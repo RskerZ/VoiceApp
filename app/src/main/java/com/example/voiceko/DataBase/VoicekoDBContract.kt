@@ -321,6 +321,26 @@ object VoicekoDBContract {
                 return false
             }
         }
+
+        public fun deleteCate(cateID:String):Boolean{
+            try {
+                val db = voiceKoDbHelper.writableDatabase
+                val selection = "_id = ${cateID}"
+                val count = db.delete(
+                    AccountTypeEntry.TABLE_NAME,
+                    selection,
+                    null)
+                this.closeDB()
+                if (count > 0){
+                    return true
+                }
+                return false
+            }catch (e:SQLiteException){
+                this.closeDB()
+                return false
+            }
+        }
+
     }
 
 }

@@ -78,11 +78,14 @@ class EditTypeActivity : AppCompatActivity() {
         editTypeName.setText(typeName)
 
 
+        var msg = ""
+        builder.setNeutralButton("取消"){ _, _ ->
 
+        }
         builder.setPositiveButton("編輯") { _, _ ->
             val newName = editTypeName.text.toString()
             val result = controller.changeCategoryName(newName,position)
-            var msg = ""
+
             if (result){
                 msg = "成功修改類別名稱"
                 loadList()
@@ -93,6 +96,14 @@ class EditTypeActivity : AppCompatActivity() {
 
         }
         builder.setNegativeButton("刪除") { _, _ ->
+            val result = controller.deleteCategory(position)
+            if (result){
+                msg = "成功刪除類別"
+                loadList()
+            }else{
+                msg = "刪除失敗"
+            }
+            Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
 
         }
         val dialog = builder.create()
