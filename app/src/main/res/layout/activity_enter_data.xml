@@ -83,6 +83,7 @@
                     android:text="金額"
                     android:textSize="8pt" />
 
+
                 <TextView
                     android:id="@+id/editTextNumber"
                     android:layout_width="0dp"
@@ -212,6 +213,8 @@
                         android:layout_weight="1"
                         android:text="取消" />
                 </LinearLayout>
+
+
             </RelativeLayout>
 
         </FrameLayout>

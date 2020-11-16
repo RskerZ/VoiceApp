@@ -7,12 +7,16 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
+import com.example.voiceko.PeriodRecords.PeriodReocrdsWorker
 import com.example.voiceko.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -51,9 +55,22 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+
+
+
+
+
+        test()
         //載入記帳紀錄
         loadInfo()
 
+    }
+    fun test(){
+        var worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(
+            1, TimeUnit.MINUTES
+        ).build()
+        var temp = WorkManager.getInstance(this)
+        temp.enqueue(worker)
     }
 
     override fun onRestart() {
