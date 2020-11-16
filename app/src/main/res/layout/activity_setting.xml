@@ -28,7 +28,7 @@
         android:id="@+id/setting_addtypebtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="新增類別" />
+        android:text="預算編制" />
 
     <Button
         android:id="@+id/setting_fixedbtn"

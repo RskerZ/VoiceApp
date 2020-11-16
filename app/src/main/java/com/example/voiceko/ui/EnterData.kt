@@ -1,9 +1,12 @@
 package com.example.voiceko.ui
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -62,6 +65,7 @@ class EnterData : AppCompatActivity() {
         editTextDate.setOnClickListener(editDate)
         editTextType.setOnClickListener(editType)
         editTextSubType.setOnClickListener(editSubType)
+        remarkEditBox.setOnClickListener(editRemark)
         cancelBtn.setOnClickListener(onDetory)
         controller.init(this)
         incomeExpenseSwitch()
@@ -112,7 +116,7 @@ class EnterData : AppCompatActivity() {
         val subCate = editTextSubType.text.toString()
         val remark = remarkEditBox.text.toString()
 
-        val result = controller.saveRecord(date,amount,cate,subCate,remark)
+        val result = controller.saveRecord(date, amount, cate, subCate, remark)
 
         if (result){
             editTextDate.text = ""
@@ -126,12 +130,14 @@ class EnterData : AppCompatActivity() {
         }
     }
 
-    fun makeToast(msg:String){
-        Toast.makeText(this,msg.toString(),Toast.LENGTH_SHORT).show()
+    fun makeToast(msg: String){
+        Toast.makeText(this, msg.toString(), Toast.LENGTH_SHORT).show()
     }
     //日期選擇器
     private var editDate = View.OnClickListener {
-
+        val ft = supportFragmentManager.beginTransaction()
+        hideFragment(ft)
+        ft.commit()
         DatePickerDialog(this, { _, mYear, mMonth, mDay ->
             run {
                 val format = "${setDateFormat(mYear, mMonth, mDay)}"
@@ -154,9 +160,23 @@ class EnterData : AppCompatActivity() {
         showFragment("acc")
     }
     private var editSubType = View.OnClickListener {
+        setEditText(editTextSubType)
         showFragment("subacc")
     }
+    private var editRemark = View.OnClickListener {
+        setEditText(remarkEditBox)
 
+        val ft = supportFragmentManager.beginTransaction()
+        hideFragment(ft)
+        ft.commit()
+    }
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (currentFocus != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
+        return super.dispatchTouchEvent(ev)
+    }
 
 
     //function
@@ -165,7 +185,7 @@ class EnterData : AppCompatActivity() {
         hideFragment(ft)
         when(f){
             "lil" -> {
-                if(lilcaculater.isAdded){
+                if (lilcaculater.isAdded) {
                     ft.show(lilcaculater)
                 }else {
                     ft.add(R.id.fragment_container,lilcaculater)
@@ -176,15 +196,15 @@ class EnterData : AppCompatActivity() {
                     ft.detach(accItem)
                     ft.attach(accItem)
                     ft.show(accItem)
-                }else{
-                    ft.add(R.id.fragment_container,accItem)
+                } else {
+                    ft.add(R.id.fragment_container, accItem)
                 }
             }
-            "subacc" ->{
-                if(accSubItem.isAdded){
+            "subacc" -> {
+                if (accSubItem.isAdded) {
                     ft.show(accSubItem)
-                }else{
-                    ft.add(R.id.fragment_container,accSubItem)
+                } else {
+                    ft.add(R.id.fragment_container, accSubItem)
                 }
             }
         }
@@ -203,7 +223,16 @@ class EnterData : AppCompatActivity() {
             ft.hide(accSubItem)
         }
     }
+    private fun setEditText(ediText: TextView){
+        ediText.isFocusable = true
+        ediText.isFocusableInTouchMode = true
+        ediText.requestFocus()
+        ediText.requestFocusFromTouch()
 
+        val inputmanager = ediText.context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        inputmanager?.showSoftInput(ediText, 0)
+    }
     var onDetory = View.OnClickListener{
         finish()
     }

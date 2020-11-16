@@ -2,14 +2,70 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/expand_PieChart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+
+    </com.github.mikephil.charting.charts.PieChart>
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/expand_Total"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"
+        android:text="合計：10000元" />
+
+    <ListView
+        android:id="@+id/expand_typeList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.35"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="我是支出類別圖"
-        android:textSize="20pt"/>
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/expand_message_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/expand_message_name"
+            android:text="重臣醬"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toRightOf="@+id/expand_message_image"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/expand_message_body"
+            android:text="hi man, how are you?"
+            android:background="@drawable/rounded_rectangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="240dp"
+            android:padding="8dp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/expand_message_name"
+            app:layout_constraintLeft_toRightOf="@+id/expand_message_image"
+            android:layout_marginLeft="8dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

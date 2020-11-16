@@ -35,7 +35,7 @@ class SettingActivity : AppCompatActivity() {
         goaddtypebtn = findViewById(R.id.setting_addtypebtn)
         goedittypebtn = findViewById(R.id.setting_edittypebtn)
         gofixedbtn.setOnClickListener {goFixedCost()}
-        goaddtypebtn.setOnClickListener {addTypeDialog().show()}
+        goaddtypebtn.setOnClickListener {goSetBudget()}
         goedittypebtn.setOnClickListener {goEditType()}
     }
     //返回鍵
@@ -46,8 +46,8 @@ class SettingActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
     //前往各頁面
-    private fun goAddType(){
-        val intent = Intent(this, AddTypeActivity::class.java)
+    private fun goSetBudget(){
+        val intent = Intent(this, SetBudgetActivity::class.java)
         startActivity(intent)
     }
     private fun goFixedCost(){
@@ -58,7 +58,7 @@ class SettingActivity : AppCompatActivity() {
         val intent = Intent(this, EditTypeActivity::class.java)
         startActivity(intent)
     }
-    //對話方塊
+    //新增對話方塊
     private fun addTypeDialog(): AlertDialog {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("新增類別")
