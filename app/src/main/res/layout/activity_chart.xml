@@ -7,19 +7,23 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/chart_toolbar"
+        style="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:background="#FBF3CB"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="圖表分析"/>
+        app:title="圖表分析"
+        app:titleTextColor="#000000" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabChart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="fixed">
-    </com.google.android.material.tabs.TabLayout>
+        android:background="#6478A6"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:tabTextColor="#FFFFFF"></com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"

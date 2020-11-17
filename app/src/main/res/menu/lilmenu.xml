@@ -4,7 +4,6 @@
     <ImageView android:id="@+id/iconnew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/iconnew"
         android:scaleType="fitCenter"/>
     <item
         android:id="@+id/addMenu"

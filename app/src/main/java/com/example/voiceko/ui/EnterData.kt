@@ -3,6 +3,7 @@ package com.example.voiceko.ui
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Html
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
@@ -38,6 +39,7 @@ class EnterData : AppCompatActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enter_data)
@@ -47,6 +49,7 @@ class EnterData : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val saveBtn = findViewById<Button>(R.id.saveBtn)
         saveBtn.setOnClickListener(saveRecord)
+
 
 
 

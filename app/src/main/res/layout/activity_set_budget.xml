@@ -4,47 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SetBudgetActivity"
-    android:orientation="vertical">
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".ui.SetBudgetActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/budget_toolbar"
+        style="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:background="#FBF3CB"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="預算編制"/>
+        app:title="預算編制" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="#6478A6"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/budget_textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
-            android:text="本月預算" />
+            android:gravity="center"
+            android:text="本月預算"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/budget_textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
-            android:text="本月支出" />
+            android:gravity="center"
+            android:text="本月支出"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/budget_textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
-            android:text="本月餘額" />
+            android:gravity="center"
+            android:text="本月餘額"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 
@@ -52,31 +60,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:background="#6478A6"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/budget_value"
+            style="bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
-            android:text="10000" />
+            android:gravity="center"
+            android:text="10000"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/budget_costValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
-            android:textColor="#FF00"
-            android:text="0" />
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#F5B955" />
 
         <TextView
             android:id="@+id/budget_balance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="400" />
     </LinearLayout>
 
@@ -85,28 +96,39 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
-        android:progress="90"
         android:max="100"
         android:padding="16dp"
+        android:progress="90"
         app:circleColor="@color/colorPrimary"
         app:circleWidth="3dp"
         app:startAngle="90"
-        app:textSize="18pt"
-        app:textColor="@color/colorPrimary"/>
+        app:textColor="@color/colorPrimary"
+        app:textSize="25pt" />
 
     <EditText
         android:id="@+id/budget_setEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FBF3CB"
         android:ems="10"
+        android:hint="設置本月預算"
         android:inputType="number"
-        android:hint="設置本月預算" />
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <Button
         android:id="@+id/budget_setBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="設置" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/buttonshape_save"
+        android:gravity="center"
+        android:text="設置"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
 
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.voiceko.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ class AccountItemType(var actname: String): Fragment(){
         "pinterest", "部落格", "line", "wordpress", "homepage", "yahoo", "pchome", "pazzo", "youtube"
     )
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_accounttype, container, false)
         return v
@@ -31,12 +33,14 @@ class AccountItemType(var actname: String): Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         when(actname) {
             "Enter" -> editTextType = activity!!.findViewById(R.id.editType)
             "Fixedcost" -> editTextType = activity!!.findViewById(R.id.fixedcost_editType)
         }
         //分類的載入
         val items = ArrayList<Map<String, Any>>()
+
         for(i in type.indices){
             val item = HashMap<String, Any>()
             item["text"] = type[i]
