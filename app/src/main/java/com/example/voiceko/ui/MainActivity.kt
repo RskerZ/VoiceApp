@@ -8,12 +8,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.voiceko.Controller.EnterDataController
-import com.example.voiceko.R
 import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
+import com.example.voiceko.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recordList: ExpandableListView
     private lateinit var toolbar: Toolbar
     private lateinit var controller:RecordController
+    private lateinit var recordListAdapter:ExpandableListViewAdapter
 
 
     val c: Calendar = Calendar.getInstance()
@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.menuBtn) as BottomNavigationView
         bottomNavigationView.menu.setGroupCheckable(0, false, false)
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomBarListener)
+
+        recordList.setOnChildClickListener{parent, v, groupPosition, childPosition, id ->
+            //TODO Click Record To Show Record Detail.
+            true
+        }
 
         //載入記帳紀錄
         loadInfo()
@@ -75,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    var bottomBarListener = BottomNavigationView.OnNavigationItemSelectedListener{item: MenuItem ->
+    var bottomBarListener = BottomNavigationView.OnNavigationItemSelectedListener{ item: MenuItem ->
         when (item.itemId) {
             R.id.addMenu -> goEnter()
             R.id.micMenu -> {
@@ -98,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                 mDay = D
                 loadInfo()
             }
-        },mYear , mMonth, mDay).show()
+        }, mYear, mMonth, mDay).show()
     }
 
 
@@ -131,9 +136,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadInfo(){
-        var adapter = controller.loadRecordList(mYear,mMonth)
+        recordListAdapter = controller.loadRecordList(mYear, mMonth)
         toolbar.title = "${mYear}年${mMonth + 1}月"
-        setRecord(adapter)
+        setRecord(recordListAdapter)
         val income = controller.getIncome()
         val expand = controller.getExpand()
         incomeText.text = income.toString()
@@ -154,8 +159,8 @@ class MainActivity : AppCompatActivity() {
         var intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
     }
-    fun makeToast(msg:String){
-        Toast.makeText(this,msg.toString(),Toast.LENGTH_SHORT).show()
+    fun makeToast(msg: String){
+        Toast.makeText(this, msg.toString(), Toast.LENGTH_SHORT).show()
     }
     //載入記帳紀錄資料
     private fun setRecord(adapter: ExpandableListViewAdapter){
@@ -166,3 +171,4 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+

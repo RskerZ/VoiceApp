@@ -10,8 +10,11 @@ import com.example.voiceko.ui.AccountItemType
 class EnterDataController {
     private lateinit var state: EnterState
     private lateinit var activity:Activity
+    private lateinit var db: VoicekoDBContract.DBMgr
+    private var cateID = arrayListOf<String>()
+    private var cateList = arrayListOf<String>()
+    private var cateWeight= arrayListOf<String>()
     private var type = "支出"
-    lateinit var db: VoicekoDBContract.DBMgr
     private constructor()
     public fun init(activity: Activity){
         this.activity = activity
@@ -35,8 +38,22 @@ class EnterDataController {
     }
 
     public fun loadCateList():ArrayList<String>{
-        return db.readCateName(type)
+        val cateData = db.readCateName(type)
+        cateID = cateData.get(0)
+        cateList = cateData.get(1)
+        cateWeight = cateData.get(2)
+        return cateList
     }
+
+    public fun loadCateWeight():ArrayList<Int>{
+        val weightParseInt = arrayListOf<Int>()
+        for (weight in cateWeight){
+            weightParseInt.add(weight.toInt())
+
+        }
+        return weightParseInt
+    }
+
 
     public fun getType():String{
         return type
@@ -45,6 +62,25 @@ class EnterDataController {
     public fun insertNewCate(cate: String):Int{
         val status = db.insertNewCategory(cate,type)
         return status
+    }
+
+    public fun changeCategoryName(newName:String,index:Int):Boolean{
+        val id = cateID.get(index)
+        val result = db.changeCateName(id, newName)
+        return result
+    }
+
+    public fun changeCategoryWeight(newWeight:Int,index:Int):Boolean{
+        val id = cateID.get(index)
+        val result = db.changeCateWeight(id, newWeight)
+        cateWeight[index] = newWeight.toString()
+        return result
+    }
+
+    public fun deleteCategory(index:Int):Boolean{
+        val id = cateID.get(index)
+        val result = db.deleteCate(id)
+        return result
     }
 
     companion object {

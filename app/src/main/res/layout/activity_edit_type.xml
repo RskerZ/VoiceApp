@@ -37,16 +37,17 @@
                 <ListView
                     android:id="@+id/typeList"
                     android:layout_width="match_parent"
-                    android:layout_height="600dp" />
+                    android:layout_height="600dp"/>
             </LinearLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/editTypeSaveBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="儲存" />
+<!--    <Button-->
+<!--        android:id="@+id/editTypeSaveBtn"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="儲存"-->
+<!--        android:visibility="invisible" />-->
 
 
 </LinearLayout>

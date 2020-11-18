@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.R
 
 
@@ -17,10 +18,13 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var gofixedbtn: Button
     private lateinit var goaddtypebtn: Button
     private lateinit var goedittypebtn: Button
+    private lateinit var controller:EnterDataController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
+        controller = EnterDataController.instance
+        controller.init(this)
         toolbar = findViewById(R.id.setting_toolbar)
 
         //工具列，設置返回鍵啟用
