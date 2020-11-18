@@ -100,19 +100,30 @@ class FixCostActivity : AppCompatActivity() {
 
         val ft = supportFragmentManager.beginTransaction()
         hideFragment(ft)
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
         ft.commit()
     }
+    //當你案其他地方的時候做的事情
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (currentFocus != null) {
+        if (currentFocus != null) {//關閉鍵盤
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
+        //不讓輸入跑出來
+        resetEditText(remarkEditBox)
+        resetEditText(editTextSubType)
+        //關閉片段
+        val ft = supportFragmentManager.beginTransaction()
+        hideFragment(ft)
+        ft.commit()
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
         return super.dispatchTouchEvent(ev)
     }
     override fun onBackPressed() {
         super.onBackPressed()
         val ft = supportFragmentManager.beginTransaction()
         hideFragment(ft)
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
         ft.commit()
     }
 
@@ -157,6 +168,7 @@ class FixCostActivity : AppCompatActivity() {
                 }
             }
         }
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         ft.addToBackStack(null)
         ft.commit()
     }
@@ -181,5 +193,11 @@ class FixCostActivity : AppCompatActivity() {
         val inputmanager = ediText.context
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         inputmanager?.showSoftInput(ediText, 0)
+    }
+    private fun resetEditText(ediText: TextView){
+        ediText.isFocusable = false
+        ediText.isFocusableInTouchMode = false
+        ediText.requestFocus()
+        ediText.requestFocusFromTouch()
     }
 }
