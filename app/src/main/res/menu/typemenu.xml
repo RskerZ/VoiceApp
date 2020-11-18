@@ -5,7 +5,8 @@
         android:id="@+id/costtype"
         app:showAsAction="collapseActionView"/>
 
-    <item android:title="收入"
+    <item
         android:id="@+id/incometype"
+        android:title="收入"
         app:showAsAction="collapseActionView" />
 </menu>

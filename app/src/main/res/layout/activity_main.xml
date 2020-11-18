@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D9DCEA"
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
@@ -16,7 +17,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="2020年10月"
-        app:titleTextColor="#6478A6" />
+        app:titleTextColor="#000000" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -115,13 +116,12 @@
     </LinearLayout>
 
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.73"
         android:layout_margin="5dp"
+        android:layout_weight="0.73"
         android:padding="5dp">
         <ListView
             android:id="@+id/record"
