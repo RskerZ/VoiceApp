@@ -47,6 +47,7 @@ class AccountItemType(var actname: String): Fragment(){
         typeGrid.onItemClickListener = AdapterView.OnItemClickListener {
                 _, _, position, _ ->
             editTextType?.text = type[position]
+            activity!!.onBackPressed()
         }
 
         //新增按鈕

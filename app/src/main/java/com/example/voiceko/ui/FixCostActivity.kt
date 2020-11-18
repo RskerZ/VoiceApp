@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -38,9 +39,10 @@ class FixCostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(R.layout.activity_fix_cost)
 
-        editTextDate = findViewById<TextView>(R.id.fixedcost_editTextDate)
+        editTextDate = findViewById(R.id.fixedcost_editTextDate)
         toolbar = findViewById(R.id.fixedcost_toolbar)
         editTextNumber = findViewById(R.id.fixedcost_editTextNumber)
         editTextType = findViewById(R.id.fixedcost_editType)
@@ -112,11 +114,7 @@ class FixCostActivity : AppCompatActivity() {
         //不讓輸入跑出來
         resetEditText(remarkEditBox)
         resetEditText(editTextSubType)
-        //關閉片段
-        val ft = supportFragmentManager.beginTransaction()
-        hideFragment(ft)
-        ft.commit()
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+
         return super.dispatchTouchEvent(ev)
     }
     override fun onBackPressed() {
