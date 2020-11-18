@@ -51,7 +51,7 @@ class SettingActivity : AppCompatActivity() {
         startActivity(intent)
     }
     private fun goFixedCost(){
-        val intent = Intent(this, FixCostActivity::class.java)
+        val intent = Intent(this, EditFixedCostActivity::class.java)
         startActivity(intent)
     }
     private fun goEditType(){

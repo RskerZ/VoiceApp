@@ -4,52 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D9DCEA"
     android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/fixedcost_toolbar"
+            style="bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
+
+            android:layout_height="0dp"
+            android:layout_weight="0.07"
+            android:background="#FBF3CB"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:title="固定支出"
-            app:titleTextColor="#808080">
-
+            app:titleTextColor="#000000">
             <Switch
                 android:id="@+id/fixedcost_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
-
-
         </androidx.appcompat.widget.Toolbar>
-
-
-    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
         android:layout_margin="5dp"
         android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
@@ -57,22 +51,28 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/fixed_date"
                     android:text="開始日期"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/fixedcost_editTextDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
                     android:drawableBottom="@drawable/line"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="#000000"
                     android:textSize="8pt" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -80,14 +80,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/fixed_cost"
                     android:text="金額"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/fixedcost_editTextNumber"
+                    style="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="#000000"
                     android:textCursorDrawable="@null"
                     android:textSize="8pt"
                     app:drawableBottomCompat="@drawable/line" />
@@ -95,8 +101,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -104,14 +111,19 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/fixed_cate"
                     android:text="分類"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/fixedcost_editType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="#000000"
                     android:textCursorDrawable="@null"
                     android:textSize="8pt"
                     app:drawableBottomCompat="@drawable/line" />
@@ -119,8 +131,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -128,27 +141,32 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/fixed_subcate"
                     android:text="子分類"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
 
                 <EditText
                     android:id="@+id/fixedcost_editSubType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
-                    android:focusable="false"
                     android:background="@null"
                     android:drawableBottom="@drawable/line"
                     android:ems="10"
-                    android:textColor="#7b7b7b"
+                    android:focusable="false"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
                     android:singleLine="true"
+                    android:textColor="#000000"
                     android:textSize="8pt" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -156,22 +174,25 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/fixed_cycle"
                     android:text="重複週期"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
 
                 <Spinner
                     android:id="@+id/cycleTimeSpinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
-                    />
+                    android:gravity="right|center_vertical" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -179,21 +200,26 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/fixed_note"
                     android:text="備註"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
 
                 <EditText
                     android:id="@+id/fixedcost_editRemark"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
                     android:background="@null"
-                    android:focusable="false"
                     android:drawableBottom="@drawable/line"
                     android:ems="10"
-                    android:gravity="start|top"
+                    android:focusable="false"
+                    android:gravity="left|center_vertical"
+                    android:hint="今晚，來點備註吧..."
                     android:inputType="textMultiLine"
-                    android:textColor="#7b7b7b"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#FFFFFF"
                     android:textCursorDrawable="@null"
                     android:textSize="8pt" />
             </LinearLayout>
@@ -206,12 +232,13 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="0.6">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -222,17 +249,33 @@
 
                 <Button
                     android:id="@+id/fixedcost_saveBtn"
+                    style="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:text="儲存" />
+                    android:background="@drawable/buttonshape_save"
+                    android:text="儲存"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24dp" />
 
                 <Button
                     android:id="@+id/fixedcost_cancelBtn"
+                    style="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:text="取消" />
+                    android:background="@drawable/buttonshape_cancel"
+                    android:text="取消"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24dp" />
             </LinearLayout>
         </RelativeLayout>
 

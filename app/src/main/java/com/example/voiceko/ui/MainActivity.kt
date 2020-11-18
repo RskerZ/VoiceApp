@@ -41,11 +41,9 @@ class MainActivity : AppCompatActivity() {
         toolbar.setOnClickListener(editDate)
         toolbar.setOnMenuItemClickListener(selectMonthListener)
 
-        val bottomNavigationView =
-            findViewById(R.id.menuBtn) as BottomNavigationView
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.menuBtn)
         bottomNavigationView.menu.setGroupCheckable(0, false, false)
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomBarListener)
-
         recordList.setOnChildClickListener{parent, v, groupPosition, childPosition, id ->
             //TODO Click Record To Show Record Detail.
             true
@@ -166,6 +164,22 @@ class MainActivity : AppCompatActivity() {
     private fun setRecord(adapter: ExpandableListViewAdapter){
 //        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
         recordList.setAdapter(adapter)
+    }
+    //動態設定listView高度
+    fun setListViewHeightBasedOnChildren(listView: ListView?) {
+        if (listView == null) return
+        val listAdapter = listView.adapter
+            ?: // pre-condition
+            return
+        var totalHeight = 0
+        for (i in 0 until listAdapter.count) {
+            val listItem = listAdapter.getView(i, null, listView)
+            listItem.measure(0, 0)
+            totalHeight += listItem.measuredHeight
+        }
+        val params = listView.layoutParams
+        params.height = totalHeight + listView.dividerHeight * (listAdapter.count - 1)
+        listView.layoutParams = params
     }
 
 

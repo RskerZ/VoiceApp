@@ -42,6 +42,7 @@ class SubItemType(var actname: String): Fragment() {
         subtypeGrid.onItemClickListener = AdapterView.OnItemClickListener {
                 _, _, position, _ ->
             editTextSubType?.text = subtype[position]
+            activity!!.onBackPressed()
         }
     }
 }

@@ -6,7 +6,7 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.widget.Toolbar
-import com.example.voiceko.EditTypeListAdapter
+import com.example.voiceko.CustAdapter.EditTypeListAdapter
 import com.example.voiceko.R
 import java.util.*
 

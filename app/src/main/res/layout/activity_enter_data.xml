@@ -4,176 +4,206 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D9DCEA"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/enter_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:title="支出"
-            app:titleTextColor="#808080">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/enter_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:background="#FBF3CB"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="支出"
+        app:titleTextColor="#6478A6">
 
         <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="" />
-
 
     </androidx.appcompat.widget.Toolbar>
 
-
-    </LinearLayout>
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:padding="5dp">
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
+        app:cardBackgroundColor="#FBF3CB">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_horizontal"
+            android:layout_height="match_parent"
+            android:background="#FBF3CB"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:background="#FBF3CB"
+                    android:foreground="@drawable/enter_date"
                     android:text="日期"
-                    android:textSize="8pt" />
+                    android:textColor="#6478A6"
+                    android:textSize="20dp" />
+
 
                 <TextView
                     android:id="@+id/editTextDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
                     android:drawableBottom="@drawable/line"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="#000000"
                     android:textSize="8pt" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/enter_cost"
                     android:text="金額"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
+
 
                 <TextView
                     android:id="@+id/editTextNumber"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
                     android:editable="false"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="#000000"
                     android:textCursorDrawable="@null"
-                    android:textSize="8pt"
+                    android:textSize="21dp"
                     android:visibility="visible"
                     app:drawableBottomCompat="@drawable/line" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/enter_cate"
                     android:text="分類"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
+
 
                 <TextView
                     android:id="@+id/editType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
-                    android:textColor="#7b7b7b"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="#000000"
                     android:textCursorDrawable="@null"
-                    android:textSize="8pt"
+                    android:textSize="21dp"
                     app:drawableBottomCompat="@drawable/line" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/textView7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/enter_subcate"
                     android:text="子分類"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
+
 
                 <EditText
                     android:id="@+id/editSubType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
-                    android:focusable="false"
                     android:background="@null"
                     android:drawableBottom="@drawable/line"
                     android:ems="10"
+                    android:focusable="false"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
                     android:singleLine="true"
-                    android:textColor="#7b7b7b"
+                    android:textColor="#000000"
                     android:textSize="8pt" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:foreground="@drawable/enter_note"
                     android:text="備註"
-                    android:textSize="8pt" />
+                    android:textSize="20dp" />
+
 
                 <EditText
                     android:id="@+id/editRemark"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.7"
                     android:background="@null"
-                    android:focusable="false"
                     android:drawableBottom="@drawable/line"
                     android:ems="10"
-                    android:gravity="start|top"
+                    android:focusable="false"
+                    android:gravity="left|center_vertical"
+                    android:hint="今晚，來點備註吧..."
                     android:inputType="textMultiLine"
-                    android:textColor="#7b7b7b"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000000"
                     android:textCursorDrawable="@null"
                     android:textSize="8pt" />
             </LinearLayout>
@@ -183,38 +213,54 @@
 
     </androidx.cardview.widget.CardView>
 
+
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
 
 
-            <RelativeLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/saveBtn"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape_save"
+                    android:text="儲存"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24dp" />
 
-                    <Button
-                        android:id="@+id/saveBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="儲存" />
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape_cancel"
+                    android:text="取消"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24dp" />
+            </LinearLayout>
+        </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/cancelBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="取消" />
-                </LinearLayout>
-            </RelativeLayout>
-
-        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

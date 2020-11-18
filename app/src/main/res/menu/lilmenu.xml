@@ -2,13 +2,21 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="新增"
-          android:id="@+id/addMenu"
-          app:showAsAction="ifRoom"/>
-    <item android:title="語音"
-          android:id="@+id/micMenu"/>
-    <item android:title="報表"
-          android:id="@+id/reportMenu"/>
+<!--    <ImageView android:id="@+id/iconnew"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/iconnew"-->
+<!--        android:scaleType="fitCenter"/>-->
+    <item
+        android:id="@+id/addMenu"
+        android:title="新增"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/micMenu"
+        android:title="語音" />
+    <item
+        android:id="@+id/reportMenu"
+        android:title="報表" />
     <item android:title="設定"
           android:id="@+id/setMenu"/>
 </menu>

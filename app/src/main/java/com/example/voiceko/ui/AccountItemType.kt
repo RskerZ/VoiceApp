@@ -18,6 +18,7 @@ class AccountItemType(var actname: String): Fragment(){
     //分類可以在這邊做動態載入
     private lateinit var  type : ArrayList<String>
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_accounttype, container, false)
         return v
@@ -25,6 +26,7 @@ class AccountItemType(var actname: String): Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         when(actname) {
             "Enter" -> editTextType = activity!!.findViewById(R.id.editType)
             "Fixedcost" -> editTextType = activity!!.findViewById(R.id.fixedcost_editType)
@@ -59,6 +61,7 @@ class AccountItemType(var actname: String): Fragment(){
         typeGrid.onItemClickListener = AdapterView.OnItemClickListener {
                 _, _, position, _ ->
             editTextType?.text = type[position]
+            activity!!.onBackPressed()
         }
     }
 
