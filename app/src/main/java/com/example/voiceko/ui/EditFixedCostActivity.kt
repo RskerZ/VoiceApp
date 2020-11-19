@@ -3,20 +3,25 @@ package com.example.voiceko.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.example.voiceko.Controller.PeriodRecordsController
 import com.example.voiceko.R
 
 class EditFixedCostActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var recordList: ListView
+    private lateinit var controller : PeriodRecordsController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_fixed_cost)
+        controller = PeriodRecordsController.instance
+        controller.init(this)
         toolbar = findViewById(R.id.editFixedCost_toolbar)
         recordList = findViewById(R.id.editFixedCost_list)
         //工具列，設置返回鍵啟用

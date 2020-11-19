@@ -20,6 +20,7 @@ class PeriodRecordsController {
     private lateinit var dbMgr: VoicekoDBContract.DBMgr
     private var type = "支出"
     private var enterDataController = EnterDataController.instance
+    private var isInsert = true
     private constructor()
    fun init(activity: Activity){
         this.activity = activity
@@ -46,10 +47,14 @@ class PeriodRecordsController {
         return builder.build()
     }
 
-    fun createWorkRequest(input: Data, hours: Long, waitTime:Long):String{
+    fun createWorkRequest(input: Data, hours: Long, waitTime:Long, replace:Boolean, id:String? = null):String{
         val tsLong = System.currentTimeMillis() / 1000
-        val ts = tsLong.toString()
+        var ts = tsLong.toString()
         var policy = ExistingPeriodicWorkPolicy.KEEP
+        if (replace){
+            policy = ExistingPeriodicWorkPolicy.REPLACE
+            ts = id!!
+        }
 
         val worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(hours, TimeUnit.HOURS)
             .setInitialDelay(waitTime,TimeUnit.MINUTES)
@@ -88,9 +93,44 @@ class PeriodRecordsController {
     ){
         val timeToWait = calculateMinutes(date)
         var inputData = createRecordInputData(amount, cate, subCate, remark, type)
-        var workID = createWorkRequest(inputData, hours, timeToWait)
+        var workID = createWorkRequest(inputData, hours, timeToWait, false)
         dbMgr.insertNewPeriodRecord(workID, hours,date, amount, cate, subCate, remark, type)
     }
+
+    fun modifyPeriodRecord(
+        date: String,
+        amount: Int,
+        cate: String,
+        subCate: String,
+        remark: String,
+        hours: Long,
+        workID : String
+    ){
+        val timeToWait = calculateMinutes(date)
+        val inputData = createRecordInputData(amount, cate, subCate, remark, type)
+        createWorkRequest(inputData, hours, timeToWait, true, workID)
+        dbMgr.insertNewPeriodRecord(workID, hours,date, amount, cate, subCate, remark, type)
+    }
+
+    fun cancelPeriodWork(workID: String){
+        val workManager = WorkManager.getInstance(activity)
+        workManager.cancelUniqueWork(workID)
+    }
+
+    fun savePeriodWork(date: String,
+                       amount: Int,
+                       cate: String,
+                       subCate: String,
+                       remark: String,
+                       hours: Long,
+                       workID : String? = null){
+        if (isInsert){
+            createPeriodRecord(date,amount,cate, subCate, remark, hours)
+        }else{
+            modifyPeriodRecord(date,amount,cate, subCate, remark, hours,workID!!)
+        }
+    }
+
     fun calculateMinutes(date: String):Long{
         val formatter = SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN)
         val toDate =  formatter.parse(date)
@@ -107,9 +147,8 @@ class PeriodRecordsController {
         val channel = NotificationChannel(
             "PeriodRecord",
             "PeriodRecordNotification",
-            NotificationManager.IMPORTANCE_HIGH
+            NotificationManager.IMPORTANCE_DEFAULT
         )
-        channel.lightColor = Color.WHITE
         val builder = Notification.Builder(activity, "PeriodRecord")
         builder.setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("固定收支")
@@ -138,6 +177,11 @@ class PeriodRecordsController {
         if (result){
             createNotificationChannel(cate, amount)
         }
+
+    }
+
+    fun setInsert(b:Boolean){
+        this.isInsert = b
 
     }
 }

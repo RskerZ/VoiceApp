@@ -3,6 +3,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
@@ -39,6 +40,8 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
     private lateinit var cycleTimeSpinner: Spinner
     private lateinit var controller:PeriodRecordsController
     private lateinit var saveBtn : Button
+    private lateinit var cancelBtn : Button
+    private var workID:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,11 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
 
 
         init()
+        if(intent.hasExtra(EXTRA_MESSAGE)){
+            this.workID = intent.getStringExtra(EXTRA_MESSAGE)
+            //TODO Change Button Image
+        }
+
 
 
         //設定重複週期下拉選單
@@ -83,7 +91,7 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
             }
         }
         saveBtn.setOnClickListener {
-            insertPeriodRecord()
+            savePeriodRecord(workID)
         }
 
         //工具列，設置返回鍵啟用
@@ -96,7 +104,8 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
 
     private fun init(){
 
-        saveBtn = findViewById<Button>(R.id.fixedcost_saveBtn)
+        saveBtn = findViewById(R.id.fixedcost_saveBtn)
+        cancelBtn = findViewById(R.id.fixedcost_cancelBtn)
         editTextDate = findViewById<TextView>(R.id.fixedcost_editTextDate)
         toolbar = findViewById(R.id.fixedcost_toolbar)
         editTextNumber = findViewById(R.id.fixedcost_editTextNumber)
@@ -110,13 +119,15 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         controller.init(this)
         setDayToToday()
     }
-    private fun insertPeriodRecord(){
+
+
+    private fun savePeriodRecord(workID:String? = null){
         val date = editTextDate.text.toString()
         val amount = editTextNumber.text.toString().toInt()
         val cate = editTextType.text.toString()
         val subCate = editTextSubType.text.toString()
         val remark = remarkEditBox.text.toString()
-        controller.createPeriodRecord(date,amount,cate,subCate,remark,hours)
+        controller.savePeriodWork(date,amount,cate,subCate,remark,hours,workID)
     }
 
 
@@ -159,7 +170,6 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
         ft.commit()
     }
-
     //返回鍵
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home){
@@ -167,14 +177,11 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         }
         return super.onOptionsItemSelected(item)
     }
-
-
     //function
     private fun setDateFormat(year: Int, month: Int, day: Int): String {
         return "$year/${month + 1}/$day"
     }
-
-    fun showFragment(f: String){
+    private fun showFragment(f: String){
         val ft = supportFragmentManager.beginTransaction()
         hideFragment(ft)
         when(f){
@@ -207,8 +214,7 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         ft.addToBackStack(null)
         ft.commit()
     }
-
-    fun hideFragment(ft: FragmentTransaction){
+    private fun hideFragment(ft: FragmentTransaction){
         if(lilcaculater.isAdded){
             ft.hide(lilcaculater)
         }
@@ -229,7 +235,6 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         inputmanager?.showSoftInput(ediText, 0)
     }
-
     private fun resetEditText(ediText: TextView){
         ediText.isFocusable = false
         ediText.isFocusableInTouchMode = false
@@ -240,7 +245,6 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         hours = cycleTimeHours[position]
         println(hours)
     }
-
     override fun onNothingSelected(parent: AdapterView<*>?) {
         TODO("Not yet implemented")
     }
