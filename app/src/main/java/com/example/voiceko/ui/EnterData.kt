@@ -140,14 +140,14 @@ class EnterData : AppCompatActivity() {
         ft.commit()
         DatePickerDialog(this, { _, mYear, mMonth, mDay ->
             run {
-                val format = "${setDateFormat(mYear, mMonth, mDay)}"
+                val format = setDateFormat(mYear, (mMonth+1), mDay)
                 editTextDate.text = format
             }
         }, mYear, mMonth, mDay).show()
     }
 
     private fun setDateFormat(year: Int, month: Int, day: Int): String {
-        return "$year/${month + 1}/$day"
+        return "$year/$month/$day"
     }
 
     //計算機

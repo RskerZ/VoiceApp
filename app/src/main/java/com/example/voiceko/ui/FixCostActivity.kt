@@ -1,5 +1,4 @@
 package com.example.voiceko.ui
-
 import android.app.DatePickerDialog
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -8,18 +7,17 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.voiceko.Controller.PeriodRecordsController
 import com.example.voiceko.R
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FixCostActivity : AppCompatActivity() {
+class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
     val c: Calendar = Calendar.getInstance()
     var mYear = c.get(Calendar.YEAR)
     var mMonth = c.get(Calendar.MONTH)
@@ -27,6 +25,9 @@ class FixCostActivity : AppCompatActivity() {
     val lilcaculater: Fragment = LilCaculater("Fixedcost")
     val accItem: Fragment = AccountItemType("Fixedcost")
     val accSubItem: Fragment = SubItemType("Fixedcost")
+    val cycleTimeHours = arrayListOf<Long>(24, 168, 732, 8766)
+//    val cycleTimeHours = arrayListOf<Long>(15, 20, 40, 60)
+    var hours = 24.toLong()
     private lateinit var toolbar: Toolbar
     private lateinit var editTextDate: TextView
     private lateinit var editTextNumber: TextView
@@ -35,25 +36,20 @@ class FixCostActivity : AppCompatActivity() {
     private lateinit var remarkEditBox:TextView
     private lateinit var switchType: Switch
     private lateinit var cycleTimeSpinner: Spinner
+    private lateinit var controller:PeriodRecordsController
+    private lateinit var saveBtn : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fix_cost)
 
-        editTextDate = findViewById<TextView>(R.id.fixedcost_editTextDate)
-        toolbar = findViewById(R.id.fixedcost_toolbar)
-        editTextNumber = findViewById(R.id.fixedcost_editTextNumber)
-        editTextType = findViewById(R.id.fixedcost_editType)
-        editTextSubType = findViewById(R.id.fixedcost_editSubType)
-        switchType = findViewById(R.id.fixedcost_switch)
-        remarkEditBox = findViewById(R.id.fixedcost_editRemark)
-        remarkEditBox.setOnClickListener(editRemark)
-        cycleTimeSpinner = findViewById(R.id.cycleTimeSpinner)
+        init()
 
         //設定重複週期下拉選單
         val cycletimeList = arrayListOf<String>("每天","每週","每月","每年")
         var cycleTimeAdapter = ArrayAdapter<String>(this, R.layout.cycletime_spinner, cycletimeList)
         cycleTimeSpinner.adapter = cycleTimeAdapter
+        cycleTimeSpinner.onItemSelectedListener = this
 
 
         editTextNumber.setOnClickListener {
@@ -61,12 +57,7 @@ class FixCostActivity : AppCompatActivity() {
             showFragment("lil")
         }
         editTextDate.setOnClickListener {
-            DatePickerDialog(this, { _, mYear, mMonth, mDay ->
-                run {
-                    val format = "${setDateFormat(mYear, mMonth, mDay)}"
-                    editTextDate.text = format
-                }
-            }, mYear, mMonth, mDay).show()
+           datePicker()
         }
         editTextType.setOnClickListener {
             showFragment("acc")
@@ -77,24 +68,65 @@ class FixCostActivity : AppCompatActivity() {
         }
 
 
-        //設定今天的日期
-        editTextDate.text = "${mYear}/${mMonth+1}/${mDay}"
-
         //收入支出切換
         switchType.setOnCheckedChangeListener{ _, isCheck->
             if(isCheck) {//如果按開關，可以用此按鈕來改變是收入還是支出(若之後要編輯記帳紀錄可以用個TAG之類的東西紀錄他是支出還是收入，在Oncreate的時候就對switch按鍵進行變動)
                 toolbar.setTitle("固定收入")
+                controller.changeTypeToIncome()
             }else{
                 toolbar.setTitle("固定支出")
+                controller.changeTypeToExpense()
             }
+        }
+        saveBtn.setOnClickListener {
+            insertPeriodRecord()
         }
 
         //工具列，設置返回鍵啟用
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-
     }
+
+
+
+    private fun init(){
+        saveBtn = findViewById<Button>(R.id.fixedcost_saveBtn)
+        editTextDate = findViewById<TextView>(R.id.fixedcost_editTextDate)
+        toolbar = findViewById(R.id.fixedcost_toolbar)
+        editTextNumber = findViewById(R.id.fixedcost_editTextNumber)
+        editTextType = findViewById(R.id.fixedcost_editType)
+        editTextSubType = findViewById(R.id.fixedcost_editSubType)
+        switchType = findViewById(R.id.fixedcost_switch)
+        remarkEditBox = findViewById(R.id.fixedcost_editRemark)
+        remarkEditBox.setOnClickListener(editRemark)
+        cycleTimeSpinner = findViewById(R.id.cycleTimeSpinner)
+        controller = PeriodRecordsController.instance
+        controller.init(this)
+        setDayToToday()
+    }
+    private fun insertPeriodRecord(){
+        val date = editTextDate.text.toString()
+        val amount = editTextNumber.text.toString().toInt()
+        val cate = editTextType.text.toString()
+        val subCate = editTextSubType.text.toString()
+        val remark = remarkEditBox.text.toString()
+        controller.createPeriodRecord(date,amount,cate,subCate,remark,hours)
+    }
+
+
+    private fun setDayToToday(){
+        editTextDate.text = "${mYear}/${mMonth+1}/${mDay}"
+    }
+    private fun datePicker(){
+        DatePickerDialog(this, { _, mYear, mMonth, mDay ->
+            run {
+                val format = "${setDateFormat(mYear, mMonth, mDay)}"
+                editTextDate.text = format
+            }
+        }, mYear, mMonth, mDay).show()
+    }
+
     private var editRemark = View.OnClickListener {
         setEditText(remarkEditBox)
 
@@ -144,9 +176,11 @@ class FixCostActivity : AppCompatActivity() {
             }
             "acc" ->{
                 if(accItem.isAdded){
+                    ft.detach(accItem)
+                    ft.attach(accItem)
                     ft.show(accItem)
-                }else{
-                    ft.add(R.id.fragment_container,accItem)
+                } else {
+                    ft.add(R.id.fragment_container, accItem)
                 }
             }
             "subacc" ->{
@@ -182,4 +216,14 @@ class FixCostActivity : AppCompatActivity() {
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         inputmanager?.showSoftInput(ediText, 0)
     }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        hours = cycleTimeHours[position]
+        println(hours)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
+    }
 }
+

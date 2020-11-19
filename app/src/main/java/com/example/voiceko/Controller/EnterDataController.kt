@@ -83,6 +83,8 @@ class EnterDataController {
         return result
     }
 
+
+
     companion object {
         val instance = EnterDataController()
     }

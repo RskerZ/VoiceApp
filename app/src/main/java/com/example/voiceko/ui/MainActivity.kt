@@ -4,9 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.ExpandableListView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.work.Data
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.voiceko.Controller.EnterDataController
@@ -28,8 +32,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var controller:RecordController
     private lateinit var recordListAdapter:ExpandableListViewAdapter
-
-
     val c: Calendar = Calendar.getInstance()
 
     var mYear = c.get(Calendar.YEAR)
@@ -50,33 +52,22 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.menu.setGroupCheckable(0, false, false)
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomBarListener)
 
-        recordList.setOnChildClickListener{parent, v, groupPosition, childPosition, id ->
+        recordList.setOnChildClickListener{ parent, v, groupPosition, childPosition, id ->
             //TODO Click Record To Show Record Detail.
             true
         }
 
-
-
-
-
-
-        test()
         //載入記帳紀錄
         loadInfo()
 
     }
-    fun test(){
-        var worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(
-            1, TimeUnit.MINUTES
-        ).build()
-        var temp = WorkManager.getInstance(this)
-        temp.enqueue(worker)
-    }
+
 
     override fun onRestart() {
         super.onRestart()
         loadInfo()
     }
+
 
 
     var selectMonthListener= Toolbar.OnMenuItemClickListener{
@@ -144,7 +135,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun init(){
-        controller = RecordController(this)
+        controller = RecordController.instance
+        controller.init(this)
         incomeText = findViewById(R.id.incomeText)
         payText = findViewById(R.id.payText)
         totalText = findViewById(R.id.totalText)

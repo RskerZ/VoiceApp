@@ -22,6 +22,7 @@ object VoicekoDBContract {
         const val TABLE_NAME = "AccountType"
         const val COLUMN_NAME = "NAME"
         const val COLUMN_TYPE = "TYPE"
+        const val COLUMN_BUDGET = "BUDGET"
         const val COLUMN_WEIGHT = "WEIGHT"
     }
     private object SubAccountTypeEntry: BaseColumns{
@@ -30,10 +31,23 @@ object VoicekoDBContract {
         const val COLUMN_PARENT = "PARENT"
     }
 
+    private object PeriodRecordsTypeEntry: BaseColumns{
+        const val TABLE_NAME = "PeriodRecords"
+        const val COLUMN_WORKID = "WorkID"
+        const val COLUMN_COLUMN_CYCLE = "CYCLE"
+        const val COLUMN_DATE = "DATE"
+        const val COLUMN_AMOUNT = "AMOUNT"
+        const val COLUMN_CATEGORY = "CATEGORY"
+        const val COLUMN_SUB_CATEGORY = "SUB_CATEGORY"
+        const val COLUMN_REMARKS = "REMARKS"
+        const val COLUMN_TYPE = "TYPE"
+    }
+
+
     private const val SQL_CREATE_ConsumptionRecordEntry =
         "CREATE TABLE ${ConsumptionRecordEntry.TABLE_NAME} (" +
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-                "${ConsumptionRecordEntry.COLUMN_DATE} INTEGER  NOT NULL," +
+                "${ConsumptionRecordEntry.COLUMN_DATE} TEXT  NOT NULL," +
                 "${ConsumptionRecordEntry.COLUMN_AMOUNT} INTEGER NOT NULL,"+
                 "${ConsumptionRecordEntry.COLUMN_CATEGORY} TEXT  NOT NULL,"+
                 "${ConsumptionRecordEntry.COLUMN_SUB_CATEGORY} TEXT,"+
@@ -45,6 +59,7 @@ object VoicekoDBContract {
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                 "${AccountTypeEntry.COLUMN_NAME} TEXT ,"+
                 "${AccountTypeEntry.COLUMN_TYPE} TEXT NOT NULL,"+
+                "${AccountTypeEntry.COLUMN_BUDGET} INTEGER NOT NULL DEFAULT 0,"+
                 "${AccountTypeEntry.COLUMN_WEIGHT} INTEGER NOT NULL DEFAULT 1)"
 
     private const val SQL_CREATE_SubAccountTypeEntry =
@@ -52,6 +67,18 @@ object VoicekoDBContract {
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                 "${SubAccountTypeEntry.COLUMN_NAME} TEXT ,"+
                 "${SubAccountTypeEntry.COLUMN_PARENT} TEXT NOT NULL)"
+
+    private const val SQL_CREATE_PeriodRecordsTypeEntry =
+        "CREATE TABLE ${PeriodRecordsTypeEntry.TABLE_NAME} (" +
+                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+                "${PeriodRecordsTypeEntry.COLUMN_WORKID} TEXT NOT NULL,"+
+                "${PeriodRecordsTypeEntry.COLUMN_COLUMN_CYCLE} INTEGER NOT NULL,"+
+                "${PeriodRecordsTypeEntry.COLUMN_DATE} TEXT  NOT NULL," +
+                "${PeriodRecordsTypeEntry.COLUMN_AMOUNT} INTEGER NOT NULL,"+
+                "${PeriodRecordsTypeEntry.COLUMN_CATEGORY} TEXT  NOT NULL,"+
+                "${PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY} TEXT,"+
+                "${PeriodRecordsTypeEntry.COLUMN_REMARKS} TEXT,"+
+                "${PeriodRecordsTypeEntry.COLUMN_TYPE} TEXT NOT NULL)"
 
     private const val SQL_INIT_AccountTypeEntry=
         "INSERT INTO ${AccountTypeEntry.TABLE_NAME} (${AccountTypeEntry.COLUMN_NAME}, ${AccountTypeEntry.COLUMN_TYPE}) VALUES "+
@@ -80,6 +107,7 @@ object VoicekoDBContract {
     private const val SQL_DELETE_ConsumptionRecordEntry = "DROP TABLE IF EXISTS ${ConsumptionRecordEntry.TABLE_NAME}"
     private const val SQL_DELETE_AccountTypeEntry = "DROP TABLE IF EXISTS ${AccountTypeEntry.TABLE_NAME}"
     private const val SQL_DELETE_SubAccountTypeEntry = "DROP TABLE IF EXISTS ${SubAccountTypeEntry.TABLE_NAME}"
+    private const val SQL_DELETE_PeriodRecordsTypeEntry = "DROP TABLE IF EXISTS ${PeriodRecordsTypeEntry.TABLE_NAME}"
 
     class VoiceKoDbHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -88,12 +116,14 @@ object VoicekoDBContract {
             db.execSQL(SQL_CREATE_AccountTypeEntry)
             db.execSQL(SQL_INIT_AccountTypeEntry)
             db.execSQL(SQL_CREATE_SubAccountTypeEntry)
+            db.execSQL(SQL_CREATE_PeriodRecordsTypeEntry)
         }
 
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
             db.execSQL(SQL_DELETE_ConsumptionRecordEntry)
             db.execSQL(SQL_DELETE_AccountTypeEntry)
             db.execSQL(SQL_DELETE_SubAccountTypeEntry)
+            db.execSQL(SQL_DELETE_PeriodRecordsTypeEntry)
             onCreate(db)
         }
 
@@ -103,7 +133,7 @@ object VoicekoDBContract {
 
         companion object {
             // If you change the database schema, you must increment the database version.
-            const val DATABASE_VERSION = 4
+            const val DATABASE_VERSION = 1
             const val DATABASE_NAME = "VoiceKo.db"
         }
 
@@ -156,6 +186,7 @@ object VoicekoDBContract {
                 ConsumptionRecordEntry.COLUMN_REMARKS,
                 ConsumptionRecordEntry.COLUMN_TYPE
             )
+            val order = "LENGTH(${ConsumptionRecordEntry.COLUMN_DATE}), ${ConsumptionRecordEntry.COLUMN_DATE}"
 
             val cursor = db.query(
                 ConsumptionRecordEntry.TABLE_NAME,
@@ -164,7 +195,7 @@ object VoicekoDBContract {
                 null,
                 null,
                 null,
-                null
+                order
             )
             val records = arrayListOf<MutableMap<String,String>>()
             with(cursor) {
@@ -336,6 +367,28 @@ object VoicekoDBContract {
                 }
                 return false
             }catch (e:SQLiteException){
+                this.closeDB()
+                return false
+            }
+        }
+
+        public fun insertNewPeriodRecord(workID:String,cycle:Long,date:String, amount :Int, cate : String, sub_cate:String, remark:String, type:String):Boolean{
+            try {
+                var db = voiceKoDbHelper.writableDatabase
+                var values = ContentValues()
+                values.put(PeriodRecordsTypeEntry.COLUMN_WORKID, workID)
+                values.put(PeriodRecordsTypeEntry.COLUMN_COLUMN_CYCLE, cycle)
+                values.put(PeriodRecordsTypeEntry.COLUMN_DATE,date)
+                values.put(PeriodRecordsTypeEntry.COLUMN_AMOUNT,amount)
+                values.put(PeriodRecordsTypeEntry.COLUMN_CATEGORY,cate)
+                values.put(PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY,sub_cate)
+                values.put(PeriodRecordsTypeEntry.COLUMN_REMARKS,remark)
+                values.put(PeriodRecordsTypeEntry.COLUMN_TYPE, type)
+                db.insert(PeriodRecordsTypeEntry.TABLE_NAME,null,values)
+                this.closeDB()
+                return true
+
+            }catch ( e: SQLiteException){
                 this.closeDB()
                 return false
             }
