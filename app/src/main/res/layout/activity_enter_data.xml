@@ -91,6 +91,7 @@
                     android:textSize="20dp" />
 
 
+
                 <TextView
                     android:id="@+id/editTextNumber"
                     android:layout_width="0dp"
@@ -263,4 +264,5 @@
         </RelativeLayout>
 
     </FrameLayout>
+
 </LinearLayout>

@@ -1,18 +1,38 @@
 package com.example.voiceko.Controller
+import android.app.*
+import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
+import android.graphics.Color
+import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getColor
+import androidx.core.content.ContextCompat.getSystemService
 
-import android.app.Activity
 import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
 import com.example.voiceko.DataBase.VoicekoDBContract
-class RecordController() {
+import com.example.voiceko.EnterState.EnterExpense
+import com.example.voiceko.EnterState.EnterState
+import com.example.voiceko.R
+import com.example.voiceko.ui.MainActivity
+import java.time.LocalDateTime
+
+
+class RecordController {
     private lateinit var dbmgr:VoicekoDBContract.DBMgr
     private lateinit var recordList:ArrayList<MutableMap<String,String>>
     private lateinit var activity: Activity
     private var expandAmount = 0
     private  var incomeAmount = 0
-    constructor(activity: Activity) : this() {
+    private lateinit var state: EnterState
+    private constructor()
+
+    public fun init(activity: Activity){
         this.activity = activity
         dbmgr= VoicekoDBContract.DBMgr(this.activity)
+        state = EnterExpense(this.activity)
         recordList = dbmgr.readRecord()
+
     }
 
     public fun reloadRecord(){
@@ -59,13 +79,24 @@ class RecordController() {
             incomeAmount+=amount
         }
     }
+    public fun addExpand(){
+        expandAmount++
+    }
     public fun getExpand():Int{
         return expandAmount
     }
-
     public fun getIncome():Int{
         return incomeAmount
     }
+
+
+
+
+
+    companion object {
+        val instance = RecordController()
+    }
+
 
 
 
