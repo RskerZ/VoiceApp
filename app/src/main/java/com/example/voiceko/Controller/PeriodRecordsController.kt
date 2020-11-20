@@ -1,10 +1,8 @@
 package com.example.voiceko.Controller
 
-import android.app.Activity
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.*
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.widget.Toast
 import androidx.work.*
@@ -12,6 +10,7 @@ import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.PeriodRecords.PeriodReocrdsWorker
 import com.example.voiceko.R
 import com.example.voiceko.ui.FixCostActivity
+import com.example.voiceko.ui.MainActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -60,7 +59,7 @@ class PeriodRecordsController {
             ts = id!!
         }
 
-        val worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(hours, TimeUnit.HOURS)
+        val worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(hours, TimeUnit.MINUTES)
             .setInitialDelay(waitTime,TimeUnit.MINUTES)
             .addTag(ts)
             .setInputData(input)
@@ -152,12 +151,19 @@ class PeriodRecordsController {
         val channel = NotificationChannel(
             "PeriodRecord",
             "PeriodRecordNotification",
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH
         )
         val builder = Notification.Builder(activity, "PeriodRecord")
+        val intent = Intent(activity,MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(activity, 0, intent, 0)
         builder.setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("固定收支")
             .setContentText("已新增一筆${cate} \$${amount}的紀錄")
+            .setContentIntent(pendingIntent)
+            .setCategory(Notification.CATEGORY_EVENT)
+            .setShowWhen(true)
             .setAutoCancel(true)
         val notification : Notification = builder.build()
         val manager = activity.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

@@ -27,7 +27,8 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
     val lilcaculater: Fragment = LilCaculater("Fixedcost")
     val accItem: Fragment = AccountItemType("Fixedcost")
     val accSubItem: Fragment = SubItemType("Fixedcost")
-    val cycleTimeHours = arrayListOf<Long>(24, 168, 732, 8766)
+//    val cycleTimeHours = arrayListOf<Long>(24, 168, 732, 8766)
+    val cycleTimeHours = arrayListOf<Long>(15, 20, 45, 111)
     var hours = 24.toLong()
     private lateinit var toolbar: Toolbar
     private lateinit var editTextDate: TextView

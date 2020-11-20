@@ -22,13 +22,18 @@ object VoicekoDBContract {
         const val TABLE_NAME = "AccountType"
         const val COLUMN_NAME = "NAME"
         const val COLUMN_TYPE = "TYPE"
-        const val COLUMN_BUDGET = "BUDGET"
         const val COLUMN_WEIGHT = "WEIGHT"
     }
     private object SubAccountTypeEntry: BaseColumns{
         const val TABLE_NAME = "SubAccountType"
         const val COLUMN_NAME = "NAME"
         const val COLUMN_PARENT = "PARENT"
+    }
+
+    private object BudgetEntry: BaseColumns{
+        const val TABLE_NAME = "Budget"
+        const val COLUMN_NAME = "NAME"
+        const val COLUMN_Budget = "BUDGET"
     }
 
     private object PeriodRecordsTypeEntry: BaseColumns{
@@ -59,7 +64,6 @@ object VoicekoDBContract {
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                 "${AccountTypeEntry.COLUMN_NAME} TEXT ,"+
                 "${AccountTypeEntry.COLUMN_TYPE} TEXT NOT NULL,"+
-                "${AccountTypeEntry.COLUMN_BUDGET} INTEGER NOT NULL DEFAULT 0,"+
                 "${AccountTypeEntry.COLUMN_WEIGHT} INTEGER NOT NULL DEFAULT 1)"
 
     private const val SQL_CREATE_SubAccountTypeEntry =
@@ -67,6 +71,12 @@ object VoicekoDBContract {
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                 "${SubAccountTypeEntry.COLUMN_NAME} TEXT ,"+
                 "${SubAccountTypeEntry.COLUMN_PARENT} TEXT NOT NULL)"
+
+    private const val SQL_CREATE_BudgetEntry =
+        "CREATE TABLE ${BudgetEntry.TABLE_NAME} (" +
+                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+                "${BudgetEntry.COLUMN_NAME} TEXT ,"+
+                "${BudgetEntry.COLUMN_Budget} INTEGER NOT NULL DEFAULT 0)"
 
     private const val SQL_CREATE_PeriodRecordsTypeEntry =
         "CREATE TABLE ${PeriodRecordsTypeEntry.TABLE_NAME} (" +
@@ -104,9 +114,30 @@ object VoicekoDBContract {
                 "('小確幸','收入'),"+
                 "('其他收入','收入')"
 
+    private const val SQL_INIT_BudgetEntry=
+        "INSERT INTO ${BudgetEntry.TABLE_NAME} (${BudgetEntry.COLUMN_NAME}) VALUES "+
+                "('飲食'),"+
+                "('服飾'),"+
+                "('居家'),"+
+                "('交通'),"+
+                "('教育'),"+
+                "('交際娛樂'),"+
+                "('交流通訊'),"+
+                "('醫療保健'),"+
+                "('生活用品'),"+
+                "('金融保險'),"+
+                "('美容美髮'),"+
+                "('運動用品'),"+
+                "('3C產品'),"+
+                "('稅金/日常費用'),"+
+                "('寵物百貨'),"+
+                "('其他支出'),"+
+                "('TOTAL')"
+
     private const val SQL_DELETE_ConsumptionRecordEntry = "DROP TABLE IF EXISTS ${ConsumptionRecordEntry.TABLE_NAME}"
     private const val SQL_DELETE_AccountTypeEntry = "DROP TABLE IF EXISTS ${AccountTypeEntry.TABLE_NAME}"
     private const val SQL_DELETE_SubAccountTypeEntry = "DROP TABLE IF EXISTS ${SubAccountTypeEntry.TABLE_NAME}"
+    private const val SQL_DELETE_BudgetEntry = "DROP TABLE IF EXISTS ${BudgetEntry.TABLE_NAME}"
     private const val SQL_DELETE_PeriodRecordsTypeEntry = "DROP TABLE IF EXISTS ${PeriodRecordsTypeEntry.TABLE_NAME}"
 
     class VoiceKoDbHelper(context: Context):SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -115,6 +146,8 @@ object VoicekoDBContract {
             db.execSQL(SQL_CREATE_ConsumptionRecordEntry)
             db.execSQL(SQL_CREATE_AccountTypeEntry)
             db.execSQL(SQL_INIT_AccountTypeEntry)
+            db.execSQL(SQL_CREATE_BudgetEntry)
+            db.execSQL(SQL_INIT_BudgetEntry)
             db.execSQL(SQL_CREATE_SubAccountTypeEntry)
             db.execSQL(SQL_CREATE_PeriodRecordsTypeEntry)
         }
@@ -124,6 +157,7 @@ object VoicekoDBContract {
             db.execSQL(SQL_DELETE_AccountTypeEntry)
             db.execSQL(SQL_DELETE_SubAccountTypeEntry)
             db.execSQL(SQL_DELETE_PeriodRecordsTypeEntry)
+            db.execSQL(SQL_DELETE_BudgetEntry)
             onCreate(db)
         }
 
@@ -133,7 +167,7 @@ object VoicekoDBContract {
 
         companion object {
             // If you change the database schema, you must increment the database version.
-            const val DATABASE_VERSION = 1
+            const val DATABASE_VERSION = 2
             const val DATABASE_NAME = "VoiceKo.db"
         }
 
@@ -271,6 +305,9 @@ object VoicekoDBContract {
                     values.put(AccountTypeEntry.COLUMN_NAME,cate)
                     values.put(AccountTypeEntry.COLUMN_TYPE, type)
                     db.insert(AccountTypeEntry.TABLE_NAME,null,values)
+                    val values2 = ContentValues()
+                    values2.put(BudgetEntry.COLUMN_NAME,cate)
+                    db.insert(BudgetEntry.TABLE_NAME,null,values2)
                     this.closeDB()
                     return 200
                 }catch ( e: SQLiteException){
@@ -496,6 +533,60 @@ object VoicekoDBContract {
                 this.closeDB()
                 return false
             }
+        }
+
+        public fun updateBudget(cateName:String,budget:Long):Boolean{
+            try {
+                val db = voiceKoDbHelper.writableDatabase
+                val values = ContentValues().apply {
+                    put(BudgetEntry.COLUMN_Budget, budget)
+                }
+                val selection = "${BudgetEntry.COLUMN_NAME} = ?"
+                val selectionArgs = arrayOf(cateName)
+
+                val count = db.update(
+                    BudgetEntry.TABLE_NAME,
+                    values,
+                    selection,
+                    selectionArgs
+                )
+                this.closeDB()
+                if (count > 0){
+                    return true
+                }
+                return false
+            }catch (e:SQLiteException){
+                this.closeDB()
+                return false
+            }
+        }
+        fun getBudget(cateName: String):Long{
+            val db = voiceKoDbHelper.readableDatabase
+            val projection = arrayOf(BaseColumns._ID,
+                BudgetEntry.COLUMN_NAME,
+                BudgetEntry.COLUMN_Budget
+            )
+            val selection = "${BudgetEntry.COLUMN_NAME} = ?"
+            val selectionArgs = arrayOf(cateName)
+
+            val cursor = db.query(
+                BudgetEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+            )
+
+            var result:Long = 0
+            with(cursor) {
+                while (moveToNext()) {
+                    result = getLong(getColumnIndexOrThrow(BudgetEntry.COLUMN_Budget))
+                }
+            }
+            this.closeDB()
+            return result
         }
     }
 

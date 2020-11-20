@@ -10,29 +10,17 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.View
+import kotlin.math.round
 
 
 class CircleProgressBar(context: Context, attrs: AttributeSet) : View(context, attrs){
     private var percentage: Float = 0F
     private var strProgress: String = ""
-        override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-//        var width = MeasureSpec.getSize(widthMeasureSpec)
-//        var height = MeasureSpec.getSize(heightMeasureSpec)
-//        var widthMode = MeasureSpec.getMode(widthMeasureSpec)
-//        var heightMode = MeasureSpec.getMode(heightMeasureSpec)
-//        if (widthMode == MeasureSpec.AT_MOST){
-//            width = paddingLeft + paddingRight + FormatUtil.dp2px(context,200)
-//        }
-//        if (heightMode == MeasureSpec.AT_MOST){
-//            height = paddingTop + paddingBottom + FormatUtil.dp2px(context,200)
-//        }
-//        setMeasuredDimension(width, height)
-    }
-
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var color = Color.GREEN
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
         paint.isAntiAlias = true //消除鋸齒
 
         val bottomColor = Color.parseColor("#C9C9C9") //設置顏色
@@ -53,15 +41,11 @@ class CircleProgressBar(context: Context, attrs: AttributeSet) : View(context, a
         ) //畫一個扇形
 
         canvas!!.drawArc(mRecF, 360F, 360F, false, paint) //將扇形畫至畫布上
-        paint.color = Color.GREEN;//把顏色換成綠色
+        paint.color = color
         paint.strokeWidth = dp2px(30F) //設置外圍線的粗度
         canvas.drawArc(mRecF, 90F, percentage, false, paint);//畫進度
-
         paint.reset()
-
         paint.textSize = dp2px(24F)
-        paint.color = Color.BLACK
-        paint.strokeWidth = dp2px(10F)
         //获取文字边缘
         canvas.drawText(strProgress, (width/2-75).toFloat(), (height/2).toFloat(),paint)
     }
@@ -69,17 +53,19 @@ class CircleProgressBar(context: Context, attrs: AttributeSet) : View(context, a
         val metrics: DisplayMetrics = Resources.getSystem().displayMetrics
         return dp * metrics.density
     }
+
     //設定百分比跟進度條
-    fun setPercentage(value: Float){
-        strProgress = "${(value * 100).toInt()}%"
+    fun setPercentage(value: Float,color:Int){
+        this.color = color
+        val roundValue = (value*10000).toInt()
+        strProgress = "${(roundValue.toFloat()/100).toFloat()}%"
         val valueAnimator = ValueAnimator.ofFloat(percentage, value * 360)
         percentage = value * 360
         valueAnimator.addUpdateListener { vA: ValueAnimator ->
             percentage = vA.animatedValue as Float
             postInvalidate()
         }
-        valueAnimator.duration = 500 //設置動畫時間
-
+        valueAnimator.duration = 1000 //設置動畫時間
         valueAnimator.start()
     }
 }

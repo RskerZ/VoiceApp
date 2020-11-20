@@ -13,6 +13,7 @@ import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.voiceko.BackgroundService
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
@@ -140,10 +141,11 @@ class MainActivity : AppCompatActivity() {
         totalText = findViewById(R.id.totalText)
         recordList = findViewById(R.id.record)
         toolbar = findViewById(R.id.main_toolbar)
+        startService(Intent(this,BackgroundService::class.java))
     }
 
     fun loadInfo(){
-        recordListAdapter = controller.loadRecordList(mYear, mMonth)
+        recordListAdapter = controller.loadRecordList(mYear, mMonth+1)
         toolbar.title = "${mYear}年${mMonth + 1}月"
         setRecord(recordListAdapter)
         val income = controller.getIncome()

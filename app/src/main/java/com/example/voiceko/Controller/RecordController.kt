@@ -25,6 +25,7 @@ class RecordController {
     private var expandAmount = 0
     private  var incomeAmount = 0
     private lateinit var state: EnterState
+
     private constructor()
 
     public fun init(activity: Activity){
@@ -32,6 +33,7 @@ class RecordController {
         dbmgr= VoicekoDBContract.DBMgr(this.activity)
         state = EnterExpense(this.activity)
         recordList = dbmgr.readRecord()
+
 
     }
 
@@ -43,12 +45,12 @@ class RecordController {
 
     public fun loadRecordList(mYear:Int,mMonth:Int): ExpandableListViewAdapter {
         reloadRecord()
-        val datePattern = Regex("^${mYear}/${mMonth+1}")
-        val dayPattern = Regex("(?<=${mYear}/${mMonth+1}/)[0-9]{0,}")
+        val datePattern = Regex("^${mYear}/${mMonth}/")
+        val dayPattern = Regex("(?<=${mYear}/${mMonth}/)[0-9]{0,}")
         val DataResult = arrayListOf<String>()
         val dayResult = arrayListOf<String>()
         val Recordresult = arrayListOf<ArrayList<String>>()
-        var nowday = "1"
+        var nowday = "0"
         for (record in recordList){
             if (datePattern.containsMatchIn(record["Date"]!!)){
                 val ID = record["ID"]

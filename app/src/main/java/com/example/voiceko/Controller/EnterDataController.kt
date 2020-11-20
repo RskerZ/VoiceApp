@@ -15,11 +15,13 @@ class EnterDataController {
     private var cateList = arrayListOf<String>()
     private var cateWeight= arrayListOf<String>()
     private var type = "支出"
+    private var budgetController= BudgetController.instance
     private constructor()
     public fun init(activity: Activity){
         this.activity = activity
         state = EnterExpense(this.activity)
         db = VoicekoDBContract.DBMgr(activity)
+        budgetController.init(activity)
     }
 
     public fun setStateToIncome(){
@@ -34,7 +36,9 @@ class EnterDataController {
     }
 
     public fun saveRecord(date:String, amount :Int, cate : String, subCate:String, remark:String):Boolean{
-        return state.saveRecord(date,amount,cate,subCate,remark)
+        val result = state.saveRecord(date,amount,cate,subCate,remark)
+        budgetController.checkBudget()
+        return result
     }
 
     public fun loadCateList():ArrayList<String>{
@@ -53,7 +57,6 @@ class EnterDataController {
         }
         return weightParseInt
     }
-
 
     public fun getType():String{
         return type
