@@ -11,9 +11,11 @@ import androidx.work.*
 import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.PeriodRecords.PeriodReocrdsWorker
 import com.example.voiceko.R
+import com.example.voiceko.ui.FixCostActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class PeriodRecordsController {
     private lateinit var activity:Activity
@@ -21,6 +23,8 @@ class PeriodRecordsController {
     private var type = "支出"
     private var enterDataController = EnterDataController.instance
     private var isInsert = true
+    private var periodRecordList = arrayListOf<MutableMap<String,String>>()
+    private var workIDList = arrayListOf<String>()
     private constructor()
    fun init(activity: Activity){
         this.activity = activity
@@ -109,12 +113,13 @@ class PeriodRecordsController {
         val timeToWait = calculateMinutes(date)
         val inputData = createRecordInputData(amount, cate, subCate, remark, type)
         createWorkRequest(inputData, hours, timeToWait, true, workID)
-        dbMgr.insertNewPeriodRecord(workID, hours,date, amount, cate, subCate, remark, type)
+        dbMgr.updatePeriodRecord( workID, hours,date, amount, cate, subCate, remark, type)
     }
 
     fun cancelPeriodWork(workID: String){
         val workManager = WorkManager.getInstance(activity)
         workManager.cancelUniqueWork(workID)
+        dbMgr.deletePeriodRecord(workID)
     }
 
     fun savePeriodWork(date: String,
@@ -182,6 +187,52 @@ class PeriodRecordsController {
 
     fun setInsert(b:Boolean){
         this.isInsert = b
+    }
+
+    fun readPeriodRecordFromDB(){
+        periodRecordList = dbMgr.readPeriodRecord()
+    }
+    fun formatRecordToListView():ArrayList<String>{
+        var recordList = arrayListOf<String>()
+        workIDList.clear()
+        for (record in periodRecordList){
+            val workID = record["workID"]
+            val date = record["date"]
+            val amount = record["amount"]
+            val cate = record["cate"]
+            val result = "開始日期${date}|${cate}|${amount}"
+            recordList.add(result)
+            workIDList.add(workID!!)
+        }
+        return recordList
+    }
+    fun getWorkId(index:Int):String{
+        return workIDList.get(index)
+    }
+
+    fun setRecordInfoToFixCostActivity(activity: FixCostActivity,mworkID: String){
+        for (record in periodRecordList){
+            val workID = record["workID"]
+            if (workID == mworkID){
+                val date = record["date"]
+                val amount = record["amount"]
+                val cate = record["cate"]
+                val subCate = record["subCate"]
+                val cycleTime = record["cycle"]
+                val remark = record["remark"]
+                val type = record["type"]
+                activity.setDate(date!!)
+                activity.setAmount(amount!!)
+                activity.setCate(cate!!)
+                activity.setSubCate(subCate!!)
+                activity.setCycle(cycleTime!!)
+                activity.setRemark(remark!!)
+                activity.setSwitch(type!!)
+
+            }
+
+        }
 
     }
+
 }

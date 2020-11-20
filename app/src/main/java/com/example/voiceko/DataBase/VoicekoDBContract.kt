@@ -34,7 +34,7 @@ object VoicekoDBContract {
     private object PeriodRecordsTypeEntry: BaseColumns{
         const val TABLE_NAME = "PeriodRecords"
         const val COLUMN_WORKID = "WorkID"
-        const val COLUMN_COLUMN_CYCLE = "CYCLE"
+        const val COLUMN_CYCLE = "CYCLE"
         const val COLUMN_DATE = "DATE"
         const val COLUMN_AMOUNT = "AMOUNT"
         const val COLUMN_CATEGORY = "CATEGORY"
@@ -72,7 +72,7 @@ object VoicekoDBContract {
         "CREATE TABLE ${PeriodRecordsTypeEntry.TABLE_NAME} (" +
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                 "${PeriodRecordsTypeEntry.COLUMN_WORKID} TEXT NOT NULL,"+
-                "${PeriodRecordsTypeEntry.COLUMN_COLUMN_CYCLE} INTEGER NOT NULL,"+
+                "${PeriodRecordsTypeEntry.COLUMN_CYCLE} INTEGER NOT NULL,"+
                 "${PeriodRecordsTypeEntry.COLUMN_DATE} TEXT  NOT NULL," +
                 "${PeriodRecordsTypeEntry.COLUMN_AMOUNT} INTEGER NOT NULL,"+
                 "${PeriodRecordsTypeEntry.COLUMN_CATEGORY} TEXT  NOT NULL,"+
@@ -377,7 +377,7 @@ object VoicekoDBContract {
                 var db = voiceKoDbHelper.writableDatabase
                 var values = ContentValues()
                 values.put(PeriodRecordsTypeEntry.COLUMN_WORKID, workID)
-                values.put(PeriodRecordsTypeEntry.COLUMN_COLUMN_CYCLE, cycle)
+                values.put(PeriodRecordsTypeEntry.COLUMN_CYCLE, cycle)
                 values.put(PeriodRecordsTypeEntry.COLUMN_DATE,date)
                 values.put(PeriodRecordsTypeEntry.COLUMN_AMOUNT,amount)
                 values.put(PeriodRecordsTypeEntry.COLUMN_CATEGORY,cate)
@@ -394,6 +394,109 @@ object VoicekoDBContract {
             }
         }
 
+        public fun readPeriodRecord():ArrayList<MutableMap<String,String>>{
+            var db = voiceKoDbHelper.readableDatabase
+            var projection = arrayOf(BaseColumns._ID,
+                PeriodRecordsTypeEntry.COLUMN_WORKID,
+                PeriodRecordsTypeEntry.COLUMN_CYCLE,
+                PeriodRecordsTypeEntry.COLUMN_DATE,
+                PeriodRecordsTypeEntry.COLUMN_AMOUNT,
+                PeriodRecordsTypeEntry.COLUMN_CATEGORY,
+                PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY,
+                PeriodRecordsTypeEntry.COLUMN_REMARKS,
+                PeriodRecordsTypeEntry.COLUMN_TYPE
+            )
+            val order = PeriodRecordsTypeEntry.COLUMN_WORKID
+            val cursor = db.query(
+                PeriodRecordsTypeEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                order
+            )
+
+            var periodRecordsList = arrayListOf<MutableMap<String,String>>()
+            with(cursor){
+                while (moveToNext()){
+                    val temp = mutableMapOf<String,String>()
+                    val workID = getString(getColumnIndexOrThrow(PeriodRecordsTypeEntry.COLUMN_WORKID))
+                    val date = getString(getColumnIndexOrThrow(PeriodRecordsTypeEntry.COLUMN_DATE))
+                    val amount = getString(getColumnIndexOrThrow(PeriodRecordsTypeEntry.COLUMN_AMOUNT))
+                    val cate = getString(getColumnIndexOrThrow(PeriodRecordsTypeEntry.COLUMN_CATEGORY))
+                    val subCate = getString(getColumnIndexOrThrow(PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY))
+                    val cycle = getString(getColumnIndexOrThrow(PeriodRecordsTypeEntry.COLUMN_CYCLE))
+                    val remark = getString(getColumnIndexOrThrow(PeriodRecordsTypeEntry.COLUMN_REMARKS))
+                    val type = getString(getColumnIndexOrThrow(PeriodRecordsTypeEntry.COLUMN_TYPE))
+                    temp["workID"] = workID
+                    temp["date"] = date
+                    temp["amount"] = amount
+                    temp["cate"] = cate
+                    temp["cycle"] = cycle
+                    temp["remark"] = remark
+                    temp["subCate"] = subCate
+                    temp["type"] = type
+                    periodRecordsList.add(temp)
+
+
+                }
+            }
+            this.closeDB()
+            return periodRecordsList
+        }
+
+        public fun updatePeriodRecord(workID:String,cycle:Long,date:String, amount :Int, cate : String, sub_cate:String, remark:String, type:String):Boolean{
+            try {
+                var db = voiceKoDbHelper.writableDatabase
+                var values = ContentValues()
+                values.put(PeriodRecordsTypeEntry.COLUMN_CYCLE, cycle)
+                values.put(PeriodRecordsTypeEntry.COLUMN_DATE,date)
+                values.put(PeriodRecordsTypeEntry.COLUMN_AMOUNT,amount)
+                values.put(PeriodRecordsTypeEntry.COLUMN_CATEGORY,cate)
+                values.put(PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY,sub_cate)
+                values.put(PeriodRecordsTypeEntry.COLUMN_REMARKS,remark)
+                values.put(PeriodRecordsTypeEntry.COLUMN_TYPE, type)
+                val selection = "${PeriodRecordsTypeEntry.COLUMN_WORKID} = ?"
+                val selectionArgs = arrayOf(workID)
+
+                val count = db.update(
+                    PeriodRecordsTypeEntry.TABLE_NAME,
+                    values,
+                    selection,
+                    selectionArgs
+                )
+                this.closeDB()
+
+                return count>0
+
+
+
+            }catch ( e: SQLiteException){
+                this.closeDB()
+                return false
+            }
+        }
+
+        public fun deletePeriodRecord(workID: String):Boolean{
+            try {
+                val db = voiceKoDbHelper.writableDatabase
+                val selection = "${PeriodRecordsTypeEntry.COLUMN_WORKID} = ?"
+                val selectionArgs = arrayOf(workID)
+                val count = db.delete(
+                    PeriodRecordsTypeEntry.TABLE_NAME,
+                    selection,
+                    selectionArgs)
+                this.closeDB()
+                if (count > 0){
+                    return true
+                }
+                return false
+            }catch (e:SQLiteException){
+                this.closeDB()
+                return false
+            }
+        }
     }
 
 }
