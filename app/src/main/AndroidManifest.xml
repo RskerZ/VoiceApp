@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.EditFixedCostActivity"></activity>
+        <activity android:name=".ui.VoiceActivity"></activity>
+        <activity android:name=".ui.EditFixedCostActivity" />
         <activity android:name=".ui.DetailActivity" />
         <activity android:name=".ui.SetBudgetActivity" />
         <activity android:name=".ui.EditTypeActivity" />

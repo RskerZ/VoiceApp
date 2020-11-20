@@ -16,11 +16,11 @@
         android:theme="?attr/actionBarTheme"
         app:title="固定收支">
     </androidx.appcompat.widget.Toolbar>
-
-    <ListView
+    <ExpandableListView
         android:id="@+id/editFixedCost_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.93"/>
+
 
 </LinearLayout>

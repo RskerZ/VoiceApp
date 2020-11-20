@@ -7,16 +7,19 @@ import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
+import android.widget.ExpandableListView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.voiceko.Controller.PeriodRecordsController
+import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
 import com.example.voiceko.R
 
 class EditFixedCostActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
-    private lateinit var recordList: ListView
+    private lateinit var recordList: ExpandableListView
     private lateinit var controller : PeriodRecordsController
+    private lateinit var recordListAdapter: ExpandableListViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_fixed_cost)
@@ -31,8 +34,10 @@ class EditFixedCostActivity : AppCompatActivity() {
         // 設定右上角的 menu
         toolbar.inflateMenu(R.menu.editfixedcost_menu)
 
-        var listdata = arrayListOf<String>("A","B","C","D","E","F","G","H")
-        setRecord(listdata)
+        //載入Adapter
+        //recordListAdapter = ???
+        setRecord(recordListAdapter)
+
         //ItemClick
         recordList.setOnItemClickListener{parent, view, position, id ->
             val element = recordList.adapter.getItem(position) // The item that was clicked
@@ -56,9 +61,9 @@ class EditFixedCostActivity : AppCompatActivity() {
         val intent = Intent(this, FixCostActivity::class.java)
         startActivity(intent)
     }
-    private fun setRecord(recordData: ArrayList<String>){
-        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
-        recordList.adapter = adapter
+    private fun setRecord(adapter: ExpandableListViewAdapter){
+        //var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
+        recordList.setAdapter(adapter)
     }
 
 }

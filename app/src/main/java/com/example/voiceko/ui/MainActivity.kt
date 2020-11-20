@@ -90,7 +90,8 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.addMenu -> goEnter()
             R.id.micMenu -> {
-                Toast.makeText(this, "你好我會語音辨識", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "你好我會語音辨識", Toast.LENGTH_SHORT).show()
+                goVoice()
             }
             R.id.reportMenu -> goChart()
             R.id.setMenu -> goSetting()
@@ -164,6 +165,10 @@ class MainActivity : AppCompatActivity() {
     }
     fun goSetting(){
         var intent = Intent(this, SettingActivity::class.java)
+        startActivity(intent)
+    }
+    fun goVoice(){
+        var intent = Intent(this, VoiceActivity::class.java)
         startActivity(intent)
     }
     fun makeToast(msg: String){

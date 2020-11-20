@@ -47,6 +47,8 @@ class RecordController {
         val dayPattern = Regex("(?<=${mYear}/${mMonth+1}/)[0-9]{0,}")
         val DataResult = arrayListOf<String>()
         val dayResult = arrayListOf<String>()
+
+
         val Recordresult = arrayListOf<ArrayList<String>>()
         var nowday = "1"
         for (record in recordList){
