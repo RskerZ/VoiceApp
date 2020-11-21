@@ -1,8 +1,11 @@
 package com.example.voiceko.ui
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.provider.AlarmClock
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.text.Html
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -15,6 +18,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.voiceko.Controller.EnterDataController
+import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.R
 import java.util.*
 
@@ -35,7 +39,10 @@ class EnterData : AppCompatActivity() {
     private lateinit var remarkEditBox:TextView
     private lateinit var switchType: Switch
     private lateinit var controller:EnterDataController
+    private lateinit var recordController: RecordController
     private lateinit var cancelBtn:Button
+    private var recordID = -1
+
 
 
 
@@ -47,10 +54,26 @@ class EnterData : AppCompatActivity() {
         setContentView(R.layout.activity_enter_data)
 
         init()
+
+        if (intent.hasExtra(EXTRA_MESSAGE)){
+            val index =intent.getIntExtra(EXTRA_MESSAGE,-1)
+            if (index > -1){
+                recordController = RecordController.instance
+                recordController.init(this)
+                recordID = recordController.setRecordInfoToEnterData(this,index)
+
+            }
+
+        }
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val saveBtn = findViewById<Button>(R.id.saveBtn)
-        saveBtn.setOnClickListener(saveRecord)
+        if (recordID > -1){
+            saveBtn.setOnClickListener(updateRecord)
+        }else{
+            saveBtn.setOnClickListener(saveRecord)
+        }
+
 
 
 
@@ -75,12 +98,33 @@ class EnterData : AppCompatActivity() {
         controller.init(this)
         incomeExpenseSwitch()
         setCalendartoToday()
-
         //工具列，設置返回鍵啟用
+    }
+    fun setDate(date:String){
+        editTextDate.text = date
+    }
+    fun setAmount(amount:String){
+        editTextNumber.text = amount
+    }
+    fun setCate(cate:String){
+        editTextType.text = cate
+    }
+    fun setSubCate(subCate:String){
+        editTextSubType.text = subCate
+    }
+    fun setRemark(remark:String){
+        remarkEditBox.text=remark
+    }
+    fun setType(type: String){
+        if (type == "收入"){
+            switchType.isChecked = true
+            controller.setStateToIncome()
+        }
 
     }
     //收入支出切換
     fun incomeExpenseSwitch(){
+        val ft = supportFragmentManager.beginTransaction()
         switchType.setOnCheckedChangeListener{ _, isCheck->
             if(isCheck) {//如果按開關，可以用此按鈕來改變是收入還是支出(若之後要編輯記帳紀錄可以用個TAG之類的東西紀錄他是支出還是收入，在Oncreate的時候就對switch按鍵進行變動)
                 toolbar.title = "收入"
@@ -89,6 +133,11 @@ class EnterData : AppCompatActivity() {
                 toolbar.title = "支出"
                 controller.setStateToExpense()
             }
+            editTextType.text=""
+            if (accItem.isVisible){
+                showFragment("acc")
+            }
+
         }
     }
 
@@ -122,6 +171,28 @@ class EnterData : AppCompatActivity() {
         val remark = remarkEditBox.text.toString()
 
         val result = controller.saveRecord(date, amount, cate, subCate, remark)
+
+        if (result){
+            editTextDate.text = ""
+            editTextNumber.text = ""
+            editTextType.text = ""
+            editTextSubType.text = ""
+            remarkEditBox.text = ""
+            makeToast("成功新增一筆紀錄")
+        }else{
+            makeToast("新增紀錄失敗，請確認輸入資料無誤")
+        }
+    }
+
+    var updateRecord = View.OnClickListener{
+
+        val date = editTextDate.text.toString()
+        val amount = editTextNumber.text.toString().toInt()
+        val cate = editTextType.text.toString()
+        val subCate = editTextSubType.text.toString()
+        val remark = remarkEditBox.text.toString()
+
+        val result = controller.updateRecord(recordID,date, amount, cate, subCate, remark)
 
         if (result){
             editTextDate.text = ""
@@ -251,8 +322,24 @@ class EnterData : AppCompatActivity() {
         ediText.requestFocus()
         ediText.requestFocusFromTouch()
     }
+
+
     var onDetory = View.OnClickListener{
-        finish()
+        if (recordID > 0){
+            AlertDialog.Builder(this)
+                .setTitle("刪除紀錄")
+                .setMessage("確定要刪除此筆紀錄嗎?")
+                .setPositiveButton("確定"){dialog, which->
+                    finish()
+                    controller.deleteRecord(recordID)
+                }
+                .setNegativeButton("取消"){dialog, which->
+                }.show()
+
+        }else{
+            finish()
+        }
+
     }
 
 }

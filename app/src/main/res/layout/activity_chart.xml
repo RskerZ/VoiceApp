@@ -23,9 +23,9 @@
         android:background="#6478A6"
         app:tabMode="fixed"
         app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:tabTextColor="#FFFFFF"></com.google.android.material.tabs.TabLayout>
+        app:tabTextColor="#FFFFFF" />
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

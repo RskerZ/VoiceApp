@@ -19,12 +19,17 @@ class EditFixedCostActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var recordList: ExpandableListView
     private lateinit var controller : PeriodRecordsController
+
     private lateinit var recordListAdapter: ExpandableListViewAdapter
+
+    var listdata = arrayListOf<String>("A","B","C","D","E","F","G","H")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_fixed_cost)
         controller = PeriodRecordsController.instance
         controller.init(this)
+
         toolbar = findViewById(R.id.editFixedCost_toolbar)
         recordList = findViewById(R.id.editFixedCost_list)
         //工具列，設置返回鍵啟用
@@ -34,14 +39,22 @@ class EditFixedCostActivity : AppCompatActivity() {
         // 設定右上角的 menu
         toolbar.inflateMenu(R.menu.editfixedcost_menu)
 
+
         //載入Adapter
         //recordListAdapter = ???
-        setRecord(recordListAdapter)
+        //setRecord(recordListAdapter)
+
+        loadRecordList()
+
 
         //ItemClick
         recordList.setOnItemClickListener{parent, view, position, id ->
-            val element = recordList.adapter.getItem(position) // The item that was clicked
-            Toast.makeText(this, element.toString(), Toast.LENGTH_SHORT).show()
+            val workID = controller.getWorkId(position) // The item that was clicked
+            val intent = Intent(this, FixCostActivity::class.java).apply {
+                putExtra(EXTRA_MESSAGE, workID)
+            }
+            startActivity(intent)
+            controller.setInsert(false)
         }
     }
     //返回鍵&設定右上按鈕作用
@@ -57,13 +70,32 @@ class EditFixedCostActivity : AppCompatActivity() {
         inflater.inflate(R.menu.editfixedcost_menu, menu)
         return true
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        loadRecordList()
+    }
     private fun goAddFixedCost(){
         val intent = Intent(this, FixCostActivity::class.java)
         startActivity(intent)
+        controller.setInsert(true)
     }
-    private fun setRecord(adapter: ExpandableListViewAdapter){
-        //var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
-        recordList.setAdapter(adapter)
+
+//    private fun setRecord(adapter: ExpandableListViewAdapter){
+//        //var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
+//        recordList.setAdapter(adapter)
+
+
+    private fun setRecord(recordData: ArrayList<String>){
+        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
+        recordList.adapter = adapter
+
+    }
+    private fun loadRecordList(){
+        controller.readPeriodRecordFromDB()
+        listdata = controller.formatRecordToListView()
+        setRecord(listdata)
+
     }
 
 }

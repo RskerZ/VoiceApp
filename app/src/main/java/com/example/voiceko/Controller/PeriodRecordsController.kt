@@ -1,28 +1,31 @@
 package com.example.voiceko.Controller
 
-import android.app.Activity
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.*
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.widget.Toast
 import androidx.work.*
 import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.PeriodRecords.PeriodReocrdsWorker
 import com.example.voiceko.R
+import com.example.voiceko.ui.FixCostActivity
+import com.example.voiceko.ui.MainActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class PeriodRecordsController {
-    private lateinit var activity:Activity
+    private lateinit var activity:Context
     private lateinit var dbMgr: VoicekoDBContract.DBMgr
     private var type = "支出"
     private var enterDataController = EnterDataController.instance
     private var isInsert = true
+    private var periodRecordList = arrayListOf<MutableMap<String,String>>()
+    private var workIDList = arrayListOf<String>()
     private constructor()
-   fun init(activity: Activity){
+   fun init(activity: Context){
         this.activity = activity
         enterDataController.init(activity)
         dbMgr= VoicekoDBContract.DBMgr(this.activity)
@@ -55,10 +58,14 @@ class PeriodRecordsController {
             policy = ExistingPeriodicWorkPolicy.REPLACE
             ts = id!!
         }
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(false)
+            .build()
 
-        val worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(hours, TimeUnit.HOURS)
+        val worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(hours, TimeUnit.MINUTES)
             .setInitialDelay(waitTime,TimeUnit.MINUTES)
             .addTag(ts)
+            .setConstraints(constraints)
             .setInputData(input)
             .build()
 
@@ -109,12 +116,13 @@ class PeriodRecordsController {
         val timeToWait = calculateMinutes(date)
         val inputData = createRecordInputData(amount, cate, subCate, remark, type)
         createWorkRequest(inputData, hours, timeToWait, true, workID)
-        dbMgr.insertNewPeriodRecord(workID, hours,date, amount, cate, subCate, remark, type)
+        dbMgr.updatePeriodRecord( workID, hours,date, amount, cate, subCate, remark, type)
     }
 
     fun cancelPeriodWork(workID: String){
         val workManager = WorkManager.getInstance(activity)
         workManager.cancelUniqueWork(workID)
+        dbMgr.deletePeriodRecord(workID)
     }
 
     fun savePeriodWork(date: String,
@@ -147,12 +155,19 @@ class PeriodRecordsController {
         val channel = NotificationChannel(
             "PeriodRecord",
             "PeriodRecordNotification",
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH
         )
         val builder = Notification.Builder(activity, "PeriodRecord")
+        val intent = Intent(activity,MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(activity, 0, intent, 0)
         builder.setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("固定收支")
             .setContentText("已新增一筆${cate} \$${amount}的紀錄")
+            .setContentIntent(pendingIntent)
+            .setCategory(Notification.CATEGORY_EVENT)
+            .setShowWhen(true)
             .setAutoCancel(true)
         val notification : Notification = builder.build()
         val manager = activity.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -182,6 +197,52 @@ class PeriodRecordsController {
 
     fun setInsert(b:Boolean){
         this.isInsert = b
+    }
+
+    fun readPeriodRecordFromDB(){
+        periodRecordList = dbMgr.readPeriodRecord()
+    }
+    fun formatRecordToListView():ArrayList<String>{
+        var recordList = arrayListOf<String>()
+        workIDList.clear()
+        for (record in periodRecordList){
+            val workID = record["workID"]
+            val date = record["date"]
+            val amount = record["amount"]
+            val cate = record["cate"]
+            val result = "開始日期${date}|${cate}|${amount}"
+            recordList.add(result)
+            workIDList.add(workID!!)
+        }
+        return recordList
+    }
+    fun getWorkId(index:Int):String{
+        return workIDList.get(index)
+    }
+
+    fun setRecordInfoToFixCostActivity(activity: FixCostActivity,mworkID: String){
+        for (record in periodRecordList){
+            val workID = record["workID"]
+            if (workID == mworkID){
+                val date = record["date"]
+                val amount = record["amount"]
+                val cate = record["cate"]
+                val subCate = record["subCate"]
+                val cycleTime = record["cycle"]
+                val remark = record["remark"]
+                val type = record["type"]
+                activity.setDate(date!!)
+                activity.setAmount(amount!!)
+                activity.setCate(cate!!)
+                activity.setSubCate(subCate!!)
+                activity.setCycle(cycleTime!!)
+                activity.setRemark(remark!!)
+                activity.setSwitch(type!!)
+
+            }
+
+        }
 
     }
+
 }

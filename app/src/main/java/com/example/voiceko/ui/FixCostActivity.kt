@@ -1,4 +1,5 @@
 package com.example.voiceko.ui
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -27,8 +28,8 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
     val lilcaculater: Fragment = LilCaculater("Fixedcost")
     val accItem: Fragment = AccountItemType("Fixedcost")
     val accSubItem: Fragment = SubItemType("Fixedcost")
-    val cycleTimeHours = arrayListOf<Long>(24, 168, 732, 8766)
-//    val cycleTimeHours = arrayListOf<Long>(15, 20, 40, 60)
+//    val cycleTimeHours = arrayListOf<Long>(24, 168, 732, 8766)
+    val cycleTimeHours = arrayListOf<Long>(15, 20, 45, 111)
     var hours = 24.toLong()
     private lateinit var toolbar: Toolbar
     private lateinit var editTextDate: TextView
@@ -50,18 +51,24 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
 
 
         init()
-        if(intent.hasExtra(EXTRA_MESSAGE)){
-            this.workID = intent.getStringExtra(EXTRA_MESSAGE)
-            //TODO Change Button Image
-        }
-
-
-
         //設定重複週期下拉選單
         val cycletimeList = arrayListOf<String>("每天","每週","每月","每年")
         var cycleTimeAdapter = ArrayAdapter<String>(this, R.layout.cycletime_spinner, cycletimeList)
         cycleTimeSpinner.adapter = cycleTimeAdapter
         cycleTimeSpinner.onItemSelectedListener = this
+
+        if(intent.hasExtra(EXTRA_MESSAGE)){
+            this.workID = intent.getStringExtra(EXTRA_MESSAGE)
+            this.workID?.let {
+                controller.setRecordInfoToFixCostActivity(this,workID!!)
+
+            }
+            //TODO Change Button Image
+        }
+
+
+
+
 
 
         editTextNumber.setOnClickListener {
@@ -89,9 +96,28 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
                 toolbar.setTitle("固定支出")
                 controller.changeTypeToExpense()
             }
+            editTextType.text=""
+            if (accItem.isVisible){
+                showFragment("acc")
+            }
         }
         saveBtn.setOnClickListener {
             savePeriodRecord(workID)
+            finish()
+        }
+        cancelBtn.setOnClickListener {
+            workID?.let {
+                AlertDialog.Builder(this)
+                    .setTitle("刪除固定支出")
+                    .setMessage("確定要刪除此固定支出嗎?")
+                    .setPositiveButton("確定"){dialog, which->
+                        finish()
+                        controller.cancelPeriodWork(workID!!)
+                    }
+                    .setNegativeButton("取消"){dialog, which->
+                    }.show()
+            }?:finish()
+
         }
 
         //工具列，設置返回鍵啟用
@@ -118,9 +144,32 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         controller = PeriodRecordsController.instance
         controller.init(this)
         setDayToToday()
+
     }
-
-
+    fun setDate(date:String){
+        editTextDate.text = date
+    }
+    fun setAmount(amount:String){
+        editTextNumber.text = amount
+    }
+    fun setCate(cate:String){
+        editTextType.text = cate
+    }
+    fun setSubCate(subCate:String){
+        editTextSubType.text = subCate
+    }
+    fun setCycle(hours:String){
+        cycleTimeSpinner.setSelection(cycleTimeHours.indexOf(hours.toLong()))
+    }
+    fun setRemark(remark:String){
+        remarkEditBox.text = remark
+    }
+    fun setSwitch(type:String){
+        if (type == "收入"){
+            switchType.isChecked = true
+            controller.changeTypeToIncome()
+        }
+    }
     private fun savePeriodRecord(workID:String? = null){
         val date = editTextDate.text.toString()
         val amount = editTextNumber.text.toString().toInt()
@@ -129,8 +178,6 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         val remark = remarkEditBox.text.toString()
         controller.savePeriodWork(date,amount,cate,subCate,remark,hours,workID)
     }
-
-
     private fun setDayToToday(){
         editTextDate.text = "${mYear}/${mMonth+1}/${mDay}"
     }
@@ -142,7 +189,6 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
             }
         }, mYear, mMonth, mDay).show()
     }
-
     private var editRemark = View.OnClickListener {
         setEditText(remarkEditBox)
 
@@ -243,7 +289,6 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
     }
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         hours = cycleTimeHours[position]
-        println(hours)
     }
     override fun onNothingSelected(parent: AdapterView<*>?) {
         TODO("Not yet implemented")
