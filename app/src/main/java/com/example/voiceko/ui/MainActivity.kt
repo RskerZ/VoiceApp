@@ -2,6 +2,7 @@ package com.example.voiceko.ui
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
@@ -9,19 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.work.Data
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.example.voiceko.BackgroundService
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
-import com.example.voiceko.PeriodRecords.PeriodReocrdsWorker
 import com.example.voiceko.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -52,6 +46,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.menu.setGroupCheckable(0, false, false)
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomBarListener)
         recordList.setOnChildClickListener{ parent, v, groupPosition, childPosition, id ->
+            val recordIndex = childPosition - (groupPosition*100)
+            val intent = Intent(this,EnterData::class.java).apply {
+                putExtra(AlarmClock.EXTRA_MESSAGE, recordIndex)
+            }
+            startActivity(intent)
             //TODO Click Record To Show Record Detail.
             true
         }
@@ -141,7 +140,6 @@ class MainActivity : AppCompatActivity() {
         totalText = findViewById(R.id.totalText)
         recordList = findViewById(R.id.record)
         toolbar = findViewById(R.id.main_toolbar)
-        startService(Intent(this,BackgroundService::class.java))
     }
 
     fun loadInfo(){

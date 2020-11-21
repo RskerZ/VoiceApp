@@ -1,12 +1,12 @@
 package com.example.voiceko.DataBase
 
-import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
+import java.time.Month
 
 object VoicekoDBContract {
     private object ConsumptionRecordEntry: BaseColumns{
@@ -108,6 +108,7 @@ object VoicekoDBContract {
                 "('稅金/日常費用','支出'),"+
                 "('寵物百貨','支出'),"+
                 "('其他支出','支出'),"+
+                "('TOTAL','other'),"+
                 "('薪水','收入'),"+
                 "('投資','收入'),"+
                 "('獎金','收入'),"+
@@ -175,8 +176,8 @@ object VoicekoDBContract {
 
     class DBMgr(){
         private lateinit var voiceKoDbHelper : VoiceKoDbHelper
-        private lateinit var activity: Activity
-        constructor(activity: Activity): this(){
+        private lateinit var activity: Context
+        constructor(activity: Context): this(){
             this.activity = activity
             openDB()
         }
@@ -254,6 +255,51 @@ object VoicekoDBContract {
             }
             this.closeDB()
             return records
+        }
+
+        public fun updateRecord(recordID:Int,date:String, amount :Int, cate : String, sub_cate:String, remark:String, type:String):Boolean{
+            try {
+                var db = voiceKoDbHelper.writableDatabase
+                var values = ContentValues()
+                values.put(ConsumptionRecordEntry.COLUMN_DATE,date)
+                values.put(ConsumptionRecordEntry.COLUMN_AMOUNT,amount)
+                values.put(ConsumptionRecordEntry.COLUMN_CATEGORY,cate)
+                values.put(ConsumptionRecordEntry.COLUMN_SUB_CATEGORY,sub_cate)
+                values.put(ConsumptionRecordEntry.COLUMN_REMARKS,remark)
+                values.put(ConsumptionRecordEntry.COLUMN_TYPE, type)
+                val selection = "_id = ${recordID}"
+
+                val count = db.update(
+                    ConsumptionRecordEntry.TABLE_NAME,
+                    values,
+                    selection,
+                    null
+                )
+                this.closeDB()
+                return count>0
+            }catch ( e: SQLiteException){
+                this.closeDB()
+                return false
+            }
+        }
+
+        public fun deleteRecord(recordID: Int):Boolean{
+            try {
+                val db = voiceKoDbHelper.writableDatabase
+                val selection = "_id = ${recordID}"
+                val count = db.delete(
+                    ConsumptionRecordEntry.TABLE_NAME,
+                    selection,
+                    null)
+                this.closeDB()
+                if (count > 0){
+                    return true
+                }
+                return false
+            }catch (e:SQLiteException){
+                this.closeDB()
+                return false
+            }
         }
 
         public fun readCateName(type: String):ArrayList<ArrayList<String>>{
@@ -335,13 +381,15 @@ object VoicekoDBContract {
                 null,
                 null
             )
-            this.closeDB()
+            var result = false
             with(cursor) {
                 if (moveToNext()){
-                    return true
+                    result =  true
                 }
-                return false
+
             }
+            this.closeDB()
+            return result
         }
 
         public fun changeCateName(cateID:String,newName:String):Boolean{
@@ -560,7 +608,8 @@ object VoicekoDBContract {
                 return false
             }
         }
-        fun getBudget(cateName: String):Long{
+
+        public fun getBudget(cateName: String):Long{
             val db = voiceKoDbHelper.readableDatabase
             val projection = arrayOf(BaseColumns._ID,
                 BudgetEntry.COLUMN_NAME,
@@ -587,6 +636,40 @@ object VoicekoDBContract {
             }
             this.closeDB()
             return result
+        }
+
+        public fun readEachCateAmount(type: String,year:String,month: String):ArrayList<MutableMap<String,String>>{
+            val db = voiceKoDbHelper.readableDatabase
+            val projection = arrayOf(BaseColumns._ID,
+                ConsumptionRecordEntry.COLUMN_CATEGORY,
+                "SUM(${ConsumptionRecordEntry.COLUMN_AMOUNT})"
+            )
+            val group =ConsumptionRecordEntry.COLUMN_CATEGORY
+            val selection = "${ConsumptionRecordEntry.COLUMN_TYPE} = ? AND ${ConsumptionRecordEntry.COLUMN_DATE} LIKE '${year}/${month}/%'"
+            val selectionArgs = arrayOf(type)
+            val cursor = db.query(
+                ConsumptionRecordEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                group,
+                null,
+                null
+            )
+
+            var eachCateAmount = arrayListOf<MutableMap<String,String>>()
+            with(cursor){
+                while (moveToNext()){
+                    val temp =mutableMapOf<String,String>()
+                    val cate = getString(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_CATEGORY))
+                    val amount = getInt(getColumnIndexOrThrow("SUM(${ConsumptionRecordEntry.COLUMN_AMOUNT})"))
+                    temp.put("cate",cate)
+                    temp.put("amount",amount.toString())
+                    eachCateAmount.add(temp)
+                }
+            }
+            this.closeDB()
+            return eachCateAmount
         }
     }
 

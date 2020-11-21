@@ -3,6 +3,7 @@ import android.app.*
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.graphics.Color
+import android.os.TestLooperManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -14,6 +15,8 @@ import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.EnterState.EnterExpense
 import com.example.voiceko.EnterState.EnterState
 import com.example.voiceko.R
+import com.example.voiceko.ui.EnterData
+import com.example.voiceko.ui.FixCostActivity
 import com.example.voiceko.ui.MainActivity
 import java.time.LocalDateTime
 
@@ -21,14 +24,14 @@ import java.time.LocalDateTime
 class RecordController {
     private lateinit var dbmgr:VoicekoDBContract.DBMgr
     private lateinit var recordList:ArrayList<MutableMap<String,String>>
-    private lateinit var activity: Activity
+    private lateinit var activity: Context
     private var expandAmount = 0
     private  var incomeAmount = 0
     private lateinit var state: EnterState
 
     private constructor()
 
-    public fun init(activity: Activity){
+    public fun init(activity: Context){
         this.activity = activity
         dbmgr= VoicekoDBContract.DBMgr(this.activity)
         state = EnterExpense(this.activity)
@@ -69,7 +72,6 @@ class RecordController {
                 dayResult.add(info)
                 calculateAmount(record["Amount"]!!.toInt(),record["Type"].toString())
             }
-
         }
         Recordresult.add(dayResult)
         return ExpandableListViewAdapter(activity, DataResult, Recordresult)
@@ -91,6 +93,17 @@ class RecordController {
         return incomeAmount
     }
 
+    public fun setRecordInfoToEnterData(activity: EnterData, index: Int):Int{
+        val record = recordList[index]
+        activity.setType(record["Type"]!!)
+        activity.setDate(record["Date"]!!)
+        activity.setAmount(record["Amount"]!!)
+        activity.setCate(record["Category"]!!)
+        activity.setSubCate(record["SubCategory"]!!)
+        activity.setRemark(record["Remark"]!!)
+
+        return record["ID"]!!.toInt()
+    }
 
 
 

@@ -1,4 +1,5 @@
 package com.example.voiceko.ui
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -95,6 +96,10 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
                 toolbar.setTitle("固定支出")
                 controller.changeTypeToExpense()
             }
+            editTextType.text=""
+            if (accItem.isVisible){
+                showFragment("acc")
+            }
         }
         saveBtn.setOnClickListener {
             savePeriodRecord(workID)
@@ -102,9 +107,16 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         }
         cancelBtn.setOnClickListener {
             workID?.let {
-                controller.cancelPeriodWork(workID!!)
-            }
-            finish()
+                AlertDialog.Builder(this)
+                    .setTitle("刪除固定支出")
+                    .setMessage("確定要刪除此固定支出嗎?")
+                    .setPositiveButton("確定"){dialog, which->
+                        finish()
+                        controller.cancelPeriodWork(workID!!)
+                    }
+                    .setNegativeButton("取消"){dialog, which->
+                    }.show()
+            }?:finish()
 
         }
 

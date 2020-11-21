@@ -7,6 +7,8 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.voiceko.Controller.PeriodRecordsController
 import com.example.voiceko.R
+import com.example.voiceko.ui.EnterData
+import com.example.voiceko.ui.MainActivity
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -18,14 +20,9 @@ class PeriodReocrdsWorker(appContext: Context, workerParams: WorkerParameters) :
         var mYear = c.get(Calendar.YEAR)
         var mMonth = c.get(Calendar.MONTH)
         var mDay = c.get(Calendar.DAY_OF_MONTH)
+
         var sMonth = (mMonth+1).toString()
         var sDay = mDay.toString()
-        if (mMonth+1 < 10){
-            sMonth = "0"+mMonth
-        }
-        if (mDay < 10){
-            sDay = "0"+sDay
-        }
         val date = "${mYear}/${sMonth}/${sDay}"
         val amount = inputData.getInt("amount",0)
         val cate = inputData.getString("cate")
@@ -33,6 +30,7 @@ class PeriodReocrdsWorker(appContext: Context, workerParams: WorkerParameters) :
         val remark = inputData.getString("remark")
         val type = inputData.getString("type")
         val controller = PeriodRecordsController.instance
+        controller.init(applicationContext)
         controller.saveRecordToDB(date ,amount, cate!!, subCate!!, remark!! ,type!!)
         // Indicate whether the work finished successfully with the Result
         return Result.success()

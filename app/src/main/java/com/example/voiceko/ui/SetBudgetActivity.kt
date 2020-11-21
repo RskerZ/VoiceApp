@@ -80,6 +80,7 @@ class SetBudgetActivity : AppCompatActivity() {
         //更改預算
     }
     private fun loadNumber(){
+
         currentCost = controller.getCurrentCost()
         budget = controller.getBudget()
         budgeBalance = controller.getBudgetBalance()

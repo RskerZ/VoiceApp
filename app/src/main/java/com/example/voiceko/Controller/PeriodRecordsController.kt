@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class PeriodRecordsController {
-    private lateinit var activity:Activity
+    private lateinit var activity:Context
     private lateinit var dbMgr: VoicekoDBContract.DBMgr
     private var type = "支出"
     private var enterDataController = EnterDataController.instance
@@ -25,7 +25,7 @@ class PeriodRecordsController {
     private var periodRecordList = arrayListOf<MutableMap<String,String>>()
     private var workIDList = arrayListOf<String>()
     private constructor()
-   fun init(activity: Activity){
+   fun init(activity: Context){
         this.activity = activity
         enterDataController.init(activity)
         dbMgr= VoicekoDBContract.DBMgr(this.activity)
@@ -58,10 +58,14 @@ class PeriodRecordsController {
             policy = ExistingPeriodicWorkPolicy.REPLACE
             ts = id!!
         }
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(false)
+            .build()
 
         val worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(hours, TimeUnit.MINUTES)
             .setInitialDelay(waitTime,TimeUnit.MINUTES)
             .addTag(ts)
+            .setConstraints(constraints)
             .setInputData(input)
             .build()
 

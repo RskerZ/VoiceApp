@@ -7,20 +7,25 @@ import android.widget.Toast
 import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.R
 import com.example.voiceko.ui.MainActivity
+import java.util.*
 import kotlin.math.roundToInt
 
 class BudgetController private constructor() {
-    private lateinit var activity: Activity
+    private lateinit var activity: Context
     private lateinit var db: VoicekoDBContract.DBMgr
     private  var recordController =RecordController.instance
     private var budget:Long = 0
     private var currentCost:Long = 0
     private var budgetBalance:Long = 0
     private var lessPercentage = 1.0f
-    fun init(activity: Activity){
+    private val c: Calendar = Calendar.getInstance()
+    private var mYear = c.get(Calendar.YEAR)
+    private var mMonth = c.get(Calendar.MONTH)
+    fun init(activity: Context){
         this.activity = activity
         db = VoicekoDBContract.DBMgr(activity)
         recordController.init(activity)
+        recordController.loadRecordList(mYear,mMonth+1)
         loadDataFromBD()
     }
     fun getBudget():Long{
@@ -37,6 +42,7 @@ class BudgetController private constructor() {
     }
 
     fun loadDataFromBD(){
+        recordController.loadRecordList(mYear,mMonth+1)
         budget = db.getBudget("TOTAL")
         currentCost = recordController.getExpand().toLong()
         budgetBalance = budget - currentCost
@@ -50,7 +56,7 @@ class BudgetController private constructor() {
     }
     fun checkBudget(){
         if (lessPercentage < 0.1){
-            createNotifaction("這個月的支出已經很接近預算囉，該注意花費了呢。")
+            createNotifaction("這個月的預算已經快見底囉，該注意花費了呢。")
         }else if (lessPercentage <= 0.0){
             createNotifaction("哎呀呀，這個月支出超出預算啦，下個月要好好規劃囉。")
         }

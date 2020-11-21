@@ -69,6 +69,7 @@ class EditTypeActivity : AppCompatActivity() {
     private fun EditTypeDialog(typeName: String,position:Int): AlertDialog {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("編輯類別")
+
         //設定對話方塊內部元件 類似在OnCreate()裡面
         val inflater = LayoutInflater.from(application)
         val view: View = inflater.inflate(R.layout.edittype_dialog, null)

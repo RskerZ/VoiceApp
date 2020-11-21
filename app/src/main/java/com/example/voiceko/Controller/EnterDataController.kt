@@ -1,6 +1,7 @@
 package com.example.voiceko.Controller
 
 import android.app.Activity
+import android.content.Context
 import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.EnterState.EnterExpense
 import com.example.voiceko.EnterState.EnterIncome
@@ -9,7 +10,7 @@ import com.example.voiceko.ui.AccountItemType
 
 class EnterDataController {
     private lateinit var state: EnterState
-    private lateinit var activity:Activity
+    private lateinit var activity:Context
     private lateinit var db: VoicekoDBContract.DBMgr
     private var cateID = arrayListOf<String>()
     private var cateList = arrayListOf<String>()
@@ -17,11 +18,12 @@ class EnterDataController {
     private var type = "支出"
     private var budgetController= BudgetController.instance
     private constructor()
-    public fun init(activity: Activity){
+    public fun init(activity: Context){
         this.activity = activity
         state = EnterExpense(this.activity)
         db = VoicekoDBContract.DBMgr(activity)
         budgetController.init(activity)
+        setStateToExpense()
     }
 
     public fun setStateToIncome(){
@@ -39,6 +41,16 @@ class EnterDataController {
         val result = state.saveRecord(date,amount,cate,subCate,remark)
         budgetController.checkBudget()
         return result
+    }
+
+    public fun updateRecord(recordID:Int,date:String, amount :Int, cate : String, subCate:String, remark:String):Boolean{
+        val result = state.saveRecord(date,amount,cate,subCate,remark)
+        budgetController.checkBudget()
+        return result
+    }
+
+    public fun deleteRecord(recordID: Int){
+        db.deleteRecord(recordID)
     }
 
     public fun loadCateList():ArrayList<String>{
