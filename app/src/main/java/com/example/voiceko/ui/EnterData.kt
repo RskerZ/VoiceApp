@@ -200,7 +200,7 @@ class EnterData : AppCompatActivity() {
             editTextType.text = ""
             editTextSubType.text = ""
             remarkEditBox.text = ""
-            makeToast("成功新增一筆紀錄")
+            makeToast("成功更新一筆紀錄")
         }else{
             makeToast("新增紀錄失敗，請確認輸入資料無誤")
         }
@@ -284,6 +284,8 @@ class EnterData : AppCompatActivity() {
             }
             "subacc" -> {
                 if (accSubItem.isAdded) {
+                    ft.detach(accSubItem)
+                    ft.attach(accSubItem)
                     ft.show(accSubItem)
                 } else {
                     ft.add(R.id.fragment_container, accSubItem)

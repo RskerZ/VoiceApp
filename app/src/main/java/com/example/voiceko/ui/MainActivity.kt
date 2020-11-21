@@ -46,12 +46,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.menu.setGroupCheckable(0, false, false)
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomBarListener)
         recordList.setOnChildClickListener{ parent, v, groupPosition, childPosition, id ->
-            val recordIndex = childPosition - (groupPosition*100)
+            val recordIndex =childPosition + groupPosition
             val intent = Intent(this,EnterData::class.java).apply {
                 putExtra(AlarmClock.EXTRA_MESSAGE, recordIndex)
             }
             startActivity(intent)
-            //TODO Click Record To Show Record Detail.
             true
         }
 

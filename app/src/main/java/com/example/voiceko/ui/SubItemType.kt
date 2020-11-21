@@ -8,16 +8,15 @@ import android.widget.AdapterView
 import android.widget.SimpleAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.R
 import kotlinx.android.synthetic.main.fragment_subtype.*
 
 class SubItemType(var actname: String): Fragment() {
+    private lateinit var controller: EnterDataController
     private var editTextSubType: TextView? = null
     //子分類可以在這邊做載入
-    private var subtype = arrayOf(
-        "早餐", "午餐", "晚餐", "飲料", "零食", "餅乾",
-        "點心", "糖果", "口香糖"
-    )
+    private var subtype = arrayListOf<String>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.fragment_subtype, container, false)
         return v
@@ -29,7 +28,15 @@ class SubItemType(var actname: String): Fragment() {
             "Enter" -> editTextSubType = activity!!.findViewById(R.id.editSubType)
             "Fixedcost" -> editTextSubType = activity!!.findViewById(R.id.fixedcost_editSubType)
         }
+        controller = EnterDataController.instance
+        loadList()
 
+
+
+    }
+
+    fun loadList(){
+        subtype = controller.loadSubCateList()
         //分類的載入
         val items = ArrayList<Map<String, Any>>()
         for(i in subtype.indices){
@@ -44,5 +51,6 @@ class SubItemType(var actname: String): Fragment() {
             editTextSubType?.text = subtype[position]
             activity!!.onBackPressed()
         }
+
     }
 }

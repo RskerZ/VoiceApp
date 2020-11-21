@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_accounttype.*
 
 class AccountItemType(var actname: String): Fragment(){
-    private lateinit var controller:EnterDataController;
+    private lateinit var controller:EnterDataController
     private var editTextType:TextView? = null
     //分類可以在這邊做動態載入
     private lateinit var  type : ArrayList<String>
@@ -61,7 +61,9 @@ class AccountItemType(var actname: String): Fragment(){
         typeGrid.onItemClickListener = AdapterView.OnItemClickListener {
                 _, _, position, _ ->
             editTextType?.text = type[position]
+            controller.setCate(type[position])
             activity!!.onBackPressed()
+
         }
     }
 

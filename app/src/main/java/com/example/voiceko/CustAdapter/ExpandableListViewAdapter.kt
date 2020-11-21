@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
 import com.example.voiceko.R
-import org.w3c.dom.Text
 
 class ExpandableListViewAdapter(private val context: Context,
                                 private val Date: List<String>,
-                                private val Records: List<List<String>>): BaseExpandableListAdapter() {
-    override fun getGroupCount(): Int {
+                                private val Records: List<List<MutableMap<String,String>>>): BaseExpandableListAdapter() {
+        override fun getGroupCount(): Int {
         return Date.size
     }
 
@@ -60,11 +59,15 @@ class ExpandableListViewAdapter(private val context: Context,
         parent: ViewGroup?
     ): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_record, null)
-        val type = view.findViewById<TextView>(R.id.txtRecord_typename)
-        val amount = view.findViewById<TextView>(R.id.txtRecord_amount)
-        val subtypeRemark = view.findViewById<TextView>(R.id.txtRecord_subtype_remark)
-        type.text = Records[groupPosition][childPosition]
-
+        val typeTextView = view.findViewById<TextView>(R.id.txtRecord_Cate)
+        val amountTextView = view.findViewById<TextView>(R.id.txtRecord_amount)
+        val subtypeRemarkTextView = view.findViewById<TextView>(R.id.txtRecord_subtype_remark)
+        val dayTextView = view.findViewById<TextView>(R.id.txtRecord_day)
+        val amount = Records[groupPosition][childPosition].get("amount")
+        typeTextView.text = Records[groupPosition][childPosition].get("cate")
+        amountTextView.text = context.getString(R.string.dollarSign,amount)
+        subtypeRemarkTextView.text = Records[groupPosition][childPosition].get("subCate")
+//        dayTextView.text =  Records[groupPosition][childPosition].get("day")
         return view
     }
 

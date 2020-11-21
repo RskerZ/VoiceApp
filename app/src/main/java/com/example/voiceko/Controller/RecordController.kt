@@ -51,21 +51,25 @@ class RecordController {
         val datePattern = Regex("^${mYear}/${mMonth}/")
         val dayPattern = Regex("(?<=${mYear}/${mMonth}/)[0-9]{0,}")
         val DataResult = arrayListOf<String>()
-        val dayResult = arrayListOf<String>()
+        val dayResult = arrayListOf<MutableMap<String,String>>()
 
 
-        val Recordresult = arrayListOf<ArrayList<String>>()
+        val Recordresult = arrayListOf<ArrayList<MutableMap<String,String>>>()
         var nowday = "0"
         for (record in recordList){
             if (datePattern.containsMatchIn(record["Date"]!!)){
-                val ID = record["ID"]
                 val day = dayPattern.find(record["Date"].toString())!!.value
-                val info = "${day}| ${record["Category"]}| ${record["SubCategory"]} | ${record["Amount"]}"
+                val info = mutableMapOf<String,String>()
+                info["day"] = day
+                info["cate"] = record["Category"]!!
+                info["subCate"] = record["SubCategory"]!!
+                info["amount"] = record["Amount"]!!
+
                 if (day != nowday){
                     DataResult.add(record["Date"].toString())
                     nowday = day
                     if (dayResult.isNotEmpty()){
-                        val temp = arrayListOf<String>()
+                        val temp = arrayListOf<MutableMap<String,String>>()
                         temp.addAll(dayResult)
                         Recordresult.add(temp)
                         dayResult.clear()

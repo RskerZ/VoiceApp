@@ -48,13 +48,15 @@ class EditFixedCostActivity : AppCompatActivity() {
 
 
         //ItemClick
-        recordList.setOnItemClickListener{parent, view, position, id ->
+        recordList.setOnChildClickListener{ parent, v, groupPosition, childPosition, id ->
+            val position = childPosition + groupPosition
             val workID = controller.getWorkId(position) // The item that was clicked
             val intent = Intent(this, FixCostActivity::class.java).apply {
                 putExtra(EXTRA_MESSAGE, workID)
             }
             startActivity(intent)
             controller.setInsert(false)
+            true
         }
     }
     //返回鍵&設定右上按鈕作用
@@ -81,20 +83,14 @@ class EditFixedCostActivity : AppCompatActivity() {
         controller.setInsert(true)
     }
 
-//    private fun setRecord(adapter: ExpandableListViewAdapter){
-//        //var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
-//        recordList.setAdapter(adapter)
-
-
-    private fun setRecord(recordData: ArrayList<String>){
-        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recordData)
-        recordList.adapter = adapter
+    private fun setRecord(adapter:ExpandableListViewAdapter){
+        recordList.setAdapter(adapter)
 
     }
     private fun loadRecordList(){
         controller.readPeriodRecordFromDB()
-        listdata = controller.formatRecordToListView()
-        setRecord(listdata)
+        val adapter = controller.formatRecordToListView()
+        setRecord(adapter)
 
     }
 

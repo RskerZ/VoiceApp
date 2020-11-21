@@ -202,6 +202,10 @@ object VoicekoDBContract {
                 values.put(ConsumptionRecordEntry.COLUMN_TYPE, type)
                 db.insert(ConsumptionRecordEntry.TABLE_NAME,null,values)
                 this.closeDB()
+                if (!subCateIsExist(sub_cate,cate)){
+                    insertNewSubCategory(sub_cate,cate)
+                }
+
                 return true
 
             }catch ( e: SQLiteException){
@@ -338,6 +342,79 @@ object VoicekoDBContract {
             }
             this.closeDB()
             return arrayListOf(IDList,cateList,weightList)
+        }
+
+        public fun readSubCateName(parent: String):ArrayList<String>{
+            var db = voiceKoDbHelper.readableDatabase
+            var projection = arrayOf(BaseColumns._ID,
+                SubAccountTypeEntry.COLUMN_NAME,
+                SubAccountTypeEntry.COLUMN_PARENT
+            )
+            val selection = "${SubAccountTypeEntry.COLUMN_PARENT} = ?"
+            val selectionArgs = arrayOf(parent)
+
+            val cursor = db.query(
+                SubAccountTypeEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+            )
+            val subCateList = arrayListOf<String>()
+            with(cursor){
+                while (moveToNext()){
+                    val subCateName = getString(getColumnIndexOrThrow(SubAccountTypeEntry.COLUMN_NAME))
+                    subCateList.add(subCateName)
+                }
+            }
+            this.closeDB()
+            return subCateList
+        }
+
+        public fun subCateIsExist(subCate:String,parent: String):Boolean{
+            var db = voiceKoDbHelper.readableDatabase
+            var projection = arrayOf(BaseColumns._ID,
+                SubAccountTypeEntry.COLUMN_NAME
+            )
+            val selection = "${SubAccountTypeEntry.COLUMN_NAME} = ? AND ${SubAccountTypeEntry.COLUMN_PARENT} = ?"
+            val selectionArgs = arrayOf(subCate,parent)
+
+            val cursor = db.query(
+                SubAccountTypeEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+            )
+            var result = false
+            with(cursor) {
+                if (moveToNext()){
+                    result =  true
+                }
+
+            }
+            this.closeDB()
+            return result
+        }
+
+        public fun insertNewSubCategory(subCate:String,parent: String):Int{
+            try {
+                val db = voiceKoDbHelper.writableDatabase
+                val values = ContentValues()
+                values.put(SubAccountTypeEntry.COLUMN_NAME,subCate)
+                values.put(SubAccountTypeEntry.COLUMN_PARENT, parent)
+                db.insert(SubAccountTypeEntry.TABLE_NAME,null,values)
+                this.closeDB()
+                return 200
+            }catch ( e: SQLiteException){
+                this.closeDB()
+                return 400
+            }
+
         }
 
         public fun insertNewCategory(cate:String,type:String):Int{
@@ -491,7 +568,7 @@ object VoicekoDBContract {
                 PeriodRecordsTypeEntry.COLUMN_REMARKS,
                 PeriodRecordsTypeEntry.COLUMN_TYPE
             )
-            val order = PeriodRecordsTypeEntry.COLUMN_WORKID
+            val order = PeriodRecordsTypeEntry.COLUMN_CYCLE
             val cursor = db.query(
                 PeriodRecordsTypeEntry.TABLE_NAME,
                 projection,

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.widget.Toast
 import androidx.work.*
+import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
 import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.PeriodRecords.PeriodReocrdsWorker
 import com.example.voiceko.R
@@ -62,7 +63,7 @@ class PeriodRecordsController {
             .setRequiresBatteryNotLow(false)
             .build()
 
-        val worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(hours, TimeUnit.MINUTES)
+        val worker = PeriodicWorkRequestBuilder<PeriodReocrdsWorker>(hours, TimeUnit.HOURS)
             .setInitialDelay(waitTime,TimeUnit.MINUTES)
             .addTag(ts)
             .setConstraints(constraints)
@@ -202,19 +203,42 @@ class PeriodRecordsController {
     fun readPeriodRecordFromDB(){
         periodRecordList = dbMgr.readPeriodRecord()
     }
-    fun formatRecordToListView():ArrayList<String>{
-        var recordList = arrayListOf<String>()
+    fun formatRecordToListView():ExpandableListViewAdapter{
+        val recordResult = ArrayList<ArrayList<MutableMap<String, String>>>()
+        val cycleList = arrayListOf<String>()
+        val recordList = arrayListOf<MutableMap<String,String>>()
+        var now = "-1"
         workIDList.clear()
         for (record in periodRecordList){
+
             val workID = record["workID"]
-            val date = record["date"]
-            val amount = record["amount"]
-            val cate = record["cate"]
-            val result = "開始日期${date}|${cate}|${amount}"
-            recordList.add(result)
+            val cycleTime = record["cycle"]
+            val info = mutableMapOf<String,String>()
+            info["cate"] = record["cate"]!!
+            info["subCate"] = record["subCate"]!!
+            info["amount"] = record["amount"]!!
+
+            if (cycleTime != now){
+                now = cycleTime!!
+                when(cycleTime){//(24, 168, 732, 8766)
+                    "24"->cycleList.add("天天想你")
+                    "168" -> cycleList.add("週而復始")
+                    "732" -> cycleList.add("月亮好圓")
+                    "8766" -> cycleList.add("又過一年")
+                }
+                if (recordList.isNotEmpty()){
+                    val temp = arrayListOf<MutableMap<String,String>>()
+                    temp.addAll(recordList)
+                    recordResult.add(temp)
+                    recordList.clear()
+                }
+            }
+            recordList.add(info)
             workIDList.add(workID!!)
+
         }
-        return recordList
+        recordResult.add(recordList)
+        return ExpandableListViewAdapter(activity, cycleList, recordResult)
     }
     fun getWorkId(index:Int):String{
         return workIDList.get(index)

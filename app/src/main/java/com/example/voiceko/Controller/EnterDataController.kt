@@ -17,6 +17,7 @@ class EnterDataController {
     private var cateWeight= arrayListOf<String>()
     private var type = "支出"
     private var budgetController= BudgetController.instance
+    private var cate = ""
     private constructor()
     public fun init(activity: Context){
         this.activity = activity
@@ -24,6 +25,7 @@ class EnterDataController {
         db = VoicekoDBContract.DBMgr(activity)
         budgetController.init(activity)
         setStateToExpense()
+        cate = ""
     }
 
     public fun setStateToIncome(){
@@ -44,7 +46,7 @@ class EnterDataController {
     }
 
     public fun updateRecord(recordID:Int,date:String, amount :Int, cate : String, subCate:String, remark:String):Boolean{
-        val result = state.saveRecord(date,amount,cate,subCate,remark)
+        val result = state.updateRecord(recordID,date,amount,cate,subCate,remark)
         budgetController.checkBudget()
         return result
     }
@@ -98,6 +100,19 @@ class EnterDataController {
         return result
     }
 
+    public fun loadSubCateList():ArrayList<String>{
+        var subCateList = arrayListOf<String>()
+        if (cate.isNotEmpty()){
+            subCateList = db.readSubCateName(cate)
+        }
+
+        return subCateList
+
+    }
+
+    public fun setCate(cate:String){
+        this.cate = cate
+    }
 
 
     companion object {

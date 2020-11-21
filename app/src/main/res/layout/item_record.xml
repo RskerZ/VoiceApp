@@ -13,39 +13,66 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/txtRecord_typename"
+            android:id="@+id/txtRecord_day"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:typeface="normal" />
 
-            android:text="類別名"
-            android:textColor="#000000" />
-
-        <TextView
-            android:id="@+id/txtRecord_amount"
+        <LinearLayout
             android:layout_width="0dp"
+            android:layout_weight="0.9"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:text="金額"
-            android:textColor="#000000" />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/txtRecord_Cate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
 
-        <TextView
-            android:id="@+id/txtRecord_subtype_remark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:textSize="17sp"
-            android:layout_weight="1"
-            android:text="子類別|備註" />
+                    android:layout_weight="1"
+                    android:text="類別名"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/txtRecord_amount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:layout_marginEnd="5sp"
+                    android:text="金額"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtRecord_subtype_remark"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:text="子類別|備註"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
