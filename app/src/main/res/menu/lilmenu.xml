@@ -17,6 +17,7 @@
     <item
         android:id="@+id/reportMenu"
         android:title="報表" />
-    <item android:title="設定"
-          android:id="@+id/setMenu"/>
+    <item
+        android:id="@+id/setMenu"
+        android:title="設定" />
 </menu>

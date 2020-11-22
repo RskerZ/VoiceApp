@@ -34,13 +34,13 @@
         android:layout_weight="0.33"
         android:padding="5dp"
         android:layout_margin="5dp"
-        app:cardBackgroundColor="#FFFFFF">
+        app:cardBackgroundColor="#FBF3CB">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFFFF"
+            android:background="#FBF3CB"
             android:orientation="vertical">
 
             <LinearLayout

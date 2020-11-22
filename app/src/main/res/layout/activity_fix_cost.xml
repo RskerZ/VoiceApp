@@ -31,13 +31,15 @@
         android:layout_height="0dp"
         android:layout_weight="0.33"
         android:layout_margin="5dp"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:background="#FBF3CB">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#FBF3CB">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +64,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:background="#FBF3CB"
-                    android:gravity="center|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:text="開始日期"
                     android:textColor="#6478A6"
                     android:textSize="15dp"
@@ -105,7 +107,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:background="#FBF3CB"
-                    android:gravity="center|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:text="金額"
                     android:textColor="#6478A6"
                     android:textSize="17dp"
@@ -149,7 +151,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:background="#FBF3CB"
-                    android:gravity="center|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:text="分類"
                     android:textColor="#6478A6"
                     android:textSize="17dp"
@@ -192,7 +194,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:background="#FBF3CB"
-                    android:gravity="center|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:text="子分類"
                     android:textColor="#6478A6"
                     android:textSize="17dp"
@@ -225,7 +227,7 @@
                 <ImageView
                     android:id="@+id/imageView9"
                     android:layout_width="0dp"
-                    android:layout_height="26dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="0.1"
                     android:background="#FBF3CB"
@@ -236,10 +238,10 @@
                 <TextView
                     android:id="@+id/fixedcost_textview5"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:background="#FBF3CB"
-                    android:gravity="center|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
                     android:text="重複週期"
@@ -280,7 +282,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:background="#FBF3CB"
-                    android:gravity="center|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:text="備註"
                     android:textColor="#6478A6"
                     android:textSize="17dp"
