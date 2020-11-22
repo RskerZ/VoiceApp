@@ -20,11 +20,9 @@ class CircleProgressBar(context: Context, attrs: AttributeSet) : View(context, a
     private var color = Color.GREEN
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
+        canvas?.drawColor(Color.parseColor("#FBF3CB"))//畫布顏色
         paint.isAntiAlias = true //消除鋸齒
-
-        val bottomColor = Color.parseColor("#C9C9C9") //設置顏色
-
+        val bottomColor = Color.parseColor("#C9C9C9") //設置畫筆顏色
         paint.color = bottomColor //設置底部顏色
 
         paint.strokeJoin = Paint.Join.ROUND //設置畫筆畫出的形狀

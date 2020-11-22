@@ -73,6 +73,7 @@ class PipChartFragment() : Fragment() {
         expandTypeList.setOnItemClickListener{ parent, view, position, id ->
             val element = expandTypeList.adapter.getItem(position) as HashMap<*, *> // The item that was clicked
         }
+
     }
 
     private fun formatDataToPieData(){
@@ -102,9 +103,9 @@ class PipChartFragment() : Fragment() {
     }
     private fun createChart(mChart: PieChart){
         // 设置 pieChart 图表基本属性
-        mChart.setUsePercentValues(false) //使用百分比显示
+        mChart.setUsePercentValues(true) //使用百分比显示
         mChart.description.isEnabled = false //设置pieChart图表的描述
-        mChart.setBackgroundColor(Color.WHITE) //设置pieChart图表背景色
+        mChart.setBackgroundColor(Color.parseColor("#FBF3CB")) //设置pieChart图表背景色
         mChart.setExtraOffsets(5f, 10f, 30f, 10f) //设置pieChart图表上下左右的偏移，类似于外边距
         mChart.dragDecelerationFrictionCoef = 0.65f //设置pieChart图表转动阻力摩擦系数[0,1]
         mChart.rotationAngle = 0f //设置pieChart图表起始角度
@@ -160,7 +161,6 @@ class PipChartFragment() : Fragment() {
         pieData.setDrawValues(true) //设置是否显示数据实体(百分比，true:以下属性才有意义)
         pieData.setValueTextColor(Color.BLACK) //设置所有DataSet内数据实体（百分比）的文本颜色
         pieData.setValueTextSize(12f) //设置所有DataSet内数据实体（百分比）的文本字体大小
-        //pieData.setValueTypeface(mTfLight) //设置所有DataSet内数据实体（百分比）的文本字体样式
         pieData.setValueFormatter(PercentFormatter()) //设置所有DataSet内数据实体（百分比）的文本字体格式
 
         mChart.data = pieData
@@ -172,7 +172,6 @@ class PipChartFragment() : Fragment() {
         //仔入的資料
         val typename = cateNames
         val amount = cateAmounts
-
         val totalAmount = cateAmounts.sum()
         totalText.text = "合計:${totalAmount}元"
         val percentage = ArrayList<String>()
@@ -181,6 +180,7 @@ class PipChartFragment() : Fragment() {
             val temp = (number/totalAmount.toFloat())*10000
             percentage.add("${temp.toInt() / 100.0F}%")
         }
+
 
 
         for (i in typename.indices){

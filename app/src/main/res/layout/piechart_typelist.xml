@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/pieChartList_typeName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="薪水收入"
@@ -21,18 +21,19 @@
 
         <TextView
             android:id="@+id/pieChartList_amount"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="1000"
             android:textColor="#000000" />
 
         <TextView
             android:id="@+id/pieChartList_percentage"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="end"
             android:text="50%"
             android:textColor="#000000" />
     </LinearLayout>
