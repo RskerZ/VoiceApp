@@ -2,6 +2,7 @@ package com.example.voiceko.chartFragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class PipChartFragment() : Fragment() {
@@ -67,7 +69,7 @@ class PipChartFragment() : Fragment() {
         setRecordList(recordData)
 
         expandTypeList.setOnItemClickListener{ parent, view, position, id ->
-            val element = expandTypeList.adapter.getItem(position) // The item that was clicked
+            val element = expandTypeList.adapter.getItem(position) as HashMap<*, *> // The item that was clicked
         }
     }
 

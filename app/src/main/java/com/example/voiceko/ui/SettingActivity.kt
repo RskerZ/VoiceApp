@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +17,9 @@ import com.example.voiceko.R
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
-    private lateinit var gofixedbtn: Button
-    private lateinit var goaddtypebtn: Button
-    private lateinit var goedittypebtn: Button
+    private lateinit var gofixedbtn: ImageView
+    private lateinit var gosetbudgetbtn: ImageView
+    private lateinit var goedittypebtn: ImageView
     private lateinit var controller:EnterDataController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +34,15 @@ class SettingActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         gofixedbtn = findViewById(R.id.setting_fixedbtn)
-        goaddtypebtn = findViewById(R.id.setting_addtypebtn)
+        gosetbudgetbtn = findViewById(R.id.setting_setbudgetbtn)
         goedittypebtn = findViewById(R.id.setting_edittypebtn)
+        gofixedbtn.setImageResource(R.drawable.fixed_money)
+        gosetbudgetbtn.setImageResource(R.drawable.budget_set)
+        goedittypebtn.setImageResource(R.drawable.edit_cate)
+
+
         gofixedbtn.setOnClickListener {goFixedCost()}
-        goaddtypebtn.setOnClickListener {goSetBudget()}
+        gosetbudgetbtn.setOnClickListener {goSetBudget()}
         goedittypebtn.setOnClickListener {goEditType()}
     }
     //返回鍵

@@ -68,8 +68,10 @@ class EnterData : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val saveBtn = findViewById<Button>(R.id.saveBtn)
+        val cancelBtn = findViewById<Button>(R.id.cancelBtn)
         if (recordID > -1){
             saveBtn.setOnClickListener(updateRecord)
+            cancelBtn.text = "刪除"
         }else{
             saveBtn.setOnClickListener(saveRecord)
         }
