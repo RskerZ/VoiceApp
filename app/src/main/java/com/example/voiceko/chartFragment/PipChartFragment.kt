@@ -49,6 +49,7 @@ class PipChartFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
+
         arguments?.takeIf { it.containsKey("type") }?.apply {
             this@PipChartFragment.type = getString("type").toString()
         }
@@ -58,8 +59,9 @@ class PipChartFragment() : Fragment() {
         totalText = view.findViewById(R.id.expand_Total)
         expandTypeList = view.findViewById(R.id.expand_typeList)
         expandMessageImage = view.findViewById(R.id.expand_message_image)
-        expandMessageImage.setImageResource(R.mipmap.koko)
         expandMessage = view.findViewById(R.id.expand_message_body)
+        expandMessageImage.setImageResource(R.drawable.voko)
+
         //載入圖表
         var mChart = view.findViewById<PieChart>(R.id.expand_PieChart)
         createChart(mChart)
