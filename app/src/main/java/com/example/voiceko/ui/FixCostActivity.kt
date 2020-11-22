@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.voiceko.Controller.PeriodRecordsController
 import com.example.voiceko.R
+import com.example.voiceko.Record
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -176,7 +177,8 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         val cate = editTextType.text.toString()
         val subCate = editTextSubType.text.toString()
         val remark = remarkEditBox.text.toString()
-        controller.savePeriodWork(date,amount,cate,subCate,remark,hours,workID)
+        val record = Record(date,amount,cate,subCate, remark)
+        controller.savePeriodWork(record,hours,workID)
     }
     private fun setDayToToday(){
         editTextDate.text = "${mYear}/${mMonth+1}/${mDay}"

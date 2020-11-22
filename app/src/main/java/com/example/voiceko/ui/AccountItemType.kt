@@ -83,7 +83,7 @@ class AccountItemType(var actname: String): Fragment(){
                 val result = controller.insertNewCate(newCate)
                 val type = controller.getType()
                 if (result == 200){
-                    msg = "以新增${newCate}至${type}"
+                    msg = "已新增${newCate}至${type}"
                 }else if (result == 300){
                     msg = "${type}已經存在:${newCate}，勿重複新增"
                 }else{

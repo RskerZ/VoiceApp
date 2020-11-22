@@ -51,7 +51,7 @@ class BudgetController private constructor() {
     fun updateBudget(cateName:String,budget:Long){
         val result = db.updateBudget(cateName,budget)
         if (result){
-            Toast.makeText(activity,"已經設定好預算囉",Toast.LENGTH_SHORT).show()
+
         }
     }
     fun checkBudget(){

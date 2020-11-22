@@ -89,7 +89,7 @@ class ChartActivity : AppCompatActivity() {
     }
     fun nextMonth(){
         if (mMonth == 12){
-            mMonth = 0
+            mMonth = 1
             mYear++
             controller.setYear(mYear.toString())
         }else{
@@ -100,7 +100,7 @@ class ChartActivity : AppCompatActivity() {
 
     fun lastMonth(){
         if (mMonth == 1){
-            mMonth = 11
+            mMonth = 12
             mYear--
             controller.setYear(mYear.toString())
         }else{

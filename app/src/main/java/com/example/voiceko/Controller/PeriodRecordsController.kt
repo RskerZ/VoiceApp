@@ -10,6 +10,7 @@ import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
 import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.PeriodRecords.PeriodReocrdsWorker
 import com.example.voiceko.R
+import com.example.voiceko.Record
 import com.example.voiceko.ui.FixCostActivity
 import com.example.voiceko.ui.MainActivity
 import java.text.SimpleDateFormat
@@ -91,33 +92,22 @@ class PeriodRecordsController {
         type = "支出"
     }
 
-    fun createPeriodRecord(
-        date: String,
-        amount: Int,
-        cate: String,
-        subCate: String,
-        remark: String,
-        hours: Long
-    ){
-        val timeToWait = calculateMinutes(date)
-        var inputData = createRecordInputData(amount, cate, subCate, remark, type)
+    fun createPeriodRecord(record: Record,hours: Long){
+        val timeToWait = calculateMinutes(record.date)
+        var inputData = createRecordInputData(record.amount, record.cate, record.subCate, record.remark, type)
         var workID = createWorkRequest(inputData, hours, timeToWait, false)
-        dbMgr.insertNewPeriodRecord(workID, hours,date, amount, cate, subCate, remark, type)
+        dbMgr.insertNewPeriodRecord(workID, hours,record, type)
     }
 
     fun modifyPeriodRecord(
-        date: String,
-        amount: Int,
-        cate: String,
-        subCate: String,
-        remark: String,
+        record: Record,
         hours: Long,
         workID : String
     ){
-        val timeToWait = calculateMinutes(date)
-        val inputData = createRecordInputData(amount, cate, subCate, remark, type)
+        val timeToWait = calculateMinutes(record.date)
+        val inputData = createRecordInputData(record.amount, record.cate, record.subCate, record.remark, type)
         createWorkRequest(inputData, hours, timeToWait, true, workID)
-        dbMgr.updatePeriodRecord( workID, hours,date, amount, cate, subCate, remark, type)
+        dbMgr.updatePeriodRecord( workID, hours,record, type)
     }
 
     fun cancelPeriodWork(workID: String){
@@ -126,17 +116,11 @@ class PeriodRecordsController {
         dbMgr.deletePeriodRecord(workID)
     }
 
-    fun savePeriodWork(date: String,
-                       amount: Int,
-                       cate: String,
-                       subCate: String,
-                       remark: String,
-                       hours: Long,
-                       workID : String? = null){
+    fun savePeriodWork(record: Record,hours: Long,workID : String? = null){
         if (isInsert){
-            createPeriodRecord(date,amount,cate, subCate, remark, hours)
+            createPeriodRecord(record, hours)
         }else{
-            modifyPeriodRecord(date,amount,cate, subCate, remark, hours,workID!!)
+            modifyPeriodRecord(record, hours,workID!!)
         }
     }
 
@@ -176,22 +160,16 @@ class PeriodRecordsController {
         manager.notify(1, notification)
     }//Notification
 
-    fun saveRecordToDB(
-        date: String,
-        amount: Int,
-        cate: String,
-        subCate: String,
-        remark: String,
-        type: String
+    fun saveRecordToDB(record:Record,type: String
     ){
         if (type == "支出"){
             enterDataController.setStateToExpense()
         }else if(type == "收入"){
             enterDataController.setStateToIncome()
         }
-        val result = enterDataController.saveRecord(date, amount, cate, subCate, remark)
+        val result = enterDataController.saveRecord(record)
         if (result){
-            createNotificationChannel(cate, amount)
+            createNotificationChannel(record.cate, record.amount)
         }
 
     }
