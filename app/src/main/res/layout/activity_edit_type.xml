@@ -34,17 +34,4 @@
     </androidx.cardview.widget.CardView>
 
 
-    <Button
-        android:id="@+id/editTypeSaveBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/buttonshape_save"
-        android:text="儲存"
-        android:textColor="#FFFFFF"
-        android:textSize="25dp" />
-
-
 </LinearLayout>
