@@ -1,13 +1,17 @@
 package com.example.voiceko.ui
 
 //import kotlinx.android.synthetic.main.activity_enter_data.*
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.voiceko.R
 import kotlinx.android.synthetic.main.lilcaculater_fragment.*
 import net.objecthunter.exp4j.ExpressionBuilder

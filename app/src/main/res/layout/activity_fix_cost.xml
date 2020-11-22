@@ -7,51 +7,43 @@
     android:background="#D9DCEA"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/fixedcost_toolbar"
             style="bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+
+            android:layout_height="0dp"
+            android:layout_weight="0.07"
             android:background="#FBF3CB"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:title="固定支出"
             app:titleTextColor="#000000">
-
             <Switch
                 android:id="@+id/fixedcost_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
-
-
         </androidx.appcompat.widget.Toolbar>
-
-
-    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
         android:layout_margin="5dp"
         android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -92,8 +84,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -135,8 +128,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -177,8 +171,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -222,8 +217,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -263,8 +259,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -317,7 +314,8 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="0.6">
 
 
         <RelativeLayout

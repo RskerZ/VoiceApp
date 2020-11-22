@@ -7,52 +7,46 @@
     android:background="#D9DCEA"
     android:orientation="vertical">
 
-    <LinearLayout
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/enter_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:background="#FBF3CB"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="支出"
+        app:titleTextColor="#6478A6">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/enter_toolbar"
-            android:layout_width="match_parent"
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FBF3CB"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:title="支出"
-            app:titleTextColor="#000000">
+            android:text="" />
 
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-
-        </androidx.appcompat.widget.Toolbar>
-
-
-    </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:padding="5dp">
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
+        app:cardBackgroundColor="#FBF3CB">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_horizontal"
+            android:layout_height="match_parent"
+            android:background="#FBF3CB"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -94,9 +88,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <ImageView
                     android:id="@+id/imageView1"
@@ -139,9 +134,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -182,9 +178,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <ImageView
                     android:id="@+id/imageView3"
@@ -228,9 +225,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <ImageView
                     android:id="@+id/imageView4"
@@ -279,10 +277,12 @@
 
     </androidx.cardview.widget.CardView>
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
 
 
         <RelativeLayout

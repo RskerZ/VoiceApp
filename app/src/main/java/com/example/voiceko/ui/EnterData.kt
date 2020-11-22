@@ -7,6 +7,7 @@ import android.text.Html
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +44,7 @@ class EnterData : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(R.layout.activity_enter_data)
 
         init()
@@ -74,7 +76,6 @@ class EnterData : AppCompatActivity() {
 
         incomeExpenseSwitch()
         setCalendartoToday()
-
 
         //工具列，設置返回鍵啟用
 
@@ -141,6 +142,7 @@ class EnterData : AppCompatActivity() {
     //日期選擇器
     private var editDate = View.OnClickListener {
         val ft = supportFragmentManager.beginTransaction()
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
         hideFragment(ft)
         ft.commit()
         DatePickerDialog(this, { _, mYear, mMonth, mDay ->
@@ -173,13 +175,18 @@ class EnterData : AppCompatActivity() {
 
         val ft = supportFragmentManager.beginTransaction()
         hideFragment(ft)
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
         ft.commit()
     }
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (currentFocus != null) {
+        if (currentFocus != null) {//關閉鍵盤
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
+        //EditText初始化
+        resetEditText(editTextSubType)
+        resetEditText(remarkEditBox)
+
         return super.dispatchTouchEvent(ev)
     }
 
@@ -212,6 +219,7 @@ class EnterData : AppCompatActivity() {
                 }
             }
         }
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         ft.addToBackStack(null)
         ft.commit()
     }
@@ -236,6 +244,12 @@ class EnterData : AppCompatActivity() {
         val inputmanager = ediText.context
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         inputmanager?.showSoftInput(ediText, 0)
+    }
+    private fun resetEditText(ediText: TextView){
+        ediText.isFocusable = false
+        ediText.isFocusableInTouchMode = false
+        ediText.requestFocus()
+        ediText.requestFocusFromTouch()
     }
     var onDetory = View.OnClickListener{
         finish()
