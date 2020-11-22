@@ -36,7 +36,7 @@ class ExpendChart: Fragment() {
         expandTypeList = activity!!.findViewById(R.id.expand_typeList)
         expandMessageImage = activity!!.findViewById(R.id.expand_message_image)
 
-        expandMessageImage.setImageResource(R.mipmap.koko)
+        expandMessageImage.setImageResource(R.drawable.voko)
         //載入圖表
         var mChart = activity!!.findViewById<PieChart>(R.id.expand_PieChart)
         createChart(mChart)

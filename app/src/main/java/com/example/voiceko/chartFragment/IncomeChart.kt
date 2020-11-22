@@ -41,7 +41,7 @@ class IncomeChart: Fragment(){
         incomeTypeList = activity!!.findViewById(R.id.income_typeList)
         incomeMessageImage = activity!!.findViewById(R.id.income_message_image)
 
-        incomeMessageImage.setImageResource(R.mipmap.koko)
+        incomeMessageImage.setImageResource(R.drawable.voko)
         //載入圖表
         var mChart = activity!!.findViewById<PieChart>(R.id.income_PieChart)
         createChart(mChart)

@@ -40,6 +40,7 @@ class EnterData : AppCompatActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enter_data)
@@ -70,6 +71,7 @@ class EnterData : AppCompatActivity() {
         editTextSubType.setOnClickListener(editSubType)
         remarkEditBox.setOnClickListener(editRemark)
         cancelBtn.setOnClickListener(onDetory)
+
         incomeExpenseSwitch()
         setCalendartoToday()
 
