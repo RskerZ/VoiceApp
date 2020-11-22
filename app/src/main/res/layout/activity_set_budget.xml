@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#FBF3CB"
     android:orientation="vertical"
     tools:context=".ui.SetBudgetActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/budget_toolbar"
-        style="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FBF3CB"
@@ -107,13 +106,13 @@
         android:id="@+id/budget_setEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FBF3CB"
+        android:gravity="center"
+        android:background="@drawable/editborder"
         android:ems="10"
         android:hint="設置本月預算"
+        android:layout_margin="10dp"
         android:inputType="number"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp" />
+         />
 
     <Button
         android:id="@+id/budget_setBtn"

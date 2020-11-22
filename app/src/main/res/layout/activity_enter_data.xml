@@ -18,7 +18,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="支出"
-        app:titleTextColor="#6478A6">
+        app:titleTextColor="#000000">
 
         <Switch
             android:id="@+id/switch1"

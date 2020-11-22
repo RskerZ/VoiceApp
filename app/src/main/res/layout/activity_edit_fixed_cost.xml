@@ -5,22 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.EditFixedCostActivity"
+    android:background="#D9DCEA"
     android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/editFixedCost_toolbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.07"
-        android:background="#FFFFFF"
+        android:background="#FBF3CB"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="固定收支">
+        app:title="固定收支"
+        app:titleTextColor="#000000">
     </androidx.appcompat.widget.Toolbar>
-    <ExpandableListView
-        android:id="@+id/editFixedCost_list"
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.93"/>
+        android:layout_weight="0.93"
+        android:padding="5dp"
+        android:layout_margin="5dp">
+
+        <ExpandableListView
+            android:id="@+id/editFixedCost_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.cardview.widget.CardView>
 
 
 </LinearLayout>
