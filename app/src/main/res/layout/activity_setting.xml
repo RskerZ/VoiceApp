@@ -21,17 +21,20 @@
         android:id="@+id/setting_setbudgetbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:src="@drawable/budget_set"
         android:text="預算編制" />
 
     <ImageView
         android:id="@+id/setting_fixedbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:src="@drawable/fixed_money"
         android:text="固定收支" />
     <ImageView
         android:id="@+id/setting_edittypebtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:src="@drawable/edit_cate"
         android:text="編輯類別" />
 
 </LinearLayout>
