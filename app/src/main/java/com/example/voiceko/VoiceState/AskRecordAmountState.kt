@@ -33,7 +33,8 @@ class AskRecordAmountState:VoiceState() {
 
             controller.setSatet(InsertNewRecordState())
         }?: kotlin.run {
-            controller.createMessage("不好意思我不明白，請問預算要要新增在支出還是收入呢?")
+            controller.createMessage("不好意思我不明白，請問總共花了多少錢呢?")
         }
+        controller.startListen()
     }
 }

@@ -15,5 +15,6 @@ class AskRecordTypeState:VoiceState() {
             controller.createMessage(askMsg)
             controller.setSatet(AskRecordSubCate())
         }
+        controller.startListen()
     }
 }

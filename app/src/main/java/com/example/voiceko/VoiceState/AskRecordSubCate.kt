@@ -6,7 +6,6 @@ class AskRecordSubCate:VoiceState() {
     override fun sendMessage(msg: String, data: VoiceResultEnity?) {
         if (msg.isNotEmpty()){
             data!!.value.add(msg)
-
             val apiConnecter = APIConnecter()
             apiConnecter.setController(controller)
             apiConnecter.execute(msg, "1")
@@ -20,6 +19,7 @@ class AskRecordSubCate:VoiceState() {
 
             controller.createMessage(askMsg)
             controller.setSatet(AskRecordAmountState())
+            controller.startListen()
         }
 
 

@@ -1,7 +1,9 @@
 package com.example.voiceko.VoiceAPI
 
 import android.os.AsyncTask
+import androidx.core.content.ContextCompat
 import com.example.voiceko.Controller.VoiceController
+import com.example.voiceko.Security.Security
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.DataOutputStream
@@ -34,10 +36,10 @@ class APIConnecter: AsyncTask<String, Float, String>() {
     }
     private fun post(text:String?,model:String?):String{
         var result=""
+
         try {
             if(text != null){
-//                val url_s = "http://158.101.142.44:5000/"
-                val url_s = "http://192.168.100.100:5000/"
+                val url_s = Security.SERVER_URL
                 val url = URL(url_s)
                 val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "POST"

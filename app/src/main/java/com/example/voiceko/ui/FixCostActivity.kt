@@ -64,7 +64,8 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
                 controller.setRecordInfoToFixCostActivity(this,workID!!)
 
             }
-            //TODO Change Button Image
+            saveBtn.text = "修改"
+            cancelBtn.text = "刪除"
         }
 
 
@@ -295,7 +296,6 @@ class FixCostActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener{
         hours = cycleTimeHours[position]
     }
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
     }
 }
 

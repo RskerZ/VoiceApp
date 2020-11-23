@@ -16,6 +16,7 @@ class InsertNewRecordState:VoiceState() {
             controller.setSatet(NormalState())
         }else{
             controller.createMessage("不好意思我不明白，請問確定要新增這筆紀錄嗎")
+            controller.startListen()
         }
     }
 }

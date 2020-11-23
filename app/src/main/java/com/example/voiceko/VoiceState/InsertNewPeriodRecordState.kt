@@ -1,9 +1,11 @@
 package com.example.voiceko.VoiceState
 
 import com.example.voiceko.VoiceAPI.VoiceResultEnity
+import java.util.*
 
-class InsertNewCategoryState:VoiceState() {
+class InsertNewPeriodRecordState:VoiceState() {
     override fun sendMessage(msg: String, data: VoiceResultEnity?) {
+
         val sure = arrayListOf<String>("確定","好","是")
         val cancel = arrayListOf<String>("不要","不確定","不好","否","不是","取消")
         if (msg in sure){
@@ -12,7 +14,7 @@ class InsertNewCategoryState:VoiceState() {
             controller.createMessage("好的已取消")
             controller.setSatet(NormalState())
         }else{
-            controller.createMessage("不好意思我不明白，請問確定要在${msg}新增一項${data!!.value[0]}嗎")
+            controller.createMessage("不好意思我不明白，請問確定要新增這筆紀錄嗎")
             controller.startListen()
         }
     }

@@ -8,6 +8,9 @@ class BudgetState:VoiceState() {
         amount?.let {
             data!!.value.add(msg)
             controller.executeCommand()
-        }?:controller.askAmountToSet()
+        }?: kotlin.run {
+            controller.createMessage("請問預算要設定為多少呢?")
+            controller.startListen()
+        }
     }
 }

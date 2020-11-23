@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FBF3CB"
-        android:minHeight="48dp"
+        android:minHeight="48sp"
         android:orientation="horizontal"
         android:visibility="invisible"
         android:gravity="center"
@@ -72,7 +72,7 @@
         android:background="#FBF3CB"
         android:minHeight="48dp"
         android:orientation="horizontal"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -103,6 +103,28 @@
             android:textSize="14dp"
             android:visibility="visible" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_mic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FBF3CB"
+        android:minHeight="48sp"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+
+        <Button
+            android:id="@+id/mic_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="48sp"
+            android:background="@drawable/mic_buttom" />
     </LinearLayout>
 
 

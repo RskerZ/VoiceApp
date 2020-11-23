@@ -11,5 +11,6 @@ class AskCategoryTypeState:VoiceState() {
             data.value.add(msg)
             controller.setSatet(InsertNewCategoryState())
         }
+        controller.startListen()
     }
 }

@@ -21,6 +21,7 @@ import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.R
 import com.example.voiceko.Record
+import kotlinx.android.synthetic.main.activity_enter_data.*
 import java.util.*
 
 
@@ -62,6 +63,8 @@ class EnterData : AppCompatActivity() {
                 recordController = RecordController.instance
                 recordController.init(this)
                 recordID = recordController.setRecordInfoToEnterData(this,index)
+                saveBtn.text = "修改"
+                cancelBtn.text = "刪除"
 
             }
 

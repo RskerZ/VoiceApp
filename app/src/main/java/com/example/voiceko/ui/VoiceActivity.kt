@@ -1,5 +1,6 @@
 package com.example.voiceko.ui
 
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -18,6 +19,8 @@ import com.example.voiceko.Controller.VoiceController
 import com.example.voiceko.Message.MessageListAdapter
 import com.example.voiceko.Message.UserMessage
 import com.example.voiceko.R
+import com.example.voiceko.ReListener
+import com.example.voiceko.VoiceState.NormalState
 import kotlinx.android.synthetic.main.activity_voice.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,6 +34,9 @@ class VoiceActivity : AppCompatActivity() {
     private lateinit var mEditText: EditText
     private lateinit var mSendBtn: Button
     private lateinit var toolbar: Toolbar
+    private lateinit var micBtn:Button
+    private lateinit var micLayout: LinearLayout
+
 
     private var messageList = mutableListOf<UserMessage>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,10 +47,13 @@ class VoiceActivity : AppCompatActivity() {
         mEditText = findViewById(R.id.edittext_chatbox)
         mSendBtn = findViewById(R.id.button_chatbox_send)
         toolbar = findViewById(R.id.voice_toolbar)
-        mSendBtn.setOnClickListener(sendText)
+        mSendBtn.setOnClickListener(sendListener)
         dotLayout = findViewById<LinearLayout>(R.id.layout_dot)
-        enterMessageLayout = findViewById(R.id.layout_chatbox)
+        micBtn=findViewById(R.id.mic_button)
+        micLayout = findViewById(R.id.layout_mic)
+        micBtn.setOnClickListener(startListener)
 
+        enterMessageLayout = findViewById(R.id.layout_chatbox)
         mMessageRecycler = findViewById(R.id.reyclerview_message_list)
         mMessageAdapter = MessageListAdapter(this, messageList)
         mMessageRecycler.layoutManager = LinearLayoutManager(this)
@@ -62,14 +71,24 @@ class VoiceActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    var sendText = View.OnClickListener {
+    var sendListener = View.OnClickListener {
         if(mEditText.text.toString() != "") {
             val msg = mEditText.text.toString()
-            makeMyMessage(msg)
-            mEditText.setText("")
-            controller.sendMessage(msg)
+            sentText(msg)
         }
     }
+
+    var startListener = View.OnClickListener{
+        controller.startListen()
+
+    }
+
+    public fun sentText(msg:String){
+        makeMyMessage(msg)
+        mEditText.setText("")
+    }
+
+
     public fun makeMyMessage(text: String){
         var message: UserMessage = UserMessage()
         message.createdAt = System.currentTimeMillis()
@@ -85,11 +104,18 @@ class VoiceActivity : AppCompatActivity() {
         mMessageRecycler.adapter = mMessageAdapter
     }
     public fun showDot(){
-        enterMessageLayout.visibility = INVISIBLE
+        micLayout.visibility = INVISIBLE
         dotLayout.visibility = VISIBLE
     }
     public fun hideDot(){
-        enterMessageLayout.visibility = VISIBLE
+        micLayout.visibility = VISIBLE
         dotLayout.visibility = INVISIBLE
     }
+
+    override fun onDestroy() {
+
+        controller.setSatet(NormalState())
+        super.onDestroy()
+    }
+
 }
