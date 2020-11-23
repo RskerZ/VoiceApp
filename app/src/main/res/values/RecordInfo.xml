@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="recordInfoFormat">
+        %1$s
+        日期:%2$s
+        金額:%3$s
+        分類:%4$s
+        子分類:%3$s
+    </string>
+</resources>

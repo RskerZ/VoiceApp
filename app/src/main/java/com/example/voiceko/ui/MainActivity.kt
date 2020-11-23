@@ -1,6 +1,7 @@
 package com.example.voiceko.ui
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.AlarmClock
 import android.view.MenuItem
@@ -10,6 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
+        checkAudioPremisson()
         // 設定右上角的 menu
         toolbar.inflateMenu(R.menu.selectmonth)
         toolbar.setOnClickListener(editDate)
@@ -63,6 +67,16 @@ class MainActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         loadInfo()
+    }
+    private fun checkAudioPremisson(){
+        val permissioncheck = ContextCompat.checkSelfPermission(this,android.Manifest.permission.RECORD_AUDIO)
+        if (permissioncheck != PackageManager.PERMISSION_GRANTED){
+            askMicPermission()
+        }
+    }
+
+    private fun askMicPermission(){
+        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), 100)
     }
 
 

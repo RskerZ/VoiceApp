@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import com.example.voiceko.R
 
 class ExpandableListViewAdapter(private val context: Context,
@@ -68,6 +69,7 @@ class ExpandableListViewAdapter(private val context: Context,
         amountTextView.text = context.getString(R.string.dollarSign,amount)
         subtypeRemarkTextView.text = Records[groupPosition][childPosition].get("subCate")
 //        dayTextView.text =  Records[groupPosition][childPosition].get("day")
+        dayTextView.setBackgroundResource(R.drawable.home_menu)
         return view
     }
 

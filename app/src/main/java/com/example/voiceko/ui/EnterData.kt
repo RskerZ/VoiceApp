@@ -20,6 +20,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.R
+import com.example.voiceko.Record
+import kotlinx.android.synthetic.main.activity_enter_data.*
 import java.util.*
 
 
@@ -62,6 +64,8 @@ class EnterData : AppCompatActivity() {
                 recordController = RecordController.instance
                 recordController.init(this)
                 recordID = recordController.setRecordInfoToEnterData(this,index)
+                saveBtn.text = "修改"
+                cancelBtn.text = "刪除"
 
             }
 
@@ -172,8 +176,9 @@ class EnterData : AppCompatActivity() {
         val cate = editTextType.text.toString()
         val subCate = editTextSubType.text.toString()
         val remark = remarkEditBox.text.toString()
+        val record = Record(date,amount,cate,subCate, remark)
 
-        val result = controller.saveRecord(date, amount, cate, subCate, remark)
+        val result = controller.saveRecord(record)
 
         if (result){
             editTextDate.text = ""
@@ -194,8 +199,9 @@ class EnterData : AppCompatActivity() {
         val cate = editTextType.text.toString()
         val subCate = editTextSubType.text.toString()
         val remark = remarkEditBox.text.toString()
+        val record = Record(date,amount,cate,subCate, remark)
 
-        val result = controller.updateRecord(recordID,date, amount, cate, subCate, remark)
+        val result = controller.updateRecord(recordID,record)
 
         if (result){
             editTextDate.text = ""

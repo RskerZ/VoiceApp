@@ -6,6 +6,7 @@ import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.EnterState.EnterExpense
 import com.example.voiceko.EnterState.EnterIncome
 import com.example.voiceko.EnterState.EnterState
+import com.example.voiceko.Record
 import com.example.voiceko.ui.AccountItemType
 
 class EnterDataController {
@@ -39,14 +40,14 @@ class EnterDataController {
 
     }
 
-    public fun saveRecord(date:String, amount :Int, cate : String, subCate:String, remark:String):Boolean{
-        val result = state.saveRecord(date,amount,cate,subCate,remark)
+    public fun saveRecord(record:Record):Boolean{
+        val result = state.saveRecord(record)
         budgetController.checkBudget()
         return result
     }
 
-    public fun updateRecord(recordID:Int,date:String, amount :Int, cate : String, subCate:String, remark:String):Boolean{
-        val result = state.updateRecord(recordID,date,amount,cate,subCate,remark)
+    public fun updateRecord(recordID:Int,record:Record):Boolean{
+        val result = state.updateRecord(recordID, record)
         budgetController.checkBudget()
         return result
     }

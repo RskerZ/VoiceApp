@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import java.time.Month
+import com.example.voiceko.Record
 
 object VoicekoDBContract {
     private object ConsumptionRecordEntry: BaseColumns{
@@ -190,20 +190,20 @@ object VoicekoDBContract {
             voiceKoDbHelper.close()
         }
 
-        public fun writeRecord(date:String, amount :Int, cate : String, sub_cate:String, remark:String, type:String):Boolean{
+        public fun writeRecord(record: Record, type:String):Boolean{
             try {
                 var db = voiceKoDbHelper.writableDatabase
                 var values = ContentValues()
-                values.put(ConsumptionRecordEntry.COLUMN_DATE,date)
-                values.put(ConsumptionRecordEntry.COLUMN_AMOUNT,amount)
-                values.put(ConsumptionRecordEntry.COLUMN_CATEGORY,cate)
-                values.put(ConsumptionRecordEntry.COLUMN_SUB_CATEGORY,sub_cate)
-                values.put(ConsumptionRecordEntry.COLUMN_REMARKS,remark)
+                values.put(ConsumptionRecordEntry.COLUMN_DATE,record.date)
+                values.put(ConsumptionRecordEntry.COLUMN_AMOUNT,record.amount)
+                values.put(ConsumptionRecordEntry.COLUMN_CATEGORY,record.cate)
+                values.put(ConsumptionRecordEntry.COLUMN_SUB_CATEGORY,record.subCate)
+                values.put(ConsumptionRecordEntry.COLUMN_REMARKS,record.remark)
                 values.put(ConsumptionRecordEntry.COLUMN_TYPE, type)
                 db.insert(ConsumptionRecordEntry.TABLE_NAME,null,values)
                 this.closeDB()
-                if (!subCateIsExist(sub_cate,cate)){
-                    insertNewSubCategory(sub_cate,cate)
+                if (!subCateIsExist(record.subCate,record.cate)){
+                    insertNewSubCategory(record.subCate,record.cate)
                 }
 
                 return true
@@ -261,15 +261,15 @@ object VoicekoDBContract {
             return records
         }
 
-        public fun updateRecord(recordID:Int,date:String, amount :Int, cate : String, sub_cate:String, remark:String, type:String):Boolean{
+        public fun updateRecord(recordID:Int,record: Record, type:String):Boolean{
             try {
                 var db = voiceKoDbHelper.writableDatabase
                 var values = ContentValues()
-                values.put(ConsumptionRecordEntry.COLUMN_DATE,date)
-                values.put(ConsumptionRecordEntry.COLUMN_AMOUNT,amount)
-                values.put(ConsumptionRecordEntry.COLUMN_CATEGORY,cate)
-                values.put(ConsumptionRecordEntry.COLUMN_SUB_CATEGORY,sub_cate)
-                values.put(ConsumptionRecordEntry.COLUMN_REMARKS,remark)
+                values.put(ConsumptionRecordEntry.COLUMN_DATE,record.date)
+                values.put(ConsumptionRecordEntry.COLUMN_AMOUNT,record.amount)
+                values.put(ConsumptionRecordEntry.COLUMN_CATEGORY,record.cate)
+                values.put(ConsumptionRecordEntry.COLUMN_SUB_CATEGORY,record.subCate)
+                values.put(ConsumptionRecordEntry.COLUMN_REMARKS,record.remark)
                 values.put(ConsumptionRecordEntry.COLUMN_TYPE, type)
                 val selection = "_id = ${recordID}"
 
@@ -534,17 +534,17 @@ object VoicekoDBContract {
             }
         }
 
-        public fun insertNewPeriodRecord(workID:String,cycle:Long,date:String, amount :Int, cate : String, sub_cate:String, remark:String, type:String):Boolean{
+        public fun insertNewPeriodRecord(workID:String,cycle:Long,record:Record, type:String):Boolean{
             try {
                 var db = voiceKoDbHelper.writableDatabase
                 var values = ContentValues()
                 values.put(PeriodRecordsTypeEntry.COLUMN_WORKID, workID)
                 values.put(PeriodRecordsTypeEntry.COLUMN_CYCLE, cycle)
-                values.put(PeriodRecordsTypeEntry.COLUMN_DATE,date)
-                values.put(PeriodRecordsTypeEntry.COLUMN_AMOUNT,amount)
-                values.put(PeriodRecordsTypeEntry.COLUMN_CATEGORY,cate)
-                values.put(PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY,sub_cate)
-                values.put(PeriodRecordsTypeEntry.COLUMN_REMARKS,remark)
+                values.put(PeriodRecordsTypeEntry.COLUMN_DATE,record.date)
+                values.put(PeriodRecordsTypeEntry.COLUMN_AMOUNT,record.amount)
+                values.put(PeriodRecordsTypeEntry.COLUMN_CATEGORY,record.cate)
+                values.put(PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY,record.subCate)
+                values.put(PeriodRecordsTypeEntry.COLUMN_REMARKS,record.remark)
                 values.put(PeriodRecordsTypeEntry.COLUMN_TYPE, type)
                 db.insert(PeriodRecordsTypeEntry.TABLE_NAME,null,values)
                 this.closeDB()
@@ -608,16 +608,16 @@ object VoicekoDBContract {
             return periodRecordsList
         }
 
-        public fun updatePeriodRecord(workID:String,cycle:Long,date:String, amount :Int, cate : String, sub_cate:String, remark:String, type:String):Boolean{
+        public fun updatePeriodRecord(workID:String,cycle:Long,record: Record, type:String):Boolean{
             try {
                 var db = voiceKoDbHelper.writableDatabase
                 var values = ContentValues()
                 values.put(PeriodRecordsTypeEntry.COLUMN_CYCLE, cycle)
-                values.put(PeriodRecordsTypeEntry.COLUMN_DATE,date)
-                values.put(PeriodRecordsTypeEntry.COLUMN_AMOUNT,amount)
-                values.put(PeriodRecordsTypeEntry.COLUMN_CATEGORY,cate)
-                values.put(PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY,sub_cate)
-                values.put(PeriodRecordsTypeEntry.COLUMN_REMARKS,remark)
+                values.put(PeriodRecordsTypeEntry.COLUMN_DATE,record.date)
+                values.put(PeriodRecordsTypeEntry.COLUMN_AMOUNT,record.amount)
+                values.put(PeriodRecordsTypeEntry.COLUMN_CATEGORY,record.cate)
+                values.put(PeriodRecordsTypeEntry.COLUMN_SUB_CATEGORY,record.subCate)
+                values.put(PeriodRecordsTypeEntry.COLUMN_REMARKS,record.remark)
                 values.put(PeriodRecordsTypeEntry.COLUMN_TYPE, type)
                 val selection = "${PeriodRecordsTypeEntry.COLUMN_WORKID} = ?"
                 val selectionArgs = arrayOf(workID)
