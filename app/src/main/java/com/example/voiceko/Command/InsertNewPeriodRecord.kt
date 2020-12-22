@@ -18,9 +18,9 @@ class InsertNewPeriodRecord(context: Context):functionCommand(context) {
             val mMonth = c.get(Calendar.MONTH)
             val mDay = c.get(Calendar.DAY_OF_MONTH)
             val date = "${mYear}/${mMonth+1}/${mDay}"
-            val subCate = data.value[1]
-            val cate = data.value[2]
-            val amount = data.value[0]
+            val subCate = data.value[0]
+            val cate = data.value[1]
+            val amount = data.value[2]
             val hour = data.value[3].toLong()
             controller.changeTypeToExpense()
             val record = Record(date, amount.toInt(),cate,subCate,"")

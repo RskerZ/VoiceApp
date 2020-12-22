@@ -748,6 +748,45 @@ object VoicekoDBContract {
             this.closeDB()
             return eachCateAmount
         }
+
+        public fun readExpandAmount():ArrayList<Int>{
+            var db = voiceKoDbHelper.readableDatabase
+            var projection = arrayOf(BaseColumns._ID,
+                ConsumptionRecordEntry.COLUMN_AMOUNT
+            )
+            val order = ConsumptionRecordEntry.COLUMN_AMOUNT
+
+            val selection = "${ConsumptionRecordEntry.COLUMN_TYPE}=?"
+            val selectionArg = arrayOf("支出")
+
+            val cursor = db.query(
+                ConsumptionRecordEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArg,
+                null,
+                null,
+                order
+            )
+            val totalAmount = arrayListOf<Int>()
+            with(cursor) {
+                while (moveToNext()) {
+                    val recordAmount = getInt(getColumnIndexOrThrow(ConsumptionRecordEntry.COLUMN_AMOUNT))
+                    val amount = recordAmount
+
+                    totalAmount.add(amount)
+                }
+            }
+            this.closeDB()
+            if (totalAmount.size > 3){
+                totalAmount.removeAt(0)
+                totalAmount.removeAt(totalAmount.size-1)
+            }
+            return totalAmount
+        }
+
+
+
     }
 
 }

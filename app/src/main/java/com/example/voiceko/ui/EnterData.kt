@@ -59,16 +59,14 @@ class EnterData : AppCompatActivity() {
         init()
 
         if (intent.hasExtra(EXTRA_MESSAGE)){
-            val index =intent.getIntExtra(EXTRA_MESSAGE,-1)
-            if (index > -1){
+            val id =intent.getStringExtra(EXTRA_MESSAGE)
+            id?.let {
                 recordController = RecordController.instance
                 recordController.init(this)
-                recordID = recordController.setRecordInfoToEnterData(this,index)
+                recordID = recordController.setRecordInfoToEnterData(this,id)
                 saveBtn.text = "修改"
                 cancelBtn.text = "刪除"
-
             }
-
         }
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)

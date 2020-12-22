@@ -38,6 +38,7 @@ class VoiceActivity : AppCompatActivity() {
     private lateinit var micLayout: LinearLayout
 
 
+
     private var messageList = mutableListOf<UserMessage>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,16 +53,21 @@ class VoiceActivity : AppCompatActivity() {
         micBtn=findViewById(R.id.mic_button)
         micLayout = findViewById(R.id.layout_mic)
         micBtn.setOnClickListener(startListener)
+        dotLayout.setOnClickListener(stopListener)
 
         enterMessageLayout = findViewById(R.id.layout_chatbox)
         mMessageRecycler = findViewById(R.id.reyclerview_message_list)
         mMessageAdapter = MessageListAdapter(this, messageList)
-        mMessageRecycler.layoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        mMessageRecycler.layoutManager = linearLayoutManager
+
         mMessageRecycler.adapter = mMessageAdapter
 
         //工具列，設置返回鍵啟用
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        controller.createMessage("請問你需要什麼幫忙?")
+        controller.startListen()
     }
     //返回鍵
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -80,10 +86,14 @@ class VoiceActivity : AppCompatActivity() {
 
     var startListener = View.OnClickListener{
         controller.startListen()
-
+    }
+    var stopListener = View.OnClickListener {
+        controller.stopListen()
     }
 
     public fun sentText(msg:String){
+//
+
         makeMyMessage(msg)
         mEditText.setText("")
     }
@@ -102,18 +112,20 @@ class VoiceActivity : AppCompatActivity() {
         messageList.add(message)
         mMessageAdapter = MessageListAdapter(this, messageList)
         mMessageRecycler.adapter = mMessageAdapter
+        mMessageRecycler.scrollToPosition(messageList.size-1)
     }
     public fun showDot(){
         micLayout.visibility = INVISIBLE
+//        enterMessageLayout.visibility = INVISIBLE
         dotLayout.visibility = VISIBLE
     }
     public fun hideDot(){
         micLayout.visibility = VISIBLE
+//        enterMessageLayout.visibility = VISIBLE
         dotLayout.visibility = INVISIBLE
     }
 
     override fun onDestroy() {
-
         controller.setSatet(NormalState())
         super.onDestroy()
     }

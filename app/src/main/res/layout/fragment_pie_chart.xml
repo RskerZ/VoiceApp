@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FBF3CB"
@@ -29,8 +30,7 @@
         android:layout_weight="0.35"
         android:background="#FBF3CB" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
-            android:text="重臣醬"
+            android:text="VoiceKo"
             android:textSize="18sp"
             app:layout_constraintLeft_toRightOf="@+id/expand_message_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +66,7 @@
             android:background="@drawable/rounded_rectangle_blue"
             android:maxWidth="240dp"
             android:padding="8dp"
-            android:text="hi man, how are you?"
+            android:text="以上是你這個月的收支狀況呦~"
             android:textColor="#ffffff"
             app:layout_constraintLeft_toRightOf="@+id/expand_message_image"
             app:layout_constraintTop_toBottomOf="@+id/expand_message_name" />

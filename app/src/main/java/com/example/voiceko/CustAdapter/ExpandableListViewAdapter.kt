@@ -36,6 +36,10 @@ class ExpandableListViewAdapter(private val context: Context,
         return (groupPosition * 100 + childPosition).toLong()
     }
 
+    fun getrecordID(groupPosition: Int, childPosition: Int):String{
+        return Records[groupPosition][childPosition].get("id")!!
+    }
+
     override fun hasStableIds(): Boolean {
         return true
     }
@@ -59,17 +63,30 @@ class ExpandableListViewAdapter(private val context: Context,
         convertView: View?,
         parent: ViewGroup?
     ): View {
+        val record = Records[groupPosition][childPosition]
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_record, null)
         val typeTextView = view.findViewById<TextView>(R.id.txtRecord_Cate)
         val amountTextView = view.findViewById<TextView>(R.id.txtRecord_amount)
         val subtypeRemarkTextView = view.findViewById<TextView>(R.id.txtRecord_subtype_remark)
-        val dayTextView = view.findViewById<TextView>(R.id.txtRecord_day)
-        val amount = Records[groupPosition][childPosition].get("amount")
-        typeTextView.text = Records[groupPosition][childPosition].get("cate")
+        val recordType = view.findViewById<TextView>(R.id.txtRecordType)
+        val amount = record.get("amount")
+        val type = record.get("type")
+        if (record.get("subCate")!!.isNotEmpty()){
+            typeTextView.text = record.get("subCate")
+            subtypeRemarkTextView.text =record.get("cate")
+        }else{
+            typeTextView.text =record.get("cate")
+            subtypeRemarkTextView.text=""
+        }
+
         amountTextView.text = context.getString(R.string.dollarSign,amount)
-        subtypeRemarkTextView.text = Records[groupPosition][childPosition].get("subCate")
 //        dayTextView.text =  Records[groupPosition][childPosition].get("day")
-        dayTextView.setBackgroundResource(R.drawable.home_menu)
+        if (type == "支出"){
+            recordType.foreground = getDrawable(context,R.drawable.down_cost)
+        }else{
+            recordType.foreground = getDrawable(context,R.drawable.up_cost)
+        }
+
         return view
     }
 

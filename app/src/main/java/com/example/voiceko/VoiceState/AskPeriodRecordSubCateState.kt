@@ -11,8 +11,8 @@ class AskPeriodRecordSubCateState:VoiceState() {
         apiConnecter.setController(controller)
         apiConnecter.execute(msg, "1")
 
-        controller.createMessage("請問要設定多久一次呢?")
-        controller.setSatet(AskPeriodRecordCycleState())
+        controller.createMessage("請問要設定多少錢呢?")
+        controller.setSatet(AskPeriodRecordAmountState())
         controller.startListen()
 
     }

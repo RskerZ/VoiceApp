@@ -4,7 +4,8 @@ import com.example.voiceko.VoiceAPI.VoiceResultEnity
 
 class BudgetState:VoiceState() {
     override fun sendMessage(msg: String, data: VoiceResultEnity?) {
-        val amount = msg.toIntOrNull()
+        val amountPattern = Regex("""\d+""")
+        val amount = amountPattern.find(msg)?.value
         amount?.let {
             data!!.value.add(msg)
             controller.executeCommand()

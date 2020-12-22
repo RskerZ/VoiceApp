@@ -46,6 +46,10 @@ class RecordController {
         recordList = dbmgr.readRecord()
     }
 
+    public fun test(){
+        dbmgr.readExpandAmount()
+    }
+
     public fun loadRecordList(mYear:Int,mMonth:Int): ExpandableListViewAdapter {
         reloadRecord()
         val datePattern = Regex("^${mYear}/${mMonth}/")
@@ -60,10 +64,12 @@ class RecordController {
             if (datePattern.containsMatchIn(record["Date"]!!)){
                 val day = dayPattern.find(record["Date"].toString())!!.value
                 val info = mutableMapOf<String,String>()
+                info["id"] = record["ID"]!!
                 info["day"] = day
                 info["cate"] = record["Category"]!!
                 info["subCate"] = record["SubCategory"]!!
                 info["amount"] = record["Amount"]!!
+                info["type"] = record["Type"]!!
 
                 if (day != nowday){
                     DataResult.add(record["Date"].toString())
@@ -99,16 +105,18 @@ class RecordController {
         return incomeAmount
     }
 
-    public fun setRecordInfoToEnterData(activity: EnterData, index: Int):Int{
-        val record = recordList[index]
-        activity.setType(record["Type"]!!)
-        activity.setDate(record["Date"]!!)
-        activity.setAmount(record["Amount"]!!)
-        activity.setCate(record["Category"]!!)
-        activity.setSubCate(record["SubCategory"]!!)
-        activity.setRemark(record["Remark"]!!)
-
-        return record["ID"]!!.toInt()
+    public fun setRecordInfoToEnterData(activity: EnterData, id: String):Int{
+        for(record in recordList){
+            if (record.get("ID")!! == id){
+                activity.setType(record["Type"]!!)
+                activity.setDate(record["Date"]!!)
+                activity.setAmount(record["Amount"]!!)
+                activity.setCate(record["Category"]!!)
+                activity.setSubCate(record["SubCategory"]!!)
+                activity.setRemark(record["Remark"]!!)
+            }
+        }
+        return id.toInt()
     }
 
 

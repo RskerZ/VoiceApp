@@ -21,7 +21,6 @@ class ReListener(): RecognitionListener {
     }
 
     override fun onRmsChanged(rmsdB: Float) {
-        Log.i("RMS", "onRmsChanged:{$rmsdB}")
     }
 
     override fun onBufferReceived(buffer: ByteArray?) {
@@ -29,7 +28,7 @@ class ReListener(): RecognitionListener {
     }
 
     override fun onEndOfSpeech() {
-        controller.doneProcess()
+
     }
 
     override fun onError(error: Int) {
@@ -49,6 +48,7 @@ class ReListener(): RecognitionListener {
             }
         }
         controller.createMessage(msg)
+        controller.doneProcess()
     }
 
     override fun onResults(results: Bundle?) {

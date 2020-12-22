@@ -30,7 +30,18 @@ class CharController private constructor() {
     fun loadEachCateAmountFromDB(type:String){
         eachCateAmount = dbMgr.readEachCateAmount(type,year,month)
     }
+    fun getHighestCost(){
+        var max = 0
+        var cateName = ""
+        for(cate in eachCateAmount){
+            if (cate["amount"]!!.toInt() > max){
+                max = cate["amount"]!!.toInt()
+                cateName = cate["cate"].toString()
+            }
+        }
+    }
     fun getEachCateAmount(): ArrayList<MutableMap<String,String>>{
         return eachCateAmount
     }
+
 }

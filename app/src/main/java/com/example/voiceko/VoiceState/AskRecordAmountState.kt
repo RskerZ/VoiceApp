@@ -5,9 +5,10 @@ import java.util.*
 
 class AskRecordAmountState:VoiceState() {
     override fun sendMessage(msg: String, data: VoiceResultEnity?) {
-        val amount = msg.toIntOrNull()
+        val amountPattern = Regex("""\d+""")
+        val amount = amountPattern.find(msg)?.value
         amount?.let {
-            data!!.value.add(msg)
+            data!!.value.add(amount)
             controller.createMessage("確定要新增這筆紀錄嗎")
             val c = Calendar.getInstance()
             val mYear = c.get(Calendar.YEAR)
@@ -15,8 +16,8 @@ class AskRecordAmountState:VoiceState() {
             val mDay = c.get(Calendar.DAY_OF_MONTH)
             val type = data.value[0]
             val date = "${mYear}/${mMonth+1}/${mDay}"
-            val subCate = data.value[2]
-            val cate = data.value[1]
+            val subCate = data.value[1]
+            val cate = data.value[2]
             val amount = data.value[3]
             val recordInfo =
                 """

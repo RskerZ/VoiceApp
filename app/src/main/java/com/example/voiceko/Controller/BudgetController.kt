@@ -3,6 +3,7 @@ package com.example.voiceko.Controller
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.widget.Toast
 import com.example.voiceko.DataBase.VoicekoDBContract
 import com.example.voiceko.R
@@ -55,10 +56,12 @@ class BudgetController private constructor() {
         }
     }
     fun checkBudget(){
-        if (lessPercentage < 0.1){
-            createNotifaction("這個月的預算已經快見底囉，該注意花費了呢。")
-        }else if (lessPercentage <= 0.0){
-            createNotifaction("哎呀呀，這個月支出超出預算啦，下個月要好好規劃囉。")
+        if (budget>0){
+            if (lessPercentage < 0.1 && lessPercentage > 0.0){
+                createNotifaction("這個月的預算已經只剩${lessPercentage*100}%囉，該注意花費了呢。")
+            }else if (lessPercentage <= 0.0){
+                createNotifaction("哎呀呀，這個月支出超出預算啦，下個月要好好規劃囉。")
+            }
         }
     }
     fun createNotifaction(msg:String){
@@ -72,8 +75,11 @@ class BudgetController private constructor() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(activity, 0, intent, 0)
-        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setSmallIcon(R.drawable.voko)
             .setContentTitle("預算通知")
+            .setLargeIcon(
+                BitmapFactory.decodeResource(activity.getResources(),
+                R.mipmap.ic_launcher))
             .setContentText(msg)
             .setContentIntent(pendingIntent)
             .setCategory(Notification.CATEGORY_EVENT)

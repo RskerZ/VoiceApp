@@ -19,7 +19,7 @@ class APIConnecter: AsyncTask<String, Float, String>() {
         this.controller = controller
     }
     override fun onPreExecute() {
-        controller.startProcess()
+
     }
     override fun doInBackground(vararg params: String?): String {
         var result ="NONE"
@@ -32,7 +32,6 @@ class APIConnecter: AsyncTask<String, Float, String>() {
 
     override fun onPostExecute(result: String?) {
         controller.formatResult(result!!)
-        controller.doneProcess()
     }
     private fun post(text:String?,model:String?):String{
         var result=""
@@ -88,7 +87,6 @@ class APIConnecter: AsyncTask<String, Float, String>() {
             Logger.getLogger("API connect").warning(e.toString())
             result = "{\"Error\":\"API connection fail\"}"
         }
-
         return result
 
     }

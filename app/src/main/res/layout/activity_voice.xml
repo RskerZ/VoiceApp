@@ -110,10 +110,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FBF3CB"
+        android:gravity="center"
         android:minHeight="48sp"
         android:orientation="horizontal"
         android:visibility="visible"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -123,8 +123,8 @@
             android:id="@+id/mic_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="48sp"
-            android:background="@drawable/mic_buttom" />
+            android:background="@drawable/mic_buttom"
+            android:minWidth="48sp" />
     </LinearLayout>
 
 

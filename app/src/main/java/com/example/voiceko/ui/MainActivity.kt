@@ -1,7 +1,11 @@
 package com.example.voiceko.ui
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.provider.AlarmClock
 import android.view.MenuItem
@@ -18,6 +22,7 @@ import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
 import com.example.voiceko.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.text.FieldPosition
 import java.util.*
 
 
@@ -50,19 +55,40 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.menu.setGroupCheckable(0, false, false)
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomBarListener)
         recordList.setOnChildClickListener{ parent, v, groupPosition, childPosition, id ->
-            val recordIndex =childPosition + groupPosition
+            val recordID = recordListAdapter.getrecordID(groupPosition,childPosition)
             val intent = Intent(this,EnterData::class.java).apply {
-                putExtra(AlarmClock.EXTRA_MESSAGE, recordIndex)
+                putExtra(AlarmClock.EXTRA_MESSAGE, recordID)
             }
             startActivity(intent)
             true
         }
 
+        createShortCuts()
         //載入記帳紀錄
         loadInfo()
+        controller.test()
 
     }
+    fun createShortCuts(){
+        val shortcutManager = getSystemService<ShortcutManager>(ShortcutManager::class.java)
+        val intent = Intent(this,VoiceActivity::class.java)
+        intent.action = Intent.ACTION_VIEW
+        val shortcut = ShortcutInfo.Builder(this, "VoiceShortCuts")
+            .setIcon(Icon.createWithResource(this,R.drawable.voko))
+            .setShortLabel("語音記帳")
+            .setLongLabel("開始語音記帳")
+            .setIntent(intent)
+            .build()
 
+        shortcutManager!!.dynamicShortcuts = Arrays.asList(shortcut)
+    }
+    fun getChildCounts(position: Int):Int{
+        var count= 0
+        for (i in 0..position){
+            count+=recordListAdapter.getChildrenCount(i)
+        }
+        return count
+    }
 
     override fun onRestart() {
         super.onRestart()

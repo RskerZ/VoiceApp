@@ -95,4 +95,5 @@ class AccountItemType(var actname: String): Fragment(){
         val dialog = builder.create()
         return dialog
     }
+
 }

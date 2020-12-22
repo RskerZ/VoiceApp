@@ -37,12 +37,15 @@ class VoiceController private constructor() {
         state.sendMessage(msg,data)
     }
     fun createMessage(msg:String){
-        var message: UserMessage = UserMessage()
-        message.createdAt = System.currentTimeMillis()
-        message.message = msg
-        message.nickname = "VoiceKo"
-        message.id = 2
-        voiceActivity.addMessage(message)
+        if (msg.length>1){
+            var message: UserMessage = UserMessage()
+            message.createdAt = System.currentTimeMillis()
+            message.message = msg
+            message.nickname = "VoiceKo"
+            message.id = 2
+            voiceActivity.addMessage(message)
+            doneProcess()
+        }
     }
 
     fun startProcess(){
@@ -71,20 +74,46 @@ class VoiceController private constructor() {
         when(detectResult){
             "account" -> {
                 command = InsertNewRecord(voiceActivity)
-                createMessage("請問要新增在支出還是收入呢?")
-                state = AskRecordTypeState()
+                createMessage("這次買了什麼呢?")
+                state = AskRecordSubCate()
                 executeMsg = "已經成功新增囉"
 
             }
+            "income" -> {
+                command = InsertNewRecord(voiceActivity)
+                createMessage("怎麼賺的呢?")
+                state = AskRecordSubCate()
+                executeMsg = "已經成功新增囉"
+            }
+            "account_cate" -> {
+                command = InsertNewRecord(voiceActivity)
+                executeMsg = "已經成功新增囉"
+                if (data!!.value.size > 3){
+                    return true
+                }
+                createMessage("請問花了多少錢呢?")
+                state = AskRecordAmountState()
+            }
+            "income_cate" -> {
+                command = InsertNewRecord(voiceActivity)
+                executeMsg = "已經成功新增囉"
+                if (data!!.value.size > 3){
+                    return true
+                }
+                createMessage("請問賺了多少錢呢?")
+                state = AskRecordAmountState()
+            }
             "budget"->  {
+                executeMsg = "已經幫你設定好預算囉"
                 command = SetBudget(voiceActivity)
                 if(data!!.value.isEmpty()){
                     state = BudgetState()
                     createMessage("請問預算要設定為多少呢?")
                 }else{
-                    executeMsg = "已經幫你設定好預算囉"
+
                     return true
                 }
+
             }
             "category"-> {
                 command = InsertNewCategory(voiceActivity)
@@ -94,12 +123,10 @@ class VoiceController private constructor() {
             "fixed"-> {
                 command = InsertNewPeriodRecord(voiceActivity)
                 if (data!!.value.isEmpty()){
-                    createMessage("請問要設定多少錢呢?")
-                    state = AskPeriodRecordAmountState()
-                }else{
                     createMessage("請問是買甚麼東西的固定支出呢?")
                     state = AskPeriodRecordSubCateState()
                 }
+                executeMsg = "已經成功新增囉"
             }
             "fixed_cate"->{
                 command = InsertNewPeriodRecord(voiceActivity)
@@ -110,8 +137,9 @@ class VoiceController private constructor() {
                     createMessage("請問要設定多久一次呢?")
                     state = AskPeriodRecordCycleState()
                 }
+                executeMsg = "已經成功新增囉"
             }
-            "income"-> {
+            "report"-> {
                 command = OpenChartActivity(voiceActivity)
                 createMessage("將開啟報表頁面")
                 return true
@@ -138,6 +166,10 @@ class VoiceController private constructor() {
         var intent= Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
         speechRecognizer.startListening(intent)
+    }
+    fun stopListen(){
+
+        speechRecognizer.stopListening()
     }
 
 

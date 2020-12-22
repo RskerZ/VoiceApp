@@ -3,6 +3,7 @@ package com.example.voiceko.Controller
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.widget.Toast
 import androidx.work.*
@@ -147,7 +148,10 @@ class PeriodRecordsController {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(activity, 0, intent, 0)
-        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setSmallIcon(R.drawable.voko)
+            .setLargeIcon(
+                BitmapFactory.decodeResource(activity.getResources(),
+                    R.mipmap.ic_launcher))
             .setContentTitle("固定收支")
             .setContentText("已新增一筆${cate} \$${amount}的紀錄")
             .setContentIntent(pendingIntent)
@@ -192,6 +196,7 @@ class PeriodRecordsController {
             val workID = record["workID"]
             val cycleTime = record["cycle"]
             val info = mutableMapOf<String,String>()
+            info["type"] = record["type"]!!
             info["cate"] = record["cate"]!!
             info["subCate"] = record["subCate"]!!
             info["amount"] = record["amount"]!!

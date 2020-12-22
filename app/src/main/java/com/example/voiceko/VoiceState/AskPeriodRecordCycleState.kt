@@ -28,9 +28,9 @@ class AskPeriodRecordCycleState:VoiceState() {
             val mDay = c.get(Calendar.DAY_OF_MONTH)
             val type = "支出"
             val date = "${mYear}/${mMonth+1}/${mDay}"
-            val subCate = data.value[1]
-            val cate = data.value[2]
-            val amount = data.value[0]
+            val subCate = data.value[0]
+            val cate = data.value[1]
+            val amount = data.value[2]
             val hours = data.value[3].toLong()
             val cycleTimeHours = arrayListOf<Long>(24, 168, 732, 8766)
             val cycleName = arrayListOf<String>("每天","每周","每月","每年")
