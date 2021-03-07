@@ -48,8 +48,6 @@ class PipChartFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
-
         arguments?.takeIf { it.containsKey("type") }?.apply {
             this@PipChartFragment.type = getString("type").toString()
         }
@@ -80,6 +78,14 @@ class PipChartFragment() : Fragment() {
         val eachCateAmount = controller.getEachCateAmount()
         if (eachCateAmount.size == 0){
             setVoiceKoText("這個月沒有紀錄呦!!")
+        }else{
+            val msg = controller.getHighestCost()
+            if(this.type == "收入"){
+                setVoiceKoText("這個月大部分收入來自\n$msg")
+            }else{
+                setVoiceKoText("這個月目前花費最多的是\n$msg")
+            }
+
         }
         colors.clear()
         pieEntryList.clear()
@@ -209,6 +215,7 @@ class PipChartFragment() : Fragment() {
     private fun setVoiceKoText(msg:String){
         expandMessage.text = msg
     }
+
 
     companion object{
         fun newInstance(type:String):PipChartFragment{

@@ -1,6 +1,8 @@
 package com.example.voiceko.ui
+import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
@@ -20,10 +22,12 @@ import androidx.core.content.ContextCompat
 import com.example.voiceko.Controller.EnterDataController
 import com.example.voiceko.Controller.RecordController
 import com.example.voiceko.CustAdapter.ExpandableListViewAdapter
+import com.example.voiceko.DayNotifyReceiver.NightNotify
+import com.example.voiceko.DayNotifyReceiver.NoonNotify
 import com.example.voiceko.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.text.FieldPosition
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -63,12 +67,40 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+
+
+        noonNotify()
+        nightNotify()
         createShortCuts()
         //載入記帳紀錄
         loadInfo()
-        controller.test()
+
 
     }
+    fun noonNotify(){
+        val alarmCal = Calendar.getInstance()
+        alarmCal.set(Calendar.HOUR_OF_DAY, 13)
+        alarmCal.set(Calendar.MINUTE, 0)
+        alarmCal.set(Calendar.SECOND,0)
+        val intentAlarm = Intent(this, NoonNotify::class.java)
+        intentAlarm.addCategory("GoodAfternoon")
+        val pi = PendingIntent.getBroadcast(this, 1 , intentAlarm, PendingIntent.FLAG_ONE_SHOT)
+        val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        am.setRepeating(AlarmManager.RTC_WAKEUP,alarmCal.timeInMillis,1000*60*60*24, pi)
+
+    }
+    fun nightNotify(){
+        val alarmCal = Calendar.getInstance()
+        alarmCal.set(Calendar.HOUR_OF_DAY, 19)
+        alarmCal.set(Calendar.MINUTE, 0)
+        alarmCal.set(Calendar.SECOND,0)
+        val intentAlarm = Intent(this, NightNotify::class.java)
+        intentAlarm.addCategory("GoodNight")
+        val pi = PendingIntent.getBroadcast(this, 2 , intentAlarm, PendingIntent.FLAG_ONE_SHOT)
+        val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        am.setRepeating(AlarmManager.RTC_WAKEUP,alarmCal.timeInMillis,1000*60*60*24, pi)
+    }
+
     fun createShortCuts(){
         val shortcutManager = getSystemService<ShortcutManager>(ShortcutManager::class.java)
         val intent = Intent(this,VoiceActivity::class.java)
@@ -81,13 +113,6 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         shortcutManager!!.dynamicShortcuts = Arrays.asList(shortcut)
-    }
-    fun getChildCounts(position: Int):Int{
-        var count= 0
-        for (i in 0..position){
-            count+=recordListAdapter.getChildrenCount(i)
-        }
-        return count
     }
 
     override fun onRestart() {

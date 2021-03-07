@@ -59,4 +59,4 @@ captures/
 .externalNativeBuild
 .idea/codeStyles/*
 app/src/main/java/com/example/voiceko/Security/*
-
+.idea/sqlandroid.xml

@@ -2,23 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.voiceko">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.VoiceActivity"></activity>
+        <receiver
+            android:name=".DayNotifyReceiver.NoonNotify"
+            android:enabled="true"
+            android:exported="true"></receiver>
+        <receiver
+            android:name=".DayNotifyReceiver.NightNotify"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+
+        <activity android:name=".ui.VoiceActivity" />
         <activity android:name=".ui.EditFixedCostActivity" />
         <activity android:name=".ui.DetailActivity" />
         <activity android:name=".ui.SetBudgetActivity" />
         <activity android:name=".ui.EditTypeActivity" />
-        <activity android:name=".ui.AddTypeActivity"/>
+        <activity android:name=".ui.AddTypeActivity" />
         <activity android:name=".ui.FixCostActivity" />
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.ChartActivity" />
@@ -29,7 +39,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
+
+            <meta-data
+                android:name="android.app.shortcuts"
                 android:resource="@xml/shortcut" />
         </activity>
     </application>

@@ -2,6 +2,7 @@ package com.example.voiceko.Controller
 import android.app.*
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.TestLooperManager
 import android.widget.Toast
@@ -46,9 +47,6 @@ class RecordController {
         recordList = dbmgr.readRecord()
     }
 
-    public fun test(){
-        dbmgr.readExpandAmount()
-    }
 
     public fun loadRecordList(mYear:Int,mMonth:Int): ExpandableListViewAdapter {
         reloadRecord()

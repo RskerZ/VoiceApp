@@ -110,7 +110,6 @@ class VoiceController private constructor() {
                     state = BudgetState()
                     createMessage("請問預算要設定為多少呢?")
                 }else{
-
                     return true
                 }
 
